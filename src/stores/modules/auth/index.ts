@@ -45,7 +45,6 @@ const initialState: AuthInitialState = {
   tokenType: 'Bearer',
   refreshToken: '',
   userInfo: {
-    username: '',
     id: '',
     nickname: '',
     avatar: '',
@@ -167,7 +166,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, (): AuthStore => {
 
     window.$notification?.success({
       title: '登录成功',
-      content: `欢迎回来：${userInfo.nickname || userInfo.username || userInfo.mobile || userInfo.email}`,
+      content: `欢迎回来：${userInfo.nickname || userInfo.mobile || userInfo.email}`,
       duration: 4500,
     })
   }
