@@ -106,46 +106,24 @@ async function sendRequest<T>(
   data?: unknown,
   config: Partial<CustomAxiosRequestConfig> = {},
 ): Promise<OptimizedResponse<T>> {
-  try {
-    const isGet = method === 'GET'
-    const requestConfig: CustomAxiosRequestConfig = {
-      url,
-      method,
-      params: isGet ? data : undefined,
-      data: isGet ? undefined : data,
-      loading: config.loading ?? true,
-      cancelDuplicateRequest: config.cancelDuplicateRequest ?? true,
-      skipErrorHandler: config.skipErrorHandler ?? false,
-      skipAuthRefresh: config.skipAuthRefresh ?? false,
-      isUpload: config.isUpload ?? false,
-      isDownload: config.isDownload ?? false,
-      responseType: config.responseType,
-      headers: config.headers,
-    }
-
-    const res = await service.request<App.Service.Response<T>>(requestConfig)
-    return buildSuccessResponse<T>(res, !!requestConfig.isDownload)
-  } catch (err) {
-    const retryPromise = (err as ExtendedAxiosError)?.retryPromise
-    if (retryPromise) {
-      try {
-        const rerun = await retryPromise
-        return buildSuccessResponse<T>(rerun, !!config.isDownload)
-      } catch (retryErr) {
-        err = retryErr
-      }
-    }
-
-    const reqError = toRequestError(err)
-
-    return {
-      data: null as T,
-      error: true,
-      message: reqError.message,
-      errorType: reqError.type,
-      rawError: reqError,
-    }
+  const isGet = method === 'GET'
+  const requestConfig: CustomAxiosRequestConfig = {
+    url,
+    method,
+    params: isGet ? data : undefined,
+    data: isGet ? undefined : data,
+    loading: config.loading ?? true,
+    cancelDuplicateRequest: config.cancelDuplicateRequest ?? true,
+    skipErrorHandler: config.skipErrorHandler ?? false,
+    skipAuthRefresh: config.skipAuthRefresh ?? false,
+    isUpload: config.isUpload ?? false,
+    isDownload: config.isDownload ?? false,
+    responseType: config.responseType,
+    headers: config.headers,
   }
+
+  const res = await service.request<App.Service.Response<T>>(requestConfig)
+  return buildSuccessResponse<T>(res, !!requestConfig.isDownload)
 }
 
 export const request = {
