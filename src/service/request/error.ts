@@ -46,6 +46,14 @@ export function getReasonForError(error: App.Service.Response<unknown>): string 
           reasons.push(reason.trim())
         }
       })
+    } else if (typeof value === 'string' && value.trim()) {
+      reasons.push(value.trim())
+    } else if (typeof value === 'object' && value !== null) {
+      // 递归处理嵌套对象
+      const nestedReason = getReasonForError(value as App.Service.Response<unknown>)
+      if (nestedReason) {
+        reasons.push(nestedReason)
+      }
     }
   })
 

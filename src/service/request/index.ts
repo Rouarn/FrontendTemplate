@@ -50,7 +50,7 @@ const service = createVakaoAxios<App.Service.Response<unknown>>(
       return (response.data as App.Service.Response<unknown>).code === ResultEnum.SUCCESS
     },
     /** 转换后端响应数据 */
-    transformBackendResponse: (response: AxiosResponse<App.Service.Response<unknown>>) => {
+    transform: (response: AxiosResponse<App.Service.Response<unknown>>) => {
       const cfg = response.config as CustomAxiosRequestConfig
       if (cfg.loading) loadingManager.close()
       if (cfg.isDownload) return response.data as unknown

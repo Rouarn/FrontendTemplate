@@ -58,10 +58,10 @@ const rules: FormRules = {
     { required: true, message: '请输入昵称', trigger: 'blur' },
     { min: 2, max: 20, message: '昵称长度为 2-20 个字符', trigger: 'blur' },
   ],
-  mobile: [
-    { required: true, message: '请输入手机号', trigger: 'blur' },
-    { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
-  ],
+  // mobile: [
+  //   { required: true, message: '请输入手机号', trigger: 'blur' },
+  //   { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
+  // ],
   email: [{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }],
   bio: [{ max: 200, message: '个人简介最多 200 个字符', trigger: 'blur' }],
 }
