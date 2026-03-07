@@ -138,15 +138,22 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, (): AuthStore => {
    * 获取用户信息
    */
   async function getUserInfo() {
-    const { data, error } = await fetchUserInfo()
-    if (error) {
+    try {
+      const { data, error } = await fetchUserInfo()
+      if (error) {
+        routeStore.resetStore()
+        resetAuthStore()
+        return false
+      }
+      setUserInfo(data)
+      setIsUserInfoFetched(true)
+      return true
+    } catch (error) {
+      console.error('[auth.getUserInfo] 获取用户信息异常:', error)
       routeStore.resetStore()
       resetAuthStore()
       return false
     }
-    setUserInfo(data)
-    setIsUserInfoFetched(true)
-    return true
   }
 
   /**

@@ -3,7 +3,7 @@ import { computed, nextTick, reactive, ref } from 'vue'
 import CroppingImage from '@/components/custom/cropping-image.vue'
 import { changePassword, updateUserInfo, uploadAvatar } from '@/service/api'
 import { useAuthStore } from '@/stores/modules/auth'
-import type { FormInst, FormRules, UploadFileInfo } from 'naive-ui'
+import type { FormInst, FormRules } from 'naive-ui'
 
 defineOptions({
   name: 'UserCenter',
@@ -172,12 +172,22 @@ async function handlePasswordChange() {
 
 // 头像上传
 const cutterRef = ref<InstanceType<typeof CroppingImage> | null>(null)
-function onAvatarFileChange({ fileList }: { fileList: Array<UploadFileInfo> }) {
-  const f = fileList?.[fileList.length - 1]?.file
+const fileInputRef = ref<HTMLInputElement | null>(null)
+
+function handleAvatarClick() {
+  fileInputRef.value?.click()
+}
+
+function onAvatarFileChange(e: Event) {
+  const target = e.target as HTMLInputElement
+  const f = target.files?.[0]
   if (!f) return
   cutterRef.value?.openCropper()
   nextTick(() => cutterRef.value?.setImage(f))
+  // 重置 input，以便再次选择相同文件时能够触发 change 事件
+  target.value = ''
 }
+
 async function onCropDone(payload: { blob?: Blob; fileName?: string }) {
   if (!payload.blob) return
   const type = payload.blob.type || 'image/jpeg'
@@ -216,183 +226,213 @@ function formatDate(dateStr?: string | Date) {
 </script>
 
 <template>
-  <div class="user-center-container p-6 max-w-6xl mx-auto">
-    <!-- 页面标题 -->
-    <div class="mb-6">
-      <h1 class="text-2xl font-bold text-gray-800 mb-2">个人中心</h1>
-      <p class="text-gray-600">管理您的个人信息和账户设置</p>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-      <!-- 左侧信息卡片 -->
-      <div class="lg:col-span-1">
-        <NCard class="text-center">
-          <div class="flex flex-col items-center space-y-4">
-            <!-- 头像 -->
-            <NUpload
-              :default-upload="false"
-              :show-file-list="false"
-              accept="image/*"
-              :disabled="!isEditing"
-              :class="{ 'cursor-pointer hover-avatar': isEditing }"
-              @change="onAvatarFileChange"
-            >
-              <!-- 有头像时显示头像 -->
-              <NAvatar v-if="userForm.avatar" :size="100" :src="userForm.avatar" round class="border-4 border-white shadow-lg" />
-              <!-- 无头像时显示默认头像 -->
-              <div v-else class="default-avatar">
-                <SvgIcon icon="ph:user-circle" class="text-4xl text-gray-400" />
-                <span class="text-xs text-gray-500 mt-1">未设置</span>
+  <div class="p-16px lg:p-24px bg-layout min-h-full">
+    <div class="max-w-1200px mx-auto grid grid-cols-1 lg:grid-cols-4 gap-24px">
+      <!-- 左栏：用户概览 -->
+      <div class="lg:col-span-1 space-y-24px">
+        <NCard :bordered="false" class="card-wrapper text-center overflow-hidden">
+          <div class="relative pt-24px pb-32px">
+            <div class="absolute top-0 left-0 w-full h-80px bg-primary/10" />
+            <div class="relative flex-center flex-col gap-16px z-10">
+              <div class="relative group">
+                <NAvatar
+                  :size="100"
+                  round
+                  :src="userForm.avatar || ''"
+                  fallback-src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+                  class="shadow-high ring-4 ring-white dark:ring-slate-800 transition-transform duration-500 group-hover:scale-105"
+                />
+                <div
+                  v-if="isEditing"
+                  class="absolute inset-0 flex-center bg-black/40 rd-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                  @click="handleAvatarClick"
+                >
+                  <SvgIcon icon="ph:camera-duotone" class="text-24px text-white" />
+                </div>
               </div>
-            </NUpload>
-
-            <!-- 基本信息 -->
-            <div class="space-y-2">
-              <h3 class="text-xl font-semibold text-gray-800">{{ userForm.nickname }}</h3>
-              <p class="text-gray-600">@{{ authStore.userInfo.auth.username }}</p>
-              <NTag :type="statusType" size="small">
-                {{ statusText }}
-              </NTag>
-              <!-- 头像提示 -->
-              <p v-if="!userForm.avatar && !isEditing" class="text-xs text-gray-400 mt-2">点击编辑按钮可上传头像</p>
+              <div class="space-y-4px">
+                <h3 class="text-20px font-bold text-base-text">{{ userForm.nickname }}</h3>
+                <p class="text-14px text-slate-500 font-medium">@{{ authStore.userInfo.auth.username }}</p>
+                <NTag :type="statusType" size="small" round class="mt-4px font-bold px-12px">{{ statusText }}</NTag>
+              </div>
             </div>
+          </div>
 
-            <!-- 角色信息 -->
-            <div class="w-full pt-4 border-t border-gray-200">
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-sm text-gray-600">角色</span>
-                <NTag type="info" size="small">{{ userRoleName }}</NTag>
-              </div>
-              <div class="flex justify-between items-center">
-                <span class="text-sm text-gray-600 whitespace-nowrap mr-3">用户ID</span>
-                <!-- 悬浮提示 -->
-                <span class="text-xs text-gray-500 font-mono ellipsis-text" :title="authStore.userInfo.id">
-                  {{ authStore.userInfo.id }}
-                </span>
-              </div>
+          <div class="border-t border-layout pt-24px space-y-16px text-left">
+            <div class="flex justify-between items-center">
+              <span class="text-14px text-slate-500 font-medium">角色权限</span>
+              <NTag type="primary" size="small" round class="font-bold">{{ userRoleName }}</NTag>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-14px text-slate-500 font-medium">用户 ID</span>
+              <span
+                class="text-12px text-slate-400 font-mono bg-layout px-8px py-2px rd-4px truncate max-w-120px"
+                :title="authStore.userInfo.id"
+              >
+                {{ authStore.userInfo.id }}
+              </span>
             </div>
           </div>
         </NCard>
 
-        <!-- 登录信息 -->
-        <NCard class="mt-4" title="登录信息">
-          <div class="space-y-3">
-            <div class="flex justify-between items-center">
-              <span class="text-sm text-gray-600">最后登录</span>
-              <span class="text-xs text-gray-500">{{ formatDate(authStore.userInfo.auth.lastLoginAt) }}</span>
+        <!-- Login Stats -->
+        <NCard :bordered="false" class="card-wrapper" title="账号动态">
+          <template #header-extra>
+            <SvgIcon icon="ph:chart-line-up-duotone" class="text-18px text-primary" />
+          </template>
+          <div class="space-y-16px">
+            <div class="flex items-center gap-12px">
+              <div class="size-32px flex-center bg-blue-500/10 text-blue-500 rd-8px">
+                <SvgIcon icon="ph:clock-duotone" />
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-12px text-slate-400">最后登录时间</p>
+                <p class="text-13px font-medium text-slate-700 dark:text-slate-300 truncate">
+                  {{ formatDate(authStore.userInfo.auth.lastLoginAt) }}
+                </p>
+              </div>
             </div>
-            <div class="flex justify-between items-center">
-              <span class="text-sm text-gray-600">登录IP</span>
-              <span class="text-xs text-gray-500 font-mono">{{ authStore.userInfo.auth.lastLoginIp || '-' }}</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-sm text-gray-600">失败次数</span>
-              <span class="text-xs text-gray-500">{{ authStore.userInfo.auth.loginAttempts || 0 }}</span>
+            <div class="flex items-center gap-12px">
+              <div class="size-32px flex-center bg-amber-500/10 text-amber-500 rd-8px">
+                <SvgIcon icon="ph:map-pin-duotone" />
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-12px text-slate-400">最后登录 IP</p>
+                <p class="text-13px font-medium text-slate-700 dark:text-slate-300 font-mono">
+                  {{ authStore.userInfo.auth.lastLoginIp || '未知' }}
+                </p>
+              </div>
             </div>
           </div>
         </NCard>
       </div>
 
-      <!-- 右侧主内容区域 -->
+      <!-- 右栏：主要内容 -->
       <div class="lg:col-span-3">
-        <NCard>
-          <NTabs v-model:value="activeTab" type="line" animated>
-            <!-- 个人信息标签页 -->
-            <NTabPane name="profile" tab="个人信息">
-              <div class="flex justify-between items-center mb-6">
-                <h2 class="text-lg font-semibold text-gray-800">个人资料</h2>
-                <div class="space-x-2">
-                  <NButton v-if="!isEditing" type="primary" @click="handleEdit">
-                    <SvgIcon icon="ph:pencil-simple" class="mr-1" />
-                    编辑
+        <NCard :bordered="false" class="card-wrapper min-h-600px">
+          <NTabs v-model:value="activeTab" type="line" animated justify-content="start" class="user-tabs">
+            <NTabPane name="profile" tab="个人档案">
+              <div class="flex justify-between items-center mb-32px mt-8px">
+                <div class="flex items-center gap-8px">
+                  <div class="w-4px h-20px bg-primary rd-full" />
+                  <h2 class="text-18px font-bold text-base-text">基本资料</h2>
+                </div>
+                <div class="flex gap-12px">
+                  <NButton v-if="!isEditing" type="primary" secondary strong class="rd-8px" @click="handleEdit">
+                    <template #icon><SvgIcon icon="ph:pencil-simple-line-duotone" /></template>
+                    编辑资料
                   </NButton>
                   <template v-else>
-                    <NButton @click="handleCancel" :disabled="saving">取消</NButton>
-                    <NButton type="primary" @click="handleSave" :loading="saving">
-                      <SvgIcon icon="ph:check" class="mr-1" />
-                      保存
+                    <NButton class="rd-8px" @click="handleCancel" :disabled="saving">取消</NButton>
+                    <NButton type="primary" strong class="rd-8px shadow-low" @click="handleSave" :loading="saving">
+                      <template #icon><SvgIcon icon="ph:check-circle-duotone" /></template>
+                      保存更改
                     </NButton>
                   </template>
                 </div>
               </div>
 
-              <NForm ref="formRef" :model="userForm" :rules="rules" label-placement="left" label-width="100" :disabled="!isEditing">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <NFormItem label="昵称" path="nickname">
-                    <NInput v-model:value="userForm.nickname" placeholder="请输入昵称" />
-                  </NFormItem>
+              <NForm
+                ref="formRef"
+                :model="userForm"
+                :rules="rules"
+                label-placement="top"
+                :disabled="!isEditing"
+                class="grid grid-cols-1 md:grid-cols-2 gap-x-32px gap-y-8px"
+              >
+                <NFormItem label="显示昵称" path="nickname">
+                  <NInput v-model:value="userForm.nickname" placeholder="想一个响亮的名字" class="rd-8px" />
+                </NFormItem>
 
-                  <NFormItem label="性别" path="gender">
-                    <NRadioGroup v-model:value="userForm.gender">
-                      <NSpace>
-                        <NRadio v-for="option in genderOptions" :key="option.value" :value="option.value">
-                          {{ option.label }}
-                        </NRadio>
-                      </NSpace>
-                    </NRadioGroup>
-                  </NFormItem>
+                <NFormItem label="性别选择" path="gender">
+                  <NRadioGroup v-model:value="userForm.gender" class="flex items-center">
+                    <NSpace :size="24">
+                      <NRadio v-for="option in genderOptions" :key="option.value" :value="option.value" class="font-medium">
+                        {{ option.label }}
+                      </NRadio>
+                    </NSpace>
+                  </NRadioGroup>
+                </NFormItem>
 
-                  <NFormItem label="手机号" path="mobile">
-                    <NInput v-model:value="userForm.mobile" placeholder="请输入手机号" />
-                  </NFormItem>
+                <NFormItem label="手机号码" path="mobile">
+                  <NInput v-model:value="userForm.mobile" placeholder="用于账号通知" class="rd-8px" />
+                </NFormItem>
 
-                  <NFormItem label="邮箱" path="email">
-                    <NInput v-model:value="userForm.email" placeholder="请输入邮箱地址" />
-                  </NFormItem>
+                <NFormItem label="电子邮箱" path="email">
+                  <NInput v-model:value="userForm.email" placeholder="用于安全验证" class="rd-8px" />
+                </NFormItem>
 
-                  <NFormItem label="生日" path="birthday">
-                    <NDatePicker v-model:value="userForm.birthday" type="date" placeholder="请选择生日" class="w-full" clearable />
-                  </NFormItem>
+                <NFormItem label="出生日期" path="birthday">
+                  <NDatePicker v-model:value="userForm.birthday" type="date" placeholder="选择你的生日" class="w-full rd-8px" clearable />
+                </NFormItem>
 
-                  <NFormItem label="所在城市" path="city">
-                    <NInput v-model:value="userForm.city" placeholder="请输入所在城市" />
-                  </NFormItem>
+                <NFormItem label="现居城市" path="city">
+                  <NInput v-model:value="userForm.city" placeholder="你所在的城市" class="rd-8px" />
+                </NFormItem>
 
-                  <NFormItem label="职业" path="profession">
-                    <NInput v-model:value="userForm.profession" placeholder="请输入职业" />
-                  </NFormItem>
-                </div>
-
-                <NFormItem label="个人简介" path="bio">
-                  <NInput v-model:value="userForm.bio" type="textarea" placeholder="请输入个人简介" :rows="3" show-count maxlength="200" />
+                <NFormItem label="个人简介" path="bio" class="md:col-span-2">
+                  <NInput
+                    v-model:value="userForm.bio"
+                    type="textarea"
+                    placeholder="介绍一下你自己..."
+                    :autosize="{ minRows: 3, maxRows: 5 }"
+                    class="rd-12px p-12px"
+                  />
                 </NFormItem>
               </NForm>
             </NTabPane>
 
-            <!-- 安全设置标签页 -->
             <NTabPane name="security" tab="安全设置">
-              <div class="max-w-2xl">
-                <h2 class="text-lg font-semibold text-gray-800 mb-6">修改密码</h2>
+              <div class="max-w-480px mx-auto pt-32px">
+                <div class="text-center mb-40px">
+                  <div class="size-64px flex-center bg-amber-500/10 text-amber-500 rd-24px mx-auto mb-16px">
+                    <SvgIcon icon="ph:shield-check-duotone" class="text-32px" />
+                  </div>
+                  <h2 class="text-20px font-bold text-base-text">修改登录密码</h2>
+                  <p class="text-14px text-slate-500 mt-8px">建议定期更换密码以保障账号安全</p>
+                </div>
 
-                <NForm ref="passwordFormRef" :model="passwordForm" :rules="passwordRules" label-placement="left" label-width="120">
+                <NForm ref="passwordFormRef" :model="passwordForm" :rules="passwordRules" label-placement="top">
                   <NFormItem label="当前密码" path="oldPassword">
                     <NInput
                       v-model:value="passwordForm.oldPassword"
                       type="password"
                       show-password-on="click"
-                      placeholder="请输入当前密码"
+                      placeholder="输入现有密码"
+                      class="rd-8px"
                     />
                   </NFormItem>
-
                   <NFormItem label="新密码" path="newPassword">
-                    <NInput v-model:value="passwordForm.newPassword" type="password" show-password-on="click" placeholder="请输入新密码" />
+                    <NInput
+                      v-model:value="passwordForm.newPassword"
+                      type="password"
+                      show-password-on="click"
+                      placeholder="设置新密码 (不少于6位)"
+                      class="rd-8px"
+                    />
                   </NFormItem>
-
                   <NFormItem label="确认新密码" path="confirmPassword">
                     <NInput
                       v-model:value="passwordForm.confirmPassword"
                       type="password"
                       show-password-on="click"
-                      placeholder="请确认新密码"
+                      placeholder="再次输入新密码"
+                      class="rd-8px"
                     />
                   </NFormItem>
-
-                  <NFormItem>
-                    <NButton type="primary" @click="handlePasswordChange" :loading="changingPassword">
-                      <SvgIcon icon="ph:lock" class="mr-1" />
-                      修改密码
+                  <div class="pt-16px">
+                    <NButton
+                      type="primary"
+                      block
+                      strong
+                      size="large"
+                      class="rd-12px text-16px shadow-low transition-all duration-300 hover:shadow-high active:scale-95"
+                      @click="handlePasswordChange"
+                      :loading="changingPassword"
+                    >
+                      确认修改
                     </NButton>
-                  </NFormItem>
+                  </div>
                 </NForm>
               </div>
             </NTabPane>
@@ -400,14 +440,8 @@ function formatDate(dateStr?: string | Date) {
         </NCard>
       </div>
     </div>
-    <CroppingImage
-      ref="cutterRef"
-      :show-file-input="true"
-      cropper-title="裁剪头像"
-      :mask-closable="false"
-      @done="onCropDone"
-      @error="onCropError"
-    />
+    <input ref="fileInputRef" type="file" accept="image/*" class="hidden" @change="onAvatarFileChange" />
+    <CroppingImage ref="cutterRef" cropper-title="裁剪头像" :mask-closable="false" @done="onCropDone" @error="onCropError" />
   </div>
 </template>
 

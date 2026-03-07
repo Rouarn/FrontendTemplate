@@ -5,11 +5,8 @@ const rippleDisabled = ref(false)
 const rippleCount = ref(0)
 
 const handleRippleClick = () => {
+  if (rippleDisabled.value) return
   rippleCount.value++
-}
-
-const toggleRipple = () => {
-  rippleDisabled.value = !rippleDisabled.value
 }
 
 const resetCounter = () => {
@@ -18,422 +15,132 @@ const resetCounter = () => {
 </script>
 
 <template>
-  <div class="directive-container">
-    <NCard class="directive-card" :bordered="false">
-      <template #header>
-        <div class="card-header">
-          <div class="header-icon">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </div>
-          <div class="header-content">
-            <h3 class="header-title">波纹指令</h3>
-            <p class="header-desc">为元素添加Material Design风格的波纹点击效果</p>
-          </div>
+  <div class="flex-col gap-16px">
+    <!-- Header Card -->
+    <NCard :bordered="false" class="card-wrapper overflow-hidden">
+      <div class="flex items-center gap-24px">
+        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
+          <SvgIcon icon="ph:waves-duotone" class="text-40px" />
         </div>
+        <div class="flex-1">
+          <h1 class="text-24px font-bold text-base-text">波纹指令 `v-ripple`</h1>
+          <p class="mt-8px text-16px text-slate-500 leading-relaxed">
+            为元素注入灵动的 Material Design 风格波纹反馈，提升交互的确定感与品质感
+          </p>
+        </div>
+      </div>
+    </NCard>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-16px">
+      <NCard :bordered="false" class="card-wrapper text-center">
+        <div class="text-32px font-bold text-primary tabular-nums">{{ rippleCount }}</div>
+        <div class="text-14px text-slate-500 font-medium">累计触发波纹次数</div>
+      </NCard>
+      <NCard :bordered="false" class="card-wrapper text-center">
+        <div class="flex-center gap-12px">
+          <div class="size-12px rd-full animate-pulse" :class="rippleDisabled ? 'bg-slate-300' : 'bg-success'" />
+          <div class="text-32px font-bold text-blue-500 tabular-nums">{{ rippleDisabled ? '已禁用' : '运行中' }}</div>
+        </div>
+        <div class="text-14px text-slate-500 font-medium">波纹指令状态</div>
+      </NCard>
+    </div>
+
+    <!-- Playground -->
+    <NCard title="🌊 波纹交互演示" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header-extra>
+        <NSpace align="center" :size="16">
+          <div class="flex items-center gap-8px">
+            <span class="text-12px text-slate-400 font-medium">禁用波纹</span>
+            <NSwitch v-model:value="rippleDisabled" size="small" />
+          </div>
+          <NButton quaternary @click="resetCounter">
+            <template #icon><SvgIcon icon="ph:arrow-counter-clockwise-duotone" /></template>重置统计数据
+          </NButton>
+        </NSpace>
       </template>
 
-      <div class="demo-section">
-        <div class="demo-title">🌊 波纹效果演示</div>
-
-        <div class="stats-section">
-          <div class="stat-card">
-            <div class="stat-number">{{ rippleCount }}</div>
-            <div class="stat-label">点击次数</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">{{ rippleDisabled ? '禁用' : '启用' }}</div>
-            <div class="stat-label">波纹状态</div>
-          </div>
-        </div>
-
-        <div class="ripple-demo">
-          <div class="demo-area">
-            <h3>基础波纹效果</h3>
-            <div class="ripple-buttons">
-              <NButton v-ripple type="primary" size="large" class="ripple-btn" @click="handleRippleClick"> 点击我看波纹 </NButton>
-
-              <NButton v-ripple="{ color: '#ff6b6b' }" type="error" size="large" class="ripple-btn" @click="handleRippleClick">
-                红色波纹
-              </NButton>
-
-              <NButton
-                v-ripple="{ color: '#4ecdc4', duration: 1000 }"
-                type="success"
-                size="large"
-                class="ripple-btn"
-                @click="handleRippleClick"
-              >
-                慢速波纹
-              </NButton>
-            </div>
-          </div>
-
-          <div class="demo-area">
-            <h3>条件波纹</h3>
-            <div class="control-section">
-              <NSpace align="center">
-                <NSwitch v-model:value="rippleDisabled" />
-                <span>禁用波纹效果</span>
-                <NButton @click="toggleRipple">切换状态</NButton>
-              </NSpace>
-            </div>
-
-            <div class="ripple-cards">
-              <div v-ripple="!rippleDisabled" class="ripple-card" @click="handleRippleClick">
-                <div class="card-icon">🎯</div>
-                <div class="card-title">可控制波纹</div>
-                <div class="card-desc">根据开关状态启用/禁用波纹</div>
-              </div>
-
-              <div v-ripple="{ disabled: rippleDisabled, color: '#9c88ff' }" class="ripple-card" @click="handleRippleClick">
-                <div class="card-icon">✨</div>
-                <div class="card-title">紫色波纹</div>
-                <div class="card-desc">自定义颜色的波纹效果</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="demo-area">
-            <h3>不同形状元素</h3>
-            <div class="shape-demo">
-              <div v-ripple="{ color: '#ff9f43' }" class="circle-btn" @click="handleRippleClick">圆形</div>
-
-              <div v-ripple="{ color: '#26de81' }" class="square-btn" @click="handleRippleClick">方形</div>
-
-              <div v-ripple="{ color: '#fd79a8' }" class="rounded-btn" @click="handleRippleClick">圆角矩形</div>
-            </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-32px py-16px">
+        <!-- Buttons Group -->
+        <div class="space-y-24px">
+          <h4 class="text-16px font-bold text-base-text mb-16px flex items-center gap-8px">
+            <div class="w-4px h-16px bg-primary rd-full" />
+            按钮交互
+          </h4>
+          <div class="flex flex-wrap gap-16px">
+            <NButton v-ripple="!rippleDisabled" type="primary" size="large" class="rd-12px px-24px font-bold" @click="handleRippleClick">
+              默认主色波纹
+            </NButton>
+            <NButton
+              v-ripple="{ color: '#ef4444', disabled: rippleDisabled }"
+              type="error"
+              size="large"
+              class="rd-12px px-24px font-bold"
+              @click="handleRippleClick"
+            >
+              红色警告波纹
+            </NButton>
+            <NButton
+              v-ripple="{ color: '#3b82f6', duration: 1000, disabled: rippleDisabled }"
+              type="info"
+              secondary
+              size="large"
+              class="rd-12px px-24px font-bold"
+              @click="handleRippleClick"
+            >
+              慢速蓝色波纹
+            </NButton>
           </div>
         </div>
 
-        <div class="usage-section">
-          <div class="usage-title">📖 使用方法</div>
-          <div class="code-examples">
-            <div class="code-block">
-              <h4>基础用法</h4>
-              <pre><code>&lt;!-- 默认波纹效果 --&gt;
-&lt;button v-ripple&gt;点击按钮&lt;/button&gt;
-
-&lt;!-- 条件波纹 --&gt;
-&lt;button v-ripple="isEnabled"&gt;条件波纹&lt;/button&gt;</code></pre>
+        <!-- Shapes Group -->
+        <div class="space-y-24px">
+          <h4 class="text-16px font-bold text-base-text mb-16px flex items-center gap-8px">
+            <div class="w-4px h-16px bg-amber-500 rd-full" />
+            不同形状容器
+          </h4>
+          <div class="flex flex-wrap items-center gap-24px">
+            <div
+              v-ripple="{ color: '#059669', disabled: rippleDisabled }"
+              class="size-80px bg-primary/10 rd-full flex-center cursor-pointer hover:bg-primary/20 transition-colors"
+              @click="handleRippleClick"
+            >
+              <span class="text-12px font-bold text-primary">圆形</span>
             </div>
-
-            <div class="code-block">
-              <h4>自定义配置</h4>
-              <pre><code>&lt;!-- 自定义颜色和持续时间 --&gt;
-&lt;button v-ripple="{
-  color: '#ff6b6b',
-  duration: 800
-}"&gt;红色波纹&lt;/button&gt;
-
-&lt;!-- 禁用波纹 --&gt;
-&lt;button v-ripple="{ disabled: true }"&gt;禁用波纹&lt;/button&gt;</code></pre>
+            <div
+              v-ripple="{ color: '#f59e0b', disabled: rippleDisabled }"
+              class="size-80px bg-amber-500/10 rd-16px flex-center cursor-pointer hover:bg-amber-500/20 transition-colors"
+              @click="handleRippleClick"
+            >
+              <span class="text-12px font-bold text-amber-600">圆角</span>
+            </div>
+            <div
+              v-ripple="{ color: '#6366f1', disabled: rippleDisabled }"
+              class="w-120px h-80px bg-indigo-500/10 rd-8px flex-center cursor-pointer hover:bg-indigo-500/20 transition-colors"
+              @click="handleRippleClick"
+            >
+              <span class="text-12px font-bold text-indigo-600">矩形</span>
             </div>
           </div>
         </div>
+      </div>
+    </NCard>
 
-        <div class="control-section">
-          <NSpace>
-            <NButton @click="resetCounter" type="tertiary"> 重置计数器 </NButton>
-            <NButton @click="toggleRipple" type="primary"> {{ rippleDisabled ? '启用' : '禁用' }}波纹 </NButton>
-          </NSpace>
-        </div>
+    <!-- Guide -->
+    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <div class="p-16px rd-12px bg-layout border border-primary/10">
+        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础用法 --&gt;
+&lt;div v-ripple&gt;点击产生波纹&lt;/div&gt;
+
+&lt;!-- 高级配置 --&gt;
+&lt;div v-ripple="{ 
+  color: 'rgba(255, 255, 255, 0.5)', 
+  duration: 600,
+  disabled: false 
+}"&gt;...&lt;/div&gt;</code></pre>
       </div>
     </NCard>
   </div>
 </template>
 
-<style scoped lang="scss">
-.directive-container {
-  padding: 24px;
-  min-height: calc(100vh - 200px);
-  background-color: #ffffff;
-}
-
-.directive-card {
-  max-width: 900px;
-  margin: 0 auto;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.95);
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
-  }
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.header-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background-color: #764ba2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-}
-
-.header-content {
-  flex: 1;
-}
-
-.header-title {
-  font-size: 24px;
-  font-weight: 600;
-  color: #2d3748;
-  margin: 0 0 4px 0;
-}
-
-.header-desc {
-  font-size: 14px;
-  color: #718096;
-  margin: 0;
-}
-
-.demo-section {
-  padding: 24px;
-}
-
-.demo-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #2d3748;
-  margin-bottom: 24px;
-  text-align: center;
-}
-
-.stats-section {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  margin-bottom: 32px;
-}
-
-.stat-card {
-  background-color: #764ba2;
-  color: white;
-  padding: 16px 24px;
-  border-radius: 12px;
-  text-align: center;
-  min-width: 120px;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-}
-
-.stat-number {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.stat-label {
-  font-size: 12px;
-  opacity: 0.9;
-}
-
-.ripple-demo {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-.demo-area {
-  background: #f8fafc;
-  border-radius: 12px;
-  padding: 24px;
-  border: 1px solid #e2e8f0;
-
-  h3 {
-    margin: 0 0 16px 0;
-    color: #2d3748;
-    font-size: 18px;
-    font-weight: 600;
-  }
-}
-
-.ripple-buttons {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.ripple-btn {
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-  }
-}
-
-.control-section {
-  margin: 16px 0;
-  text-align: center;
-}
-
-.ripple-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  margin-top: 16px;
-}
-
-.ripple-card {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid #e2e8f0;
-  position: relative;
-  overflow: hidden;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    border-color: #667eea;
-  }
-}
-
-.card-icon {
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-
-.card-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #2d3748;
-  margin-bottom: 4px;
-}
-
-.card-desc {
-  font-size: 12px;
-  color: #718096;
-}
-
-.shape-demo {
-  display: flex;
-  gap: 24px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.circle-btn,
-.square-btn,
-.rounded-btn {
-  width: 80px;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-weight: 600;
-  color: white;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  font-size: 14px;
-
-  &:hover {
-    transform: scale(1.05);
-  }
-}
-
-.circle-btn {
-  border-radius: 50%;
-  background-color: #ff9f43;
-}
-
-.square-btn {
-  border-radius: 4px;
-  background-color: #26de81;
-}
-
-.rounded-btn {
-  border-radius: 20px;
-  background-color: #fd79a8;
-}
-
-.usage-section {
-  margin-top: 32px;
-  background: #f8fafc;
-  border-radius: 12px;
-  padding: 24px;
-  border: 1px solid #e2e8f0;
-}
-
-.usage-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #2d3748;
-  margin-bottom: 16px;
-}
-
-.code-examples {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 16px;
-}
-
-.code-block {
-  background: #2d3748;
-  border-radius: 8px;
-  padding: 16px;
-  color: white;
-
-  h4 {
-    margin: 0 0 12px 0;
-    color: #e2e8f0;
-    font-size: 14px;
-  }
-
-  pre {
-    margin: 0;
-    font-family: 'Fira Code', monospace;
-    font-size: 12px;
-    line-height: 1.5;
-    overflow-x: auto;
-
-    code {
-      color: #a0aec0;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .directive-container {
-    padding: 16px;
-  }
-
-  .ripple-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .shape-demo {
-    gap: 16px;
-  }
-
-  .circle-btn,
-  .square-btn,
-  .rounded-btn {
-    width: 60px;
-    height: 60px;
-    font-size: 12px;
-  }
-}
-</style>
+<style scoped></style>

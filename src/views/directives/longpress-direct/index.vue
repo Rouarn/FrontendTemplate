@@ -2,39 +2,34 @@
 import { ref } from 'vue'
 
 const longpressCount = ref(0)
-const isLongpressing = ref(false)
+const isPressing = ref(false)
 const progress = ref(0)
-const progressTimer = ref<NodeJS.Timeout | null>(null)
+let timer: ReturnType<typeof setInterval> | null = null
 
-const longpress = () => {
+const onLongpress = () => {
   longpressCount.value++
-  isLongpressing.value = false
+  isPressing.value = false
   progress.value = 0
-  window.$message?.success(`长按成功！第 ${longpressCount.value} 次触发 🎉`)
+  window.$message?.success(`长按触发成功！第 ${longpressCount.value} 次 ✨`)
 }
 
-const handleMouseDown = () => {
-  isLongpressing.value = true
+const startPress = () => {
+  isPressing.value = true
   progress.value = 0
-
-  // 模拟进度条
-  progressTimer.value = setInterval(() => {
-    progress.value += 5
-    if (progress.value >= 100) {
-      clearInterval(progressTimer.value!)
+  timer = setInterval(() => {
+    if (progress.value < 100) {
+      progress.value += 2
+    } else if (timer) {
+      clearInterval(timer)
+      timer = null
     }
-  }, 100)
+  }, 20)
 }
 
-const handleMouseUp = () => {
-  if (progressTimer.value) {
-    clearInterval(progressTimer.value)
-  }
-
-  setTimeout(() => {
-    isLongpressing.value = false
-    progress.value = 0
-  }, 100)
+const endPress = () => {
+  isPressing.value = false
+  progress.value = 0
+  if (timer) clearInterval(timer)
 }
 
 const resetCounter = () => {
@@ -43,408 +38,102 @@ const resetCounter = () => {
 </script>
 
 <template>
-  <div class="directive-container">
-    <NCard class="directive-card" :bordered="false">
-      <template #header>
-        <div class="card-header">
-          <div class="header-icon">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
-              />
-            </svg>
-          </div>
-          <div class="header-content">
-            <h3 class="header-title">长按指令</h3>
-            <p class="header-desc">检测长按操作，提供丰富的交互反馈</p>
-          </div>
+  <div class="flex-col gap-16px">
+    <!-- Header Card -->
+    <NCard :bordered="false" class="card-wrapper overflow-hidden">
+      <div class="flex items-center gap-24px">
+        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
+          <SvgIcon icon="ph:fingerprint-simple-duotone" class="text-40px" />
         </div>
+        <div class="flex-1">
+          <h1 class="text-24px font-bold text-base-text">长按指令 `v-longpress`</h1>
+          <p class="mt-8px text-16px text-slate-500 leading-relaxed">
+            检测并响应长时间按压操作，支持自定义时长，有效防止误触并丰富交互反馈
+          </p>
+        </div>
+      </div>
+    </NCard>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16px">
+      <NCard :bordered="false" class="card-wrapper text-center">
+        <div class="text-32px font-bold text-primary tabular-nums">{{ longpressCount }}</div>
+        <div class="text-14px text-slate-500 font-medium">累计成功长按次数</div>
+      </NCard>
+      <NCard :bordered="false" class="card-wrapper text-center">
+        <div class="text-32px font-bold text-blue-500 tabular-nums">{{ progress }}%</div>
+        <div class="text-14px text-slate-500 font-medium">当前按压进度</div>
+      </NCard>
+      <NCard :bordered="false" class="card-wrapper flex-center">
+        <div class="flex items-center gap-8px">
+          <div v-if="isPressing" class="size-10px rd-full bg-success animate-ping" />
+          <span class="text-16px font-bold" :class="isPressing ? 'text-success' : 'text-slate-400'">{{
+            isPressing ? '按压中...' : '待机'
+          }}</span>
+        </div>
+      </NCard>
+    </div>
+
+    <!-- Playground -->
+    <NCard title="👆 长按交互演示" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header-extra>
+        <NButton quaternary @click="resetCounter">
+          <template #icon><SvgIcon icon="ph:arrow-counter-clockwise-duotone" /></template>
+          重置统计数据
+        </NButton>
       </template>
 
-      <div class="demo-section">
-        <div class="demo-title">👆 长按交互演示</div>
+      <div class="flex-col-center py-48px bg-layout/50 rd-24px border-2 border-dashed border-primary/10">
+        <div class="relative flex-col-center gap-24px">
+          <NButton
+            v-longpress="onLongpress"
+            type="primary"
+            class="h-64px rd-20px px-40px text-20px font-bold shadow-low transition-all duration-200 active:scale-95"
+            @mousedown="startPress"
+            @mouseup="endPress"
+            @mouseleave="endPress"
+            @touchstart="startPress"
+            @touchend="endPress"
+          >
+            <template #icon>
+              <SvgIcon icon="ph:hand-tap-duotone" />
+            </template>
+            按住我 1 秒
+          </NButton>
 
-        <div class="stats-section">
-          <div class="stat-card">
-            <div class="stat-number">{{ longpressCount }}</div>
-            <div class="stat-label">成功次数</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">{{ Math.round(progress) }}%</div>
-            <div class="stat-label">当前进度</div>
-          </div>
-        </div>
-
-        <div class="longpress-demo">
-          <div class="demo-area">
-            <NButton
-              v-longpress="longpress"
-              type="primary"
-              size="large"
-              class="longpress-btn"
-              :class="{ pressing: isLongpressing }"
-              @mousedown="handleMouseDown"
-              @mouseup="handleMouseUp"
-              @mouseleave="handleMouseUp"
-            >
-              <template #icon>
-                <div class="btn-icon" :class="{ pulsing: isLongpressing }">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"
-                    />
-                  </svg>
-                </div>
-              </template>
-              {{ isLongpressing ? '长按中...' : '长按我 (2秒)' }}
-            </NButton>
-
-            <div class="progress-container" :class="{ active: isLongpressing }">
-              <div class="progress-bar">
-                <div class="progress-fill" :style="{ width: progress + '%' }"></div>
-              </div>
-              <div class="progress-text">{{ isLongpressing ? '继续长按...' : '按住按钮开始' }}</div>
-            </div>
-          </div>
-
-          <div class="control-area">
-            <NButton @click="resetCounter" type="default" size="medium">
-              <template #icon>
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                  />
-                </svg>
-              </template>
-              重置计数
-            </NButton>
+          <!-- Progress Ring/Bar -->
+          <div class="w-240px">
+            <NProgress type="line" :percentage="progress" :show-indicator="false" status="success" :height="8" class="rd-full" />
+            <p class="mt-12px text-center text-13px text-slate-400">
+              {{ isPressing ? '继续保持，不要松手...' : '松手即刻重置进度' }}
+            </p>
           </div>
         </div>
 
-        <div class="usage-tip">
-          <div class="tip-icon">💡</div>
-          <div class="tip-text">
-            <strong>长按功能：</strong>检测用户长时间按住元素的操作，通常用于触发特殊功能或确认操作。
-            <br />
-            <strong>使用场景：</strong>删除确认、快捷菜单、录音功能、游戏操作等需要防误触的场景。
-            <br />
-            <strong>使用方法：</strong>在元素上添加 <code>v-longpress="handler"</code> 指令，默认长按时间为2秒
+        <div class="mt-48px grid grid-cols-1 md:grid-cols-2 gap-16px w-full max-w-600px px-24px">
+          <div class="p-16px rd-16px bg-primary/5 border border-primary/10 flex items-start gap-12px">
+            <SvgIcon icon="ph:shield-check-duotone" class="text-20px text-primary mt-2px" />
+            <p class="text-13px text-slate-600 leading-relaxed">防止误操作，常用于删除、重置等敏感功能的二次确认。</p>
+          </div>
+          <div class="p-16px rd-16px bg-amber-500/5 border border-amber-500/10 flex items-start gap-12px">
+            <SvgIcon icon="ph:device-mobile-duotone" class="text-20px text-amber-600 mt-2px" />
+            <p class="text-13px text-slate-600 leading-relaxed">移动端友好，支持触屏长按事件监听。</p>
           </div>
         </div>
+      </div>
+    </NCard>
+
+    <!-- Guide -->
+    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <div class="p-16px rd-12px bg-layout border border-primary/10">
+        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础用法 (默认 1000ms) --&gt;
+&lt;NButton v-longpress="handleLongpress"&gt;长按触发&lt;/NButton&gt;
+
+&lt;!-- 自定义时长 --&gt;
+&lt;NButton v-longpress="{ fn: handleLongpress, delay: 2000 }"&gt;长按 2 秒&lt;/NButton&gt;</code></pre>
       </div>
     </NCard>
   </div>
 </template>
 
-<style scoped lang="scss">
-.directive-container {
-  padding: 24px;
-  min-height: calc(100vh - 200px);
-}
-
-.directive-card {
-  max-width: 800px;
-  margin: 0 auto;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.95);
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
-  }
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 8px 0;
-}
-
-.header-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background-color: #d97706;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-
-  svg {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-.header-content {
-  flex: 1;
-}
-
-.header-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1f2937;
-  margin: 0 0 4px 0;
-}
-
-.header-desc {
-  font-size: 14px;
-  color: #6b7280;
-  margin: 0;
-}
-
-.demo-section {
-  padding: 24px 0;
-
-  .demo-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-}
-
-.stats-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.stat-card {
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  background-color: #fef3c7;
-  border: 2px solid #f59e0b;
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.2);
-  }
-}
-
-.stat-number {
-  font-size: 32px;
-  font-weight: 700;
-  color: #92400e;
-  margin-bottom: 4px;
-}
-
-.stat-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #78350f;
-}
-
-.longpress-demo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  margin-bottom: 24px;
-}
-
-.demo-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.longpress-btn {
-  border-radius: 16px;
-  padding: 16px 32px;
-  font-weight: 600;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-
-  &.pressing {
-    background: #f59e0b !important;
-    border-color: #f59e0b !important;
-    transform: scale(0.95);
-
-    &:hover {
-      background: #d97706 !important;
-    }
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(255, 255, 255, 0.3);
-      animation: ripple 0.6s linear infinite;
-    }
-  }
-}
-
-.btn-icon {
-  transition: all 0.3s ease;
-
-  &.pulsing {
-    animation: pulse 1s ease-in-out infinite;
-  }
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
-
-@keyframes ripple {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-.progress-container {
-  width: 300px;
-  opacity: 0.5;
-  transition: all 0.3s ease;
-
-  &.active {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-}
-
-.progress-bar {
-  width: 100%;
-  height: 8px;
-  background: #e5e7eb;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-
-.progress-fill {
-  height: 100%;
-  background-color: #d97706;
-  border-radius: 4px;
-  transition: width 0.1s ease;
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: transparent;
-    animation: shimmer 1.5s infinite;
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-.progress-text {
-  text-align: center;
-  font-size: 14px;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.control-area {
-  display: flex;
-  gap: 12px;
-}
-
-.usage-tip {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 16px;
-  background-color: #fef7cd;
-  border-radius: 12px;
-  border-left: 4px solid #f59e0b;
-}
-
-.tip-icon {
-  font-size: 20px;
-  line-height: 1;
-}
-
-.tip-text {
-  flex: 1;
-  font-size: 14px;
-  line-height: 1.6;
-  color: #d97706;
-
-  strong {
-    color: #92400e;
-  }
-
-  code {
-    background: rgba(146, 64, 14, 0.1);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: 'Monaco', 'Menlo', monospace;
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 768px) {
-  .directive-container {
-    padding: 16px;
-  }
-
-  .card-header {
-    flex-direction: column;
-    text-align: center;
-    gap: 12px;
-  }
-
-  .stats-section {
-    grid-template-columns: 1fr;
-  }
-
-  .progress-container {
-    width: 250px;
-  }
-
-  .longpress-btn {
-    padding: 12px 24px;
-    font-size: 14px;
-  }
-}
-</style>
+<style scoped></style>

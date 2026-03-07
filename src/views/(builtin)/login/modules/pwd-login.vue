@@ -101,32 +101,44 @@ async function handleLogin() {
 <template>
   <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false" @keyup.enter="handleLogin">
     <NFormItem path="userName">
-      <NInput v-model:value="model.userName" placeholder="用户名">
+      <NInput v-model:value="model.userName" placeholder="用户名" class="rd-8px">
         <template #prefix>
-          <div class="i-carbon-user text-lg text-gray-400" />
+          <div class="i-ph:user-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="password">
-      <NInput v-model:value="model.password" type="password" show-password-on="click" placeholder="密码">
+      <NInput v-model:value="model.password" type="password" show-password-on="click" placeholder="密码" class="rd-8px">
         <template #prefix>
-          <div class="i-carbon-password text-lg text-gray-400" />
+          <div class="i-ph:lock-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="captcha">
-      <div class="flex w-full gap-2 items-center">
-        <NInput v-model:value="model.captcha" placeholder="验证码" class="flex-1">
+      <div class="flex w-full gap-12px items-center">
+        <NInput v-model:value="model.captcha" placeholder="验证码" class="flex-1 rd-8px">
           <template #prefix>
-            <div class="i-carbon-security text-lg text-gray-400" />
+            <div class="i-ph:shield-check-duotone text-20px text-primary/60" />
           </template>
         </NInput>
-        <div class="h-10 cursor-pointer overflow-hidden rounded border border-gray-200" @click="resetCaptcha">
-          <img v-if="captchaCode" :src="captchaCode" alt="验证码" class="h-full w-24 object-cover" />
+        <div
+          class="h-42px cursor-pointer overflow-hidden rd-8px border border-primary/10 bg-primary/5 transition-all duration-300 hover:border-primary/30"
+          @click="resetCaptcha"
+        >
+          <img v-if="captchaCode" :src="captchaCode" alt="验证码" class="h-full w-100px object-cover" />
+          <div v-else class="flex-center h-full w-100px text-12px text-slate-400">加载中...</div>
         </div>
       </div>
     </NFormItem>
-    <NButton type="primary" block :loading="loading" @click="handleLogin"> 登录 </NButton>
+    <NButton
+      type="primary"
+      block
+      :loading="loading"
+      class="rd-8px text-16px font-bold shadow-low transition-all duration-300 hover:shadow-high active:scale-95"
+      @click="handleLogin"
+    >
+      登录
+    </NButton>
   </NForm>
 </template>
 

@@ -79,13 +79,30 @@ export function getNaiveTheme(colors: App.Theme.ThemeColor, settings: App.Theme.
   const theme: GlobalThemeOverrides = {
     common: {
       ...getNaiveThemeColors(colors, settings.recommendColor),
-      borderRadius: '6px',
+      borderRadius: '8px',
+      borderRadiusSmall: '4px',
+      fontWeight: '400',
+      fontWeightStrong: '600',
     },
     LoadingBar: {
       colorLoading,
     },
     Tag: {
-      borderRadius: '6px',
+      borderRadius: '4px',
+    },
+    Card: {
+      borderRadius: '12px',
+      boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+    },
+    Button: {
+      borderRadiusMedium: '8px',
+      fontWeight: '500',
+    },
+    Input: {
+      borderRadius: '8px',
+    },
+    Select: {
+      borderRadius: '8px',
     },
   }
 

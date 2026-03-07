@@ -3,253 +3,87 @@ import { ref } from 'vue'
 
 const focusEnabled = ref(true)
 const inputValue = ref('')
-const conditionalValue = ref('')
 </script>
 
 <template>
-  <div class="directive-container">
-    <NCard class="directive-card" :bordered="false">
-      <template #header>
-        <div class="card-header">
-          <div class="header-icon">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-              />
-            </svg>
-          </div>
-          <div class="header-content">
-            <h3 class="header-title">聚焦指令</h3>
-            <p class="header-desc">自动聚焦到指定的输入元素</p>
-          </div>
+  <div class="flex-col gap-16px">
+    <!-- Header Card -->
+    <NCard :bordered="false" class="card-wrapper overflow-hidden">
+      <div class="flex items-center gap-24px">
+        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
+          <SvgIcon icon="ph:eye-duotone" class="text-40px" />
         </div>
-      </template>
-
-      <div class="demo-section">
-        <div class="demo-title">🎯 基础用法</div>
-        <div class="demo-content">
-          <p class="demo-desc">页面加载时自动聚焦到输入框</p>
-          <NInput v-focus v-model:value="inputValue" placeholder="页面加载时自动聚焦" size="large" class="focus-input" />
+        <div class="flex-1">
+          <h1 class="text-24px font-bold text-base-text">聚焦指令 `v-focus`</h1>
+          <p class="mt-8px text-16px text-slate-500 leading-relaxed">自动为输入框或特定元素设置焦点，提升表单填写与交互的流畅度</p>
         </div>
       </div>
+    </NCard>
 
-      <div class="demo-section">
-        <div class="demo-title">⚙️ 条件聚焦</div>
-        <div class="demo-content">
-          <p class="demo-desc">根据条件决定是否聚焦</p>
-          <div class="control-group">
-            <NSpace align="center">
-              <NSwitch v-model:value="focusEnabled" />
-              <span>启用聚焦</span>
-            </NSpace>
+    <!-- Playground -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16px">
+      <NCard title="🎯 基础用法" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <div class="flex-col gap-16px">
+          <p class="text-14px text-slate-500">页面加载时，自动将焦点锁定到该输入框。</p>
+          <NInput v-focus v-model:value="inputValue" size="large" placeholder="页面加载时我将自动聚焦" class="rd-12px" />
+        </div>
+      </NCard>
+
+      <NCard title="⚙️ 条件控制" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <div class="flex-col gap-16px">
+          <div class="flex justify-between items-center">
+            <p class="text-14px text-slate-500">通过开关触发聚焦行为。</p>
+            <NSwitch v-model:value="focusEnabled" size="small" />
           </div>
-          <NInput
-            v-focus="focusEnabled"
-            v-model:value="conditionalValue"
-            placeholder="根据开关状态决定是否聚焦"
-            size="large"
-            class="focus-input"
-          />
+          <NInput v-focus="focusEnabled" size="large" placeholder="根据上方开关决定是否聚焦" class="rd-12px" :key="String(focusEnabled)" />
+        </div>
+      </NCard>
+    </div>
+
+    <!-- Features -->
+    <NCard title="✨ 核心特性" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-24px">
+        <div class="flex items-start gap-16px">
+          <div class="size-40px flex-center bg-primary/10 text-primary rd-10px flex-shrink-0">
+            <SvgIcon icon="ph:lightning-duotone" class="text-20px" />
+          </div>
+          <div>
+            <h4 class="text-16px font-bold text-base-text">即时生效</h4>
+            <p class="text-13px text-slate-500 mt-4px">元素挂载后立即触发 DOM focus 事件</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-16px">
+          <div class="size-40px flex-center bg-blue-500/10 text-blue-500 rd-10px flex-shrink-0">
+            <SvgIcon icon="ph:toggle-left-duotone" class="text-20px" />
+          </div>
+          <div>
+            <h4 class="text-16px font-bold text-base-text">逻辑解耦</h4>
+            <p class="text-13px text-slate-500 mt-4px">无需在生命周期钩子中手动操作 DOM</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-16px">
+          <div class="size-40px flex-center bg-amber-500/10 text-amber-500 rd-10px flex-shrink-0">
+            <SvgIcon icon="ph:selection-all-duotone" class="text-20px" />
+          </div>
+          <div>
+            <h4 class="text-16px font-bold text-base-text">兼容性强</h4>
+            <p class="text-13px text-slate-500 mt-4px">支持原生 input 以及各类 UI 组件库</p>
+          </div>
         </div>
       </div>
+    </NCard>
 
-      <div class="code-section">
-        <div class="code-title">💻 使用示例</div>
-        <div class="code-content">
-          <pre><code>&lt;!-- 基础用法 --&gt;
+    <!-- Guide -->
+    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <div class="p-16px rd-12px bg-layout border border-primary/10">
+        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础聚焦 --&gt;
 &lt;input v-focus /&gt;
 
 &lt;!-- 条件聚焦 --&gt;
-&lt;input v-focus="isEnabled" /&gt;
-
-&lt;!-- 在 Vue 组件中 --&gt;
-&lt;NInput v-focus placeholder="自动聚焦" /&gt;</code></pre>
-        </div>
-      </div>
-
-      <div class="feature-section">
-        <div class="feature-title">✨ 功能特点</div>
-        <div class="feature-list">
-          <div class="feature-item">
-            <div class="feature-icon">🎯</div>
-            <div class="feature-content">
-              <h4>自动聚焦</h4>
-              <p>元素挂载时自动获得焦点</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">⚡</div>
-            <div class="feature-content">
-              <h4>条件控制</h4>
-              <p>支持动态控制是否聚焦</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">🔄</div>
-            <div class="feature-content">
-              <h4>响应式更新</h4>
-              <p>条件变化时自动重新聚焦</p>
-            </div>
-          </div>
-        </div>
+&lt;NInput v-focus="isReady" /&gt;</code></pre>
       </div>
     </NCard>
   </div>
 </template>
 
-<style scoped lang="scss">
-.directive-container {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.directive-card {
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-
-  .header-icon {
-    width: 48px;
-    height: 48px;
-    background-color: #667eea;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-  }
-
-  .header-content {
-    flex: 1;
-
-    .header-title {
-      font-size: 24px;
-      font-weight: 600;
-      margin: 0 0 4px 0;
-      color: #1a1a1a;
-    }
-
-    .header-desc {
-      font-size: 14px;
-      color: #666;
-      margin: 0;
-    }
-  }
-}
-
-.demo-section {
-  margin-bottom: 32px;
-
-  .demo-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    color: #333;
-  }
-
-  .demo-content {
-    background: #f8fafc;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-
-    .demo-desc {
-      margin: 0 0 16px 0;
-      color: #64748b;
-      font-size: 14px;
-    }
-  }
-
-  .focus-input {
-    margin-bottom: 16px;
-  }
-
-  .control-group {
-    margin-bottom: 16px;
-  }
-}
-
-.code-section {
-  margin-bottom: 32px;
-
-  .code-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    color: #333;
-  }
-
-  .code-content {
-    background: #1e293b;
-    color: #e2e8f0;
-    padding: 20px;
-    border-radius: 8px;
-    overflow-x: auto;
-
-    pre {
-      margin: 0;
-      font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-  }
-}
-
-.feature-section {
-  margin-bottom: 32px;
-
-  .feature-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    color: #333;
-  }
-
-  .feature-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 16px;
-
-    .feature-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 16px;
-      background: #f8fafc;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-
-      .feature-icon {
-        font-size: 24px;
-        flex-shrink: 0;
-      }
-
-      .feature-content {
-        h4 {
-          margin: 0 0 4px 0;
-          font-size: 16px;
-          font-weight: 600;
-          color: #333;
-        }
-
-        p {
-          margin: 0;
-          font-size: 14px;
-          color: #666;
-        }
-      }
-    }
-  }
-}
-</style>
+<style scoped></style>

@@ -115,6 +115,9 @@ declare namespace App {
       }
       common: {
         backToHome: string
+        noPermission: string
+        notFound: string
+        serviceError: string
         cancel: string
         config: string
         confirm: string

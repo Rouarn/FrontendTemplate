@@ -32,11 +32,24 @@ const icon = computed(() => iconMap[props.type])
 </script>
 
 <template>
-  <div class="size-full min-h-520px flex-col-center gap-24px overflow-hidden">
-    <div class="flex text-400px text-primary">
+  <div class="size-full min-h-520px flex-col-center gap-32px overflow-hidden bg-layout p-24px">
+    <div class="flex-center text-400px text-primary/80 transition-transform duration-500 hover:scale-105">
       <SvgIcon :local-icon="icon" />
     </div>
-    <NButton type="primary" @click="router.push('/')">{{ $t('common.backToHome') }}</NButton>
+    <div class="flex-col-center gap-12px text-center">
+      <h1 class="text-32px font-bold text-base-text opacity-90">{{ type }}</h1>
+      <p class="text-16px text-slate-500 max-w-400px">
+        {{ $t(`common.${type === '403' ? 'noPermission' : type === '404' ? 'notFound' : 'serviceError'}`) }}
+      </p>
+    </div>
+    <NButton
+      type="primary"
+      size="large"
+      class="rd-8px px-32px font-bold shadow-low transition-all duration-300 hover:shadow-high active:scale-95"
+      @click="router.push('/')"
+    >
+      {{ $t('common.backToHome') }}
+    </NButton>
   </div>
 </template>
 

@@ -124,63 +124,75 @@ async function handleRegister() {
 <template>
   <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false" @keyup.enter="handleRegister">
     <NFormItem path="username">
-      <NInput v-model:value="model.username" placeholder="用户名">
+      <NInput v-model:value="model.username" placeholder="用户名" class="rd-8px">
         <template #prefix>
-          <div class="i-carbon-user text-lg text-gray-400" />
+          <div class="i-ph:user-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="password">
-      <NInput v-model:value="model.password" type="password" show-password-on="click" placeholder="密码">
+      <NInput v-model:value="model.password" type="password" show-password-on="click" placeholder="密码" class="rd-8px">
         <template #prefix>
-          <div class="i-carbon-password text-lg text-gray-400" />
+          <div class="i-ph:lock-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="confirmPassword">
-      <NInput v-model:value="model.confirmPassword" type="password" show-password-on="click" placeholder="确认密码">
+      <NInput v-model:value="model.confirmPassword" type="password" show-password-on="click" placeholder="确认密码" class="rd-8px">
         <template #prefix>
-          <div class="i-carbon-password text-lg text-gray-400" />
+          <div class="i-ph:shield-warning-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="nickname">
-      <NInput v-model:value="model.nickname" placeholder="昵称 (可选)">
+      <NInput v-model:value="model.nickname" placeholder="昵称 (可选)" class="rd-8px">
         <template #prefix>
-          <div class="i-carbon-id-management text-lg text-gray-400" />
+          <div class="i-ph:identification-card-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="email">
-      <NInput v-model:value="model.email" placeholder="邮箱 (可选)">
+      <NInput v-model:value="model.email" placeholder="邮箱 (可选)" class="rd-8px">
         <template #prefix>
-          <div class="i-carbon-email text-lg text-gray-400" />
+          <div class="i-ph:envelope-simple-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="mobile">
-      <NInput v-model:value="model.mobile" placeholder="手机号 (可选)">
+      <NInput v-model:value="model.mobile" placeholder="手机号 (可选)" class="rd-8px">
         <template #prefix>
-          <div class="i-carbon-phone text-lg text-gray-400" />
+          <div class="i-ph:phone-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="captcha">
-      <div class="flex w-full gap-2 items-center">
-        <NInput v-model:value="model.captcha" placeholder="验证码" class="flex-1">
+      <div class="flex w-full gap-12px items-center">
+        <NInput v-model:value="model.captcha" placeholder="验证码" class="flex-1 rd-8px">
           <template #prefix>
-            <div class="i-carbon-security text-lg text-gray-400" />
+            <div class="i-ph:shield-check-duotone text-20px text-primary/60" />
           </template>
         </NInput>
-        <div class="h-10 cursor-pointer overflow-hidden rounded border border-gray-200" @click="resetCaptcha">
-          <img v-if="captchaCode" :src="captchaCode" alt="验证码" class="h-full w-24 object-cover" />
+        <div
+          class="h-42px cursor-pointer overflow-hidden rd-8px border border-primary/10 bg-primary/5 transition-all duration-300 hover:border-primary/30"
+          @click="resetCaptcha"
+        >
+          <img v-if="captchaCode" :src="captchaCode" alt="验证码" class="h-full w-100px object-cover" />
+          <div v-else class="flex-center h-full w-100px text-12px text-slate-400">加载中...</div>
         </div>
       </div>
     </NFormItem>
 
-    <div class="flex flex-col gap-3">
-      <NButton type="primary" block :loading="loading" @click="handleRegister"> 注册 </NButton>
-      <NButton block ghost @click="emit('switchToLogin')"> 返回登录 </NButton>
+    <div class="flex flex-col gap-12px">
+      <NButton
+        type="primary"
+        block
+        :loading="loading"
+        class="rd-8px text-16px font-bold shadow-low transition-all duration-300 hover:shadow-high active:scale-95"
+        @click="handleRegister"
+      >
+        注册
+      </NButton>
+      <NButton block ghost class="rd-8px" @click="emit('switchToLogin')"> 返回登录 </NButton>
     </div>
   </NForm>
 </template>

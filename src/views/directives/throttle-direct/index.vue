@@ -2,472 +2,159 @@
 import { ref } from 'vue'
 
 const clickCount = ref(0)
-const throttleCount = ref(0)
-const isThrottling = ref(false)
-const lastExecuteTime = ref<Date | null>(null)
+const executeCount = ref(0)
+const scrollCount = ref(0)
+const scrollExecuteCount = ref(0)
 
-const throttle = () => {
-  throttleCount.value++
-  lastExecuteTime.value = new Date()
-  isThrottling.value = true
-
-  window.$message?.success(`节流执行！第 ${throttleCount.value} 次触发 🎉`)
-
-  // 模拟节流状态
-  setTimeout(() => {
-    isThrottling.value = false
-  }, 1000)
+const handleBtnClick = () => {
+  executeCount.value++
+  window.$message?.success(`节流执行成功！累计执行 ${executeCount.value} 次`)
 }
 
-const handleClick = () => {
+const handleScroll = () => {
+  scrollExecuteCount.value++
+}
+
+const handleTrigger = () => {
   clickCount.value++
 }
 
-const resetCounters = () => {
-  clickCount.value = 0
-  throttleCount.value = 0
-  lastExecuteTime.value = null
-  isThrottling.value = false
+const handleScrollTrigger = () => {
+  scrollCount.value++
 }
 
-const formatTime = (date: Date) => {
-  return date.toLocaleTimeString('zh-CN', {
-    hour12: false,
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    fractionalSecondDigits: 3,
-  })
+const reset = () => {
+  clickCount.value = 0
+  executeCount.value = 0
+  scrollCount.value = 0
+  scrollExecuteCount.value = 0
 }
 </script>
 
 <template>
-  <div class="directive-container">
-    <NCard class="directive-card" :bordered="false">
-      <template #header>
-        <div class="card-header">
-          <div class="header-icon">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <div class="header-content">
-            <h3 class="header-title">节流指令</h3>
-            <p class="header-desc">限制函数执行频率，提升应用性能</p>
-          </div>
+  <div class="flex-col gap-16px">
+    <!-- Header Card -->
+    <NCard :bordered="false" class="card-wrapper overflow-hidden">
+      <div class="flex items-center gap-24px">
+        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
+          <SvgIcon icon="ph:hourglass-medium-duotone" class="text-40px" />
         </div>
-      </template>
-
-      <div class="demo-section">
-        <div class="demo-title">⏱️ 节流控制演示</div>
-
-        <div class="stats-section">
-          <div class="stat-card">
-            <div class="stat-number">{{ clickCount }}</div>
-            <div class="stat-label">点击次数</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">{{ throttleCount }}</div>
-            <div class="stat-label">执行次数</div>
-          </div>
-          <div class="stat-card full-width">
-            <div class="stat-number">{{ lastExecuteTime ? formatTime(lastExecuteTime) : '--:--:--' }}</div>
-            <div class="stat-label">最后执行时间</div>
-          </div>
+        <div class="flex-1">
+          <h1 class="text-24px font-bold text-base-text">节流指令 `v-throttle`</h1>
+          <p class="mt-8px text-16px text-slate-500 leading-relaxed">
+            每隔一定时间最多执行一次。无论触发频率多高，都会按固定的时间间隔执行。
+          </p>
         </div>
+      </div>
+    </NCard>
 
-        <div class="throttle-demo">
-          <div class="demo-area">
+    <!-- Stats -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16px">
+      <NCard :bordered="false" class="card-wrapper text-center">
+        <div class="text-24px font-bold text-primary tabular-nums">{{ clickCount }}</div>
+        <div class="text-12px text-slate-500 font-medium">按钮累计点击</div>
+      </NCard>
+      <NCard :bordered="false" class="card-wrapper text-center">
+        <div class="text-24px font-bold text-success tabular-nums">{{ executeCount }}</div>
+        <div class="text-12px text-slate-500 font-medium">按钮节流执行</div>
+      </NCard>
+      <NCard :bordered="false" class="card-wrapper text-center">
+        <div class="text-24px font-bold text-primary tabular-nums">{{ scrollCount }}</div>
+        <div class="text-12px text-slate-500 font-medium">滚动累计触发</div>
+      </NCard>
+      <NCard :bordered="false" class="card-wrapper text-center">
+        <div class="text-24px font-bold text-success tabular-nums">{{ scrollExecuteCount }}</div>
+        <div class="text-12px text-slate-500 font-medium">滚动节流执行</div>
+      </NCard>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16px">
+      <!-- Button Throttle -->
+      <NCard title="🖱️ 按钮点击节流" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <div class="flex-col gap-20px py-12px h-full">
+          <p class="text-14px text-slate-500">疯狂点击下方按钮，每 1000ms 才会执行一次逻辑，防止重复提交。</p>
+          <div class="flex-center flex-1">
             <NButton
-              v-throttle="throttle"
+              v-throttle="{ fn: handleBtnClick, delay: 1000 }"
               type="primary"
-              size="large"
-              class="throttle-btn"
-              :class="{ throttling: isThrottling }"
-              @click="handleClick"
+              class="h-56px rd-16px px-40px text-18px font-bold shadow-low transition-all duration-300 active:scale-95"
+              @click="handleTrigger"
             >
               <template #icon>
-                <div class="btn-icon" :class="{ spinning: isThrottling }">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
+                <SvgIcon icon="ph:hand-tap-duotone" />
               </template>
-              {{ isThrottling ? '节流中...' : '快速点击我' }}
+              疯狂快速点击
             </NButton>
+          </div>
+          <div class="text-center">
+            <NButton quaternary @click="reset">
+              <template #icon><SvgIcon icon="ph:arrow-counter-clockwise-duotone" /></template>
+              重置所有数据
+            </NButton>
+          </div>
+        </div>
+      </NCard>
 
-            <div class="status-indicator" :class="{ active: isThrottling }">
-              <div class="indicator-dot"></div>
-              <div class="indicator-text">
-                {{ isThrottling ? '节流生效中 (1秒内不可重复执行)' : '可以执行' }}
+      <!-- Scroll Throttle -->
+      <NCard title="📜 滚动事件节流" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <div class="flex-col gap-20px py-12px">
+          <p class="text-14px text-slate-500">在下方区域滚动，通过节流将高频滚动事件降低到 200ms 执行一次。</p>
+          <div
+            class="h-200px overflow-y-auto rd-12px bg-layout border border-primary/10 p-16px"
+            v-throttle="{ fn: handleScroll, delay: 200, event: 'scroll' }"
+            @scroll="handleScrollTrigger"
+          >
+            <div class="space-y-12px">
+              <div v-for="i in 20" :key="i" class="h-40px bg-primary/5 rd-8px flex-y-center px-16px text-14px text-slate-400">
+                滚动内容项 {{ i }}
               </div>
             </div>
           </div>
-
-          <div class="control-area">
-            <NButton @click="resetCounters" type="default" size="medium">
-              <template #icon>
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                  />
-                </svg>
-              </template>
-              重置计数
-            </NButton>
-          </div>
         </div>
+      </NCard>
+    </div>
 
-        <div class="efficiency-display">
-          <div class="efficiency-title">📊 节流效率分析</div>
-          <div class="efficiency-content">
-            <div class="efficiency-item">
-              <span class="label">节流比率:</span>
-              <span class="value">{{ clickCount > 0 ? Math.round((throttleCount / clickCount) * 100) : 0 }}%</span>
-            </div>
-            <div class="efficiency-item">
-              <span class="label">节省执行:</span>
-              <span class="value">{{ Math.max(0, clickCount - throttleCount) }} 次</span>
-            </div>
-          </div>
-        </div>
+    <!-- Comparison Table -->
+    <NCard title="📊 防抖与节流对比" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NTable :bordered="false" :single-line="false">
+        <thead>
+          <tr>
+            <th class="w-100px">特性</th>
+            <th>防抖 (Debounce)</th>
+            <th>节流 (Throttle)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="font-bold text-primary">执行时机</td>
+            <td>事件停止触发后 delay 时间才执行</td>
+            <td>每隔 delay 时间最多执行一次</td>
+          </tr>
+          <tr>
+            <td class="font-bold text-primary">核心原理</td>
+            <td>重新计时 (Reset Timer)</td>
+            <td>时间戳比对或预约执行</td>
+          </tr>
+          <tr>
+            <td class="font-bold text-primary">适用场景</td>
+            <td>搜索联想、窗口 Resize 调整、表单校验</td>
+            <td>滚动加载、高频点击提交、鼠标移动监听</td>
+          </tr>
+        </tbody>
+      </NTable>
+    </NCard>
 
-        <div class="usage-tip">
-          <div class="tip-icon">💡</div>
-          <div class="tip-text">
-            <strong>节流功能：</strong>在指定时间间隔内，无论触发多少次事件，函数只执行一次，有效控制执行频率。
-            <br />
-            <strong>使用场景：</strong>按钮防重复点击、滚动事件优化、搜索输入优化、窗口resize事件等高频操作。
-            <br />
-            <strong>使用方法：</strong>在元素上添加 <code>v-throttle="handler"</code> 指令，默认节流时间为1秒
-          </div>
-        </div>
+    <!-- Guide -->
+    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <div class="p-16px rd-12px bg-layout border border-primary/10">
+        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础用法 (默认 1000ms) --&gt;
+&lt;NButton v-throttle="handleClick"&gt;点击&lt;/NButton&gt;
+
+&lt;!-- 自定义间隔时间 --&gt;
+&lt;NButton v-throttle="{ fn: handleClick, delay: 2000 }"&gt;间隔 2s&lt;/NButton&gt;</code></pre>
       </div>
     </NCard>
   </div>
 </template>
 
-<style scoped lang="scss">
-.directive-container {
-  padding: 24px;
-  min-height: calc(100vh - 200px);
-  background-color: #ffffff;
-}
-
-.directive-card {
-  max-width: 800px;
-  margin: 0 auto;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.95);
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
-  }
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 8px 0;
-}
-
-.header-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background-color: #7c3aed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-
-  svg {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-.header-content {
-  flex: 1;
-}
-
-.header-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1f2937;
-  margin: 0 0 4px 0;
-}
-
-.header-desc {
-  font-size: 14px;
-  color: #6b7280;
-  margin: 0;
-}
-
-.demo-section {
-  padding: 24px 0;
-}
-
-.demo-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #374151;
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.stats-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.stat-card {
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  background-color: #ede9fe;
-  border: 2px solid #8b5cf6;
-  transition: all 0.3s ease;
-
-  &.full-width {
-    grid-column: 1 / -1;
-  }
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(139, 92, 246, 0.2);
-  }
-}
-
-.stat-number {
-  font-size: 32px;
-  font-weight: 700;
-  color: #6d28d9;
-  margin-bottom: 4px;
-}
-
-.stat-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #5b21b6;
-}
-
-.throttle-demo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  margin-bottom: 24px;
-}
-
-.demo-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.throttle-btn {
-  border-radius: 16px;
-  padding: 16px 32px;
-  font-weight: 600;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  position: relative;
-
-  &.throttling {
-    background: #8b5cf6 !important;
-    border-color: #8b5cf6 !important;
-    opacity: 0.8;
-
-    &:hover {
-      background: #7c3aed !important;
-    }
-  }
-}
-
-.btn-icon {
-  transition: all 0.3s ease;
-
-  &.spinning {
-    animation: spin 1s linear infinite;
-  }
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.status-indicator {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 20px;
-  border-radius: 12px;
-  background: #f3f4f6;
-  border: 2px solid #e5e7eb;
-  transition: all 0.3s ease;
-
-  &.active {
-    background-color: #fde68a;
-    border-color: #f59e0b;
-
-    .indicator-dot {
-      background: #f59e0b;
-      animation: pulse-dot 1s ease-in-out infinite;
-    }
-  }
-}
-
-.indicator-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #9ca3af;
-  transition: all 0.3s ease;
-}
-
-@keyframes pulse-dot {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 0.7;
-  }
-}
-
-.indicator-text {
-  font-size: 14px;
-  font-weight: 500;
-  color: #6b7280;
-}
-
-.control-area {
-  display: flex;
-  gap: 12px;
-}
-
-.efficiency-display {
-  margin-bottom: 24px;
-  padding: 20px;
-  background-color: #ede9fe;
-  border-radius: 12px;
-  border: 2px solid #8b5cf6;
-}
-
-.efficiency-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #6d28d9;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.efficiency-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.efficiency-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
-
-  .label {
-    font-size: 14px;
-    color: #6b7280;
-    font-weight: 500;
-  }
-
-  .value {
-    font-size: 16px;
-    font-weight: 700;
-    color: #6d28d9;
-  }
-}
-
-.usage-tip {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 16px;
-  background-color: #ede9fe;
-  border-radius: 12px;
-  border-left: 4px solid #8b5cf6;
-}
-
-.tip-icon {
-  font-size: 20px;
-  line-height: 1;
-}
-
-.tip-text {
-  flex: 1;
-  font-size: 14px;
-  line-height: 1.6;
-  color: #7c3aed;
-
-  strong {
-    color: #6d28d9;
-  }
-
-  code {
-    background: rgba(109, 40, 217, 0.1);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: 'Monaco', 'Menlo', monospace;
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 768px) {
-  .directive-container {
-    padding: 16px;
-  }
-
-  .card-header {
-    flex-direction: column;
-    text-align: center;
-    gap: 12px;
-  }
-
-  .stats-section {
-    grid-template-columns: 1fr;
-  }
-
-  .efficiency-content {
-    grid-template-columns: 1fr;
-  }
-
-  .throttle-btn {
-    padding: 12px 24px;
-    font-size: 14px;
-  }
-}
-</style>
+<style scoped></style>

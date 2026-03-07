@@ -13,220 +13,63 @@ const handleCopy = () => {
 </script>
 
 <template>
-  <div class="directive-container">
-    <NCard class="directive-card" :bordered="false">
-      <template #header>
-        <div class="card-header">
-          <div class="header-icon">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-              />
-            </svg>
-          </div>
-          <div class="header-content">
-            <h3 class="header-title">复制指令</h3>
-            <p class="header-desc">一键复制文本内容到剪贴板</p>
-          </div>
+  <div class="flex-col gap-16px">
+    <!-- Header Card -->
+    <NCard :bordered="false" class="card-wrapper overflow-hidden">
+      <div class="flex items-center gap-24px">
+        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
+          <SvgIcon icon="ph:copy-duotone" class="text-40px" />
         </div>
-      </template>
+        <div class="flex-1">
+          <h1 class="text-24px font-bold text-base-text">复制指令 `v-copy`</h1>
+          <p class="mt-8px text-16px text-slate-500 leading-relaxed">便捷的一键复制功能，支持动态绑定内容，显著提升用户的操作效率</p>
+        </div>
+      </div>
+    </NCard>
 
-      <div class="demo-section">
-        <div class="demo-title">📋 试试复制功能</div>
-        <div class="input-group">
-          <NInput v-model:value="data" placeholder="请输入要复制的内容" class="copy-input" size="large" />
-          <NButton v-copy="data" type="primary" size="medium" class="copy-btn" :class="{ 'copy-success': copySuccess }" @click="handleCopy">
+    <!-- Playground -->
+    <NCard title="📋 试试复制功能" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <div class="max-w-600px mx-auto py-32px">
+        <div class="flex gap-12px">
+          <NInput v-model:value="data" size="large" placeholder="输入要复制的文本" class="rd-12px flex-1" />
+          <NButton
+            v-copy="data"
+            type="primary"
+            size="large"
+            class="rd-12px px-24px font-bold shadow-low transition-all duration-300 active:scale-95"
+            :class="{ 'bg-success border-success': copySuccess }"
+            @click="handleCopy"
+          >
             <template #icon>
-              <svg v-if="!copySuccess" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                />
-              </svg>
-              <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-              </svg>
+              <SvgIcon :icon="copySuccess ? 'ph:check-bold' : 'ph:copy-duotone'" />
             </template>
-            {{ copySuccess ? '已复制' : '复制' }}
+            {{ copySuccess ? '复制成功' : '点击复制' }}
           </NButton>
         </div>
 
-        <div class="usage-tip">
-          <div class="tip-icon">💡</div>
-          <div class="tip-text"><strong>使用方法：</strong>在任意元素上添加 <code>v-copy="content"</code> 指令即可实现一键复制功能</div>
+        <div class="mt-24px p-16px rd-12px bg-primary/5 border border-primary/10 flex items-start gap-12px">
+          <SvgIcon icon="ph:info-duotone" class="text-20px text-primary mt-2px" />
+          <p class="text-14px text-slate-600 leading-relaxed">
+            <span class="font-bold text-primary">提示：</span>
+            在任意 HTML 元素或组件上添加 <code>v-copy="content"</code> 指令即可实现复制功能。支持响应式数据，当 content
+            改变时，复制的内容也会同步更新。
+          </p>
         </div>
+      </div>
+    </NCard>
+
+    <!-- Guide -->
+    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <div class="p-16px rd-12px bg-layout border border-primary/10">
+        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础用法 --&gt;
+&lt;NButton v-copy="'Hello World'"&gt;复制文本&lt;/NButton&gt;
+
+&lt;!-- 动态内容 --&gt;
+&lt;NInput v-model:value="inputValue" /&gt;
+&lt;NButton v-copy="inputValue"&gt;复制输入框内容&lt;/NButton&gt;</code></pre>
       </div>
     </NCard>
   </div>
 </template>
 
-<style scoped lang="scss">
-.directive-container {
-  padding: 24px;
-  min-height: calc(100vh - 200px);
-  background-color: #f5f7f9;
-}
-
-.directive-card {
-  max-width: 800px;
-  margin: 0 auto;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.95);
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
-  }
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 8px 0;
-}
-
-.header-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background-color: #f0f5ff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #2080f0;
-
-  svg {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-.header-content {
-  flex: 1;
-
-  .header-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #1f2937;
-    margin: 0 0 4px 0;
-  }
-
-  .header-desc {
-    font-size: 14px;
-    color: #6b7280;
-    margin: 0;
-  }
-}
-
-.demo-section {
-  padding: 24px 0;
-
-  .demo-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .input-group {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 24px;
-
-    .copy-input {
-      :deep(.n-input) {
-        border-radius: 12px;
-        border: 2px solid #e5e7eb;
-        transition: all 0.3s ease;
-
-        &:hover {
-          border-color: #d1d5db;
-        }
-
-        &:focus-within {
-          border-color: #667eea;
-          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-      }
-    }
-
-    .copy-btn {
-      border-radius: 8px;
-      transition: all 0.3s ease;
-
-      &.copy-success {
-        background: #10b981 !important;
-        border-color: #10b981 !important;
-
-        &:hover {
-          background: #059669 !important;
-        }
-      }
-    }
-  }
-}
-
-.usage-tip {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 16px;
-  background-color: #fffbeb;
-  border-radius: 12px;
-  border-left: 4px solid #f59e0b;
-
-  .tip-icon {
-    font-size: 20px;
-    line-height: 1;
-  }
-
-  .tip-text {
-    flex: 1;
-    font-size: 14px;
-    line-height: 1.5;
-    color: #92400e;
-
-    strong {
-      color: #78350f;
-    }
-
-    code {
-      background: rgba(120, 53, 15, 0.1);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-family: 'Monaco', 'Menlo', monospace;
-      font-size: 13px;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .directive-container {
-    padding: 16px;
-  }
-
-  .card-header {
-    flex-direction: column;
-    text-align: center;
-    gap: 12px;
-  }
-
-  .copy-input {
-    :deep(.n-input) {
-      font-size: 16px;
-    }
-  }
-}
-</style>
+<style scoped></style>

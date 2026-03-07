@@ -14,7 +14,7 @@ import role from '@/directives/role'
 import scroll from '@/directives/scroll'
 import throttle from '@/directives/throttle'
 import tooltip from '@/directives/tooltip'
-import waterMarker from '@/directives/waterMarker'
+import watermark from '@/directives/watermark'
 import type { App, Directive } from 'vue'
 
 const directivesList: { [key: string]: Directive } = {
@@ -23,7 +23,7 @@ const directivesList: { [key: string]: Directive } = {
   draggable,
   longpress,
   throttle,
-  waterMarker,
+  watermark,
   focus,
   clickoutside,
   loading,

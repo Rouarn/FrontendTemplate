@@ -121,8 +121,14 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
 
   /** 创建内置 Vue 路由（从后端拉取权限路由） */
   async function createBuiltinVueRoutes(): Promise<RouteRecordRaw[]> {
-    const { data } = await fetchGetUserRoutes()
-    return [...data] as unknown as RouteRecordRaw[]
+    try {
+      const { data, error } = await fetchGetUserRoutes()
+      if (error) return []
+      return [...data] as unknown as RouteRecordRaw[]
+    } catch (error) {
+      console.error('[route.createBuiltinVueRoutes] 获取权限路由异常:', error)
+      return []
+    }
   }
 
   /** 初始化应用路由（仅在登录后首次执行） */

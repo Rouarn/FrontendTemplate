@@ -74,6 +74,14 @@ function createRipple(event: MouseEvent, el: HTMLElement, options: RippleOptions
   }, duration)
 }
 
+// 获取规范化后的选项
+function getOptions(binding: DirectiveBinding<RippleOptions | boolean>): RippleOptions {
+  if (binding.value && typeof binding.value === 'object') {
+    return binding.value
+  }
+  return { disabled: binding.value === false }
+}
+
 // 处理点击事件
 function handleClick(event: MouseEvent) {
   const el = event.currentTarget as HTMLElement
@@ -83,7 +91,8 @@ function handleClick(event: MouseEvent) {
 
   const binding = (el as HTMLElement & { __rippleBinding?: DirectiveBinding<RippleOptions | boolean> }).__rippleBinding
   if (!binding) return
-  const options = typeof binding.value === 'object' ? binding.value : {}
+
+  const options = getOptions(binding)
 
   if (options.disabled) return
 

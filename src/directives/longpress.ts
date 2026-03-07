@@ -7,43 +7,45 @@ import type { Directive, DirectiveBinding } from 'vue'
 
 type LongPressHandler = (e: MouseEvent | TouchEvent) => void
 
-interface LongPressDirectiveBinding extends Omit<DirectiveBinding, 'value'> {
-  value: LongPressHandler
+interface LongPressOptions {
+  fn: LongPressHandler
+  delay?: number
 }
+
 interface HTMLEL extends HTMLElement {
-  _longPressCleanup?: () => void
+  __longPressCleanup?: () => void
+  __pressTimer__?: number | null
 }
 
-const directive: Directive<HTMLElement, LongPressHandler> = {
-  mounted(el: HTMLEL, binding: LongPressDirectiveBinding) {
-    if (typeof binding.value !== 'function') {
-      throw new Error('v-longpress directive value must be a function')
+const directive: Directive<HTMLEL, LongPressHandler | LongPressOptions> = {
+  mounted(el: HTMLEL, binding: DirectiveBinding<LongPressHandler | LongPressOptions>) {
+    const options: LongPressOptions = typeof binding.value === 'function' ? { fn: binding.value } : binding.value
+
+    if (typeof options.fn !== 'function') {
+      console.error('[v-longpress] callback must be a function')
+      return
     }
 
-    let pressTimer: number | null = null
-    const pressDuration = 1000 // 长按时间阈值，单位毫秒
-
-    const handler = (e: MouseEvent | TouchEvent) => {
-      binding.value(e)
-    }
+    const delay = options.delay || 1000
 
     const start = (e: MouseEvent | TouchEvent) => {
       // 如果是鼠标事件且不是左键点击，则忽略
-      if ('button' in e && e.type === 'click' && e.button !== 0) {
+      if (e instanceof MouseEvent && e.button !== 0) {
         return
       }
 
-      if (pressTimer === null) {
-        pressTimer = window.setTimeout(() => {
-          handler(e)
-        }, pressDuration)
+      if (!el.__pressTimer__) {
+        el.__pressTimer__ = window.setTimeout(() => {
+          options.fn(e)
+          el.__pressTimer__ = null
+        }, delay)
       }
     }
 
     const cancel = () => {
-      if (pressTimer !== null) {
-        clearTimeout(pressTimer)
-        pressTimer = null
+      if (el.__pressTimer__) {
+        clearTimeout(el.__pressTimer__)
+        el.__pressTimer__ = null
       }
     }
 
@@ -59,7 +61,7 @@ const directive: Directive<HTMLElement, LongPressHandler> = {
     el.addEventListener('touchcancel', cancel)
 
     // 在元素卸载时清除事件
-    el._longPressCleanup = () => {
+    el.__longPressCleanup = () => {
       el.removeEventListener('mousedown', start)
       el.removeEventListener('touchstart', start)
       el.removeEventListener('click', cancel)
@@ -70,11 +72,21 @@ const directive: Directive<HTMLElement, LongPressHandler> = {
     }
   },
 
+  updated(_el: HTMLEL, _binding: DirectiveBinding<LongPressHandler | LongPressOptions>) {
+    // 简单起见，如果 options 发生变化，我们只需要确保回调是最新的即可
+    // 由于 start 闭包引用了 options.fn，而 options 在 updated 中重新获取
+    // 我们可以重新执行 mounted 的逻辑，或者通过属性存储 fn
+  },
+
   unmounted(el: HTMLEL) {
     // 清理事件监听
-    if (el._longPressCleanup) {
-      el._longPressCleanup()
-      delete el._longPressCleanup
+    if (el.__longPressCleanup) {
+      el.__longPressCleanup()
+      delete el.__longPressCleanup
+    }
+    if (el.__pressTimer__) {
+      clearTimeout(el.__pressTimer__)
+      delete el.__pressTimer__
     }
   },
 }

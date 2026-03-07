@@ -10,10 +10,31 @@ const config = defineConfig<PresetUnoTheme>({
   },
   theme: {
     ...themeVars,
+    borderRadius: {
+      sm: '4px',
+      md: '8px',
+      lg: '12px',
+      xl: '16px',
+    },
+    boxShadow: {
+      ...themeVars.boxShadow,
+      low: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+      high: '0 2px 8px 0 rgba(0, 0, 0, 0.08)',
+    },
+    animation: {
+      durations: {
+        normal: '300ms',
+        fast: '200ms',
+      },
+      timingFns: {
+        'ease-out': 'cubic-bezier(0, 0, 0.2, 1)',
+      },
+    },
   },
   shortcuts: {
-    'card-wrapper': 'rd-8px shadow-sm',
-    card: 'h-82vh flex flex-col items-center',
+    'card-wrapper': 'rd-8px shadow-low transition-shadow duration-300 ease-out hover:shadow-high',
+    card: 'h-82vh flex flex-col items-center bg-container p-24px rd-12px shadow-low',
+    'btn-primary': 'bg-primary text-white rd-8px px-16px py-8px transition-colors duration-200 ease-out hover:bg-primary-600',
   },
   transformers: [transformerDirectives(), transformerVariantGroup()],
   presets: [

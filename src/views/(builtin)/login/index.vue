@@ -30,27 +30,27 @@ function handleSwitchToLogin() {
 </script>
 
 <template>
-  <div class="relative flex min-h-screen items-center justify-center bg-slate-50 px-4 dark:bg-slate-900">
-    <NCard class="w-full max-w-md shadow-xl rounded-2xl" :bordered="false" size="large">
-      <div class="mb-8 flex flex-col items-center gap-2">
-        <div class="rounded-full bg-indigo-50 p-3 dark:bg-indigo-900/20">
-          <SvgIcon icon="ph:feather-duotone" class="text-4xl text-indigo-600" />
+  <div class="relative flex min-h-screen items-center justify-center bg-layout px-16px">
+    <NCard class="w-full max-w-400px shadow-high rd-xl" :bordered="false" size="large">
+      <div class="mb-32px flex flex-col items-center gap-12px">
+        <div class="rd-full bg-primary/10 p-12px dark:bg-primary/20">
+          <SvgIcon icon="ph:feather-duotone" class="text-40px text-primary" />
         </div>
-        <h2 class="text-2xl font-bold text-slate-800 dark:text-white">
+        <h2 class="text-24px font-bold text-base-text">
           {{ loginMode === 'register' ? '创建账号' : '欢迎回来' }}
         </h2>
-        <p class="text-sm text-slate-500">
+        <p class="text-14px text-slate-500">
           {{ loginMode === 'register' ? '填写以下信息完成注册' : '请输入您的账号和密码登录' }}
         </p>
       </div>
 
       <div class="w-full">
-        <Transition name="fade-slide" mode="out-in">
+        <Transition name="fade-slide" mode="out-in" appear>
           <div v-if="loginMode === 'pwd'" key="pwd">
             <PwdLogin @login-success="handleLoginSuccess" />
-            <div class="mt-6 flex items-center justify-center gap-2 text-sm">
+            <div class="mt-24px flex items-center justify-center gap-8px text-14px">
               <span class="text-slate-500">还没有账号？</span>
-              <NButton text type="primary" @click="switchMode('register')"> 立即注册 </NButton>
+              <NButton text type="primary" class="font-medium" @click="switchMode('register')"> 立即注册 </NButton>
             </div>
           </div>
 
@@ -61,23 +61,23 @@ function handleSwitchToLogin() {
       </div>
     </NCard>
 
-    <div class="absolute bottom-6 text-center text-xs text-slate-400">FocusLog &copy; {{ new Date().getFullYear() }}</div>
+    <div class="absolute bottom-24px text-center text-12px text-slate-400">Fresh & Elegant &copy; {{ new Date().getFullYear() }}</div>
   </div>
 </template>
 
 <style scoped>
 .fade-slide-enter-active,
 .fade-slide-leave-active {
-  transition: all 0.3s ease;
+  transition: all 300ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .fade-slide-enter-from {
   opacity: 0;
-  transform: translateX(10px);
+  transform: translateX(20px);
 }
 
 .fade-slide-leave-to {
   opacity: 0;
-  transform: translateX(-10px);
+  transform: translateX(-20px);
 }
 </style>

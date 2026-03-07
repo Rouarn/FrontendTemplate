@@ -342,9 +342,17 @@ function cleanup(element: HTMLElement, state: ScrollState) {
   element.classList.remove('v-scroll-hidden')
 }
 
-const scroll: Directive<HTMLElement, ScrollOptions | undefined> = {
-  mounted(el: HTMLElement, binding: DirectiveBinding<ScrollOptions | undefined>) {
-    const options = binding.value || {}
+// 规范化配置选项
+function normalizeOptions(value: ScrollOptions | ((data: ScrollData) => void) | undefined): ScrollOptions {
+  if (typeof value === 'function') {
+    return { onScroll: value }
+  }
+  return value || {}
+}
+
+const scroll: Directive<HTMLElement, ScrollOptions | ((data: ScrollData) => void) | undefined> = {
+  mounted(el: HTMLElement, binding: DirectiveBinding<ScrollOptions | ((data: ScrollData) => void) | undefined>) {
+    const options = normalizeOptions(binding.value)
 
     // 创建滚动状态
     const state: ScrollState = {
@@ -376,8 +384,9 @@ const scroll: Directive<HTMLElement, ScrollOptions | undefined> = {
     }
 
     // 存储事件处理器以便清理
-    ;(el as HTMLElement & { __scrollHandler?: () => void; __wheelHandler?: (event: WheelEvent) => void }).__scrollHandler = scrollHandler
-    ;(el as HTMLElement & { __scrollHandler?: () => void; __wheelHandler?: (event: WheelEvent) => void }).__wheelHandler = wheelHandler
+    const elWithHandlers = el as HTMLElement & { __scrollHandler?: () => void; __wheelHandler?: (event: WheelEvent) => void }
+    elWithHandlers.__scrollHandler = scrollHandler
+    elWithHandlers.__wheelHandler = wheelHandler
 
     // 启动自动滚动
     if (options.autoScroll) {
@@ -385,12 +394,20 @@ const scroll: Directive<HTMLElement, ScrollOptions | undefined> = {
     }
   },
 
-  updated(el: HTMLElement, binding: DirectiveBinding<ScrollOptions | undefined>) {
-    const options = binding.value || {}
-    const elementWithState = el as HTMLElement & { __scrollState?: ScrollState }
+  updated(el: HTMLElement, binding: DirectiveBinding<ScrollOptions | ((data: ScrollData) => void) | undefined>) {
+    const options = normalizeOptions(binding.value)
+    const elementWithState = el as HTMLElement & { __scrollState?: ScrollState; __scrollHandler?: () => void }
     const state = elementWithState.__scrollState
 
     if (!state) return
+
+    // 更新滚动事件处理器（如果 options 发生了变化，尤其是回调函数）
+    if (elementWithState.__scrollHandler) {
+      el.removeEventListener('scroll', elementWithState.__scrollHandler)
+    }
+    const newScrollHandler = () => handleScroll(el, options, state)
+    el.addEventListener('scroll', newScrollHandler, { passive: true })
+    elementWithState.__scrollHandler = newScrollHandler
 
     // 更新自动滚动
     if (options.autoScroll) {

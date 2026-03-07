@@ -16,21 +16,24 @@ interface AnimateOptions {
 // 动画数据
 interface AnimateData {
   observer?: IntersectionObserver
-  isAnimated?: boolean
+  animation?: Animation
   originalTransform?: string
   originalTransition?: string
 }
 
 // 预定义动画
 const animations = {
+  // 淡入
   fadeIn: {
     keyframes: [{ opacity: 0 }, { opacity: 1 }],
-    options: { duration: 500, fill: 'forwards' },
+    options: { duration: 2000, fill: 'forwards' },
   },
+  // 淡出
   fadeOut: {
     keyframes: [{ opacity: 1 }, { opacity: 0 }],
     options: { duration: 500, fill: 'forwards' },
   },
+  // 从左侧滑入
   slideInLeft: {
     keyframes: [
       { transform: 'translateX(-100%)', opacity: 0 },
@@ -38,6 +41,7 @@ const animations = {
     ],
     options: { duration: 600, fill: 'forwards' },
   },
+  // 从右侧滑入
   slideInRight: {
     keyframes: [
       { transform: 'translateX(100%)', opacity: 0 },
@@ -45,6 +49,7 @@ const animations = {
     ],
     options: { duration: 600, fill: 'forwards' },
   },
+  // 从上方滑入
   slideInUp: {
     keyframes: [
       { transform: 'translateY(100%)', opacity: 0 },
@@ -52,6 +57,7 @@ const animations = {
     ],
     options: { duration: 600, fill: 'forwards' },
   },
+  // 从下方滑入
   slideInDown: {
     keyframes: [
       { transform: 'translateY(-100%)', opacity: 0 },
@@ -59,6 +65,7 @@ const animations = {
     ],
     options: { duration: 600, fill: 'forwards' },
   },
+  // 放大进入
   zoomIn: {
     keyframes: [
       { transform: 'scale(0)', opacity: 0 },
@@ -66,6 +73,7 @@ const animations = {
     ],
     options: { duration: 500, fill: 'forwards' },
   },
+  // 缩小退出
   zoomOut: {
     keyframes: [
       { transform: 'scale(1)', opacity: 1 },
@@ -73,6 +81,7 @@ const animations = {
     ],
     options: { duration: 500, fill: 'forwards' },
   },
+  // 弹跳
   bounce: {
     keyframes: [
       { transform: 'translateY(0)' },
@@ -83,6 +92,7 @@ const animations = {
     ],
     options: { duration: 1000, fill: 'forwards' },
   },
+  // 摇晃
   shake: {
     keyframes: [
       { transform: 'translateX(0)' },
@@ -94,16 +104,40 @@ const animations = {
     ],
     options: { duration: 500, fill: 'forwards' },
   },
+  // 摇摆
+  swing: {
+    keyframes: [
+      { transform: 'rotate3d(0, 0, 1, 0deg)' },
+      { transform: 'rotate3d(0, 0, 1, 15deg)' },
+      { transform: 'rotate3d(0, 0, 1, -10deg)' },
+      { transform: 'rotate3d(0, 0, 1, 5deg)' },
+      { transform: 'rotate3d(0, 0, 1, -5deg)' },
+      { transform: 'rotate3d(0, 0, 1, 0deg)' },
+    ],
+    options: { duration: 1000, fill: 'forwards' },
+  },
+  // 脉冲
   pulse: {
-    keyframes: [{ transform: 'scale(1)' }, { transform: 'scale(1.1)' }, { transform: 'scale(1)' }],
-    options: { duration: 800, fill: 'forwards' },
+    keyframes: [{ transform: 'scale3d(1, 1, 1)' }, { transform: 'scale3d(1.05, 1.05, 1.05)' }, { transform: 'scale3d(1, 1, 1)' }],
+    options: { duration: 1000, fill: 'forwards' },
   },
-  flip: {
-    keyframes: [{ transform: 'rotateY(0)' }, { transform: 'rotateY(180deg)' }],
-    options: { duration: 600, fill: 'forwards' },
+  // X轴翻转
+  flipInX: {
+    keyframes: [
+      { transform: 'perspective(400px) rotate3d(1, 0, 0, 90deg)', opacity: 0 },
+      { transform: 'perspective(400px) rotate3d(1, 0, 0, -20deg)', opacity: 1 },
+      { transform: 'perspective(400px) rotate3d(1, 0, 0, 10deg)' },
+      { transform: 'perspective(400px) rotate3d(1, 0, 0, -5deg)' },
+      { transform: 'perspective(400px)' },
+    ],
+    options: { duration: 1000, fill: 'forwards' },
   },
-  rotate: {
-    keyframes: [{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }],
+  // 旋转进入
+  rotateIn: {
+    keyframes: [
+      { transform: 'rotate3d(0, 0, 1, -200deg)', opacity: 0 },
+      { transform: 'rotate3d(0, 0, 1, 0)', opacity: 1 },
+    ],
     options: { duration: 1000, fill: 'forwards' },
   },
 }
@@ -111,7 +145,12 @@ const animations = {
 // 执行动画
 function playAnimation(el: HTMLElement, binding: DirectiveBinding<AnimateOptions | string>) {
   const animateData = (el as HTMLElement & { __animateData?: AnimateData }).__animateData
-  if (!animateData || animateData.isAnimated) return
+  if (!animateData) return
+
+  // 如果有正在播放的动画，先取消
+  if (animateData.animation) {
+    animateData.animation.cancel()
+  }
 
   const options = typeof binding.value === 'string' ? { name: binding.value } : binding.value || {}
 
@@ -145,14 +184,16 @@ function playAnimation(el: HTMLElement, binding: DirectiveBinding<AnimateOptions
   }
 
   // 执行动画
-  const webAnimation = el.animate(animation.keyframes, animationOptions)
-  animateData.isAnimated = true
+  animateData.animation = el.animate(animation.keyframes, animationOptions)
+
+  // 分发动画开始事件
+  el.dispatchEvent(new CustomEvent('animationstart', { detail: { name, options }, bubbles: true, composed: true }))
 
   // 动画完成后重置状态
-  webAnimation.addEventListener('finish', () => {
-    if (iteration !== 'infinite') {
-      animateData.isAnimated = false
-    }
+  animateData.animation.addEventListener('finish', () => {
+    animateData.animation = undefined
+    // 分发动画结束事件
+    el.dispatchEvent(new CustomEvent('animationend', { detail: { name, options }, bubbles: true, composed: true }))
   })
 }
 
@@ -165,7 +206,7 @@ function handleVisibilityTrigger(el: HTMLElement, binding: DirectiveBinding<Anim
   animateData.observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && !animateData.isAnimated) {
+        if (entry.isIntersecting) {
           playAnimation(el, binding)
           // 一次性动画，观察完成后断开连接
           if (animateData.observer) {
@@ -259,14 +300,6 @@ function unbindAnimate(el: HTMLElement) {
 }
 
 // 更新动画
-function updateAnimate(el: HTMLElement, binding: DirectiveBinding<AnimateOptions | string>) {
-  // 如果配置发生变化，重新绑定
-  const oldBinding = (el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string> }).__animateBinding
-  if (JSON.stringify(oldBinding?.value) !== JSON.stringify(binding.value)) {
-    unbindAnimate(el)
-    bindAnimate(el, binding)
-  }
-}
 
 // 动画指令
 const animate: Directive<HTMLElement, AnimateOptions | string> = {
@@ -275,7 +308,15 @@ const animate: Directive<HTMLElement, AnimateOptions | string> = {
   },
 
   updated(el, binding) {
-    updateAnimate(el, binding)
+    // 如果配置发生变化，重新绑定
+    const oldBinding = (el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string> }).__animateBinding
+    if (JSON.stringify(oldBinding?.value) !== JSON.stringify(binding.value)) {
+      unbindAnimate(el)
+      bindAnimate(el, binding)
+    } else {
+      // 即使配置没有变化，也要更新 binding，以便 oldBinding 在下一次更新时是正确的
+      ;(el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string> }).__animateBinding = binding
+    }
   },
 
   beforeUnmount(el) {
