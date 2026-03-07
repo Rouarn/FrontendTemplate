@@ -59,15 +59,12 @@ const latestBuildTime = BUILD_TIME
 
     <!-- Project Info -->
     <NCard :title="$t('page.about.projectInfo.title')" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <template #header-extra>
-        <NTag type="primary" round size="small" class="font-bold">{{ pkgJson.version }}</NTag>
-      </template>
       <NDescriptions label-placement="left" :column="column" class="mt-8px">
         <NDescriptionsItem :label="$t('page.about.projectInfo.version')">
-          <span class="font-medium text-slate-700 dark:text-slate-300">{{ pkgJson.version }}</span>
+          <NTag type="primary" round size="small" class="font-bold">{{ pkgJson.version }}</NTag>
         </NDescriptionsItem>
         <NDescriptionsItem :label="$t('page.about.projectInfo.latestBuildTime')">
-          <span class="font-medium text-slate-700 dark:text-slate-300">{{ latestBuildTime }}</span>
+          <NTag type="primary" round size="small" class="font-bold">{{ latestBuildTime }}</NTag>
         </NDescriptionsItem>
         <NDescriptionsItem :label="$t('page.about.projectInfo.githubLink')">
           <a class="text-primary hover:underline flex items-center gap-4px" :href="pkg.homepage" target="_blank" rel="noopener noreferrer">

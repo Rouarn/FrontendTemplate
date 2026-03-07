@@ -234,17 +234,17 @@ function formatDate(dateStr?: string | Date) {
           <div class="relative pt-24px pb-32px">
             <div class="absolute top-0 left-0 w-full h-80px bg-primary/10" />
             <div class="relative flex-center flex-col gap-16px z-10">
-              <div class="relative group">
+              <div class="relative group size-100px">
                 <NAvatar
                   :size="100"
                   round
                   :src="userForm.avatar || ''"
-                  fallback-src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+                  fallback-src=""
                   class="shadow-high ring-4 ring-white dark:ring-slate-800 transition-transform duration-500 group-hover:scale-105"
                 />
                 <div
                   v-if="isEditing"
-                  class="absolute inset-0 flex-center bg-black/40 rd-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                  class="absolute inset-0 flex-center bg-black/40 rd-full opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105 cursor-pointer"
                   @click="handleAvatarClick"
                 >
                   <SvgIcon icon="ph:camera-duotone" class="text-24px text-white" />
