@@ -19,6 +19,7 @@ coverage
 
 # 编辑器目录与文件
 .idea
+.trae
 *.suo
 *.ntvs*
 *.njsproj
