@@ -32,7 +32,6 @@ interface AuthStoreActions {
   setTokenType(value: string): void
   setRefreshToken(value: string): void
   setUserInfo(value?: Api.Auth.UserInfo): void
-  resetAuthStore(): void
   resetStore(): Promise<void>
   login(username: string, password: string, redirect?: boolean): Promise<void>
   getUserInfo(): Promise<boolean>
@@ -192,6 +191,5 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, (): AuthStore => {
     getUserInfo,
     setUserInfo,
     resetStore,
-    resetAuthStore,
   }
 })

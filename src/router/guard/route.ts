@@ -35,19 +35,9 @@ export function createRouteGuard(router: Router) {
 
     if (to.path.toLocaleLowerCase() !== `/${RouteNameEnum.LOGIN}` && authStore.isLogin && !authStore.isUserInfoFetched) {
       // 获取用户信息
-      let success = false
-      try {
-        success = await authStore.getUserInfo()
-      } catch (error) {
-        console.error('[router.guard.route] 获取用户信息失败:', error)
-      }
-
+      const success = await authStore.getUserInfo()
       if (!success) {
-        // 显式清除 Token，防止 resetAuthStore 异常导致状态未清除
-        authStore.setToken('')
-        authStore.resetAuthStore()
-
-        return next({ path: `/${RouteNameEnum.LOGIN}`, replace: true, query: { redirect: to.fullPath } })
+        return next({ path: `/${RouteNameEnum.LOGIN}`, replace: false, query: { redirect: to.fullPath } })
       }
     }
 
