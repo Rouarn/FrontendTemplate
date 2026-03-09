@@ -96,21 +96,26 @@ service.instance.interceptors.response.use(
       return Promise.reject(error)
     }
 
-    // 只有 401 且开启了 Token 刷新时才尝试刷新
-    if (ENABLE_TOKEN_REFRESH && error.response?.status === HttpStatusCode.Unauthorized) {
-      const success = await refreshTokenOnce(service.instance)
-      if (success) {
-        config.__retriedAfterRefresh = true
-        // 更新 Token 到配置中
-        const authStore = useAuthStore()
-        if (!config.headers) config.headers = new AxiosHeaders()
-        config.headers[AUTHORIZATION_HEADER] = `${authStore.tokenType} ${authStore.token}`
-        // 返回重试请求的 Promise，这样上层 service.request 就能拿到重试后的结果
-        return service.instance.request(config)
+    // 处理 401 错误
+    if (error.response?.status === HttpStatusCode.Unauthorized) {
+      // 开启了 Token 刷新则尝试刷新
+      if (ENABLE_TOKEN_REFRESH) {
+        const success = await refreshTokenOnce(service.instance)
+        if (success) {
+          config.__retriedAfterRefresh = true
+          // 更新 Token 到配置中
+          const authStore = useAuthStore()
+          if (!config.headers) config.headers = new AxiosHeaders()
+          config.headers[AUTHORIZATION_HEADER] = `${authStore.tokenType} ${authStore.token}`
+          // 返回重试请求的 Promise，这样上层 service.request 就能拿到重试后的结果
+          return service.instance.request(config)
+        }
       }
 
-      // 刷新失败，清理 Token 并跳转登录
-      useAuthStore().setToken('')
+      // 刷新失败或未开启刷新，清理 Token 并跳转登录
+      const authStore = useAuthStore()
+      authStore.setToken('')
+      authStore.setRefreshToken('')
       await router.replace(`/${RouteNameEnum.LOGIN}`)
     }
 
