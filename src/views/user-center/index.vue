@@ -238,7 +238,8 @@ function formatDate(dateStr?: string | Date) {
                 <NAvatar
                   :size="100"
                   round
-                  :src="userForm.avatar || ''"
+                  object-fit="cover"
+                  :src="userForm.avatar || 'http://static.shixian.xyz/photo'"
                   fallback-src=""
                   class="shadow-high ring-4 ring-white dark:ring-slate-800 transition-transform duration-500 group-hover:scale-105"
                 />

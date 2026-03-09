@@ -174,7 +174,7 @@ const handleViewDocs = () => {
           <div class="mt-8px text-16px font-medium text-slate-500">核心依赖</div>
         </div>
         <div class="text-center p-32px rd-24px bg-amber-500/5 border border-amber-500/10 transition-all duration-300 hover:bg-amber-500/10">
-          <div class="text-48px font-bold text-amber-500 tabular-nums">{{ pkg.license }}</div>
+          <div class="text-40px font-bold text-amber-500 tabular-nums">{{ pkg.license }}</div>
           <div class="mt-8px text-16px font-medium text-slate-500">开源协议</div>
         </div>
       </div>
