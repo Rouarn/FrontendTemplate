@@ -1,5 +1,9 @@
 # 🌿 Fresh & Elegant Frontend Template
 
+<p align="center">
+  <img src="./src/assets/images/intro-image.svg" width="300" height="155" alt="Frontend Template Intro">
+</p>
+
 基于 **Vue 3 + Vite 7 + TypeScript** 构建的极简、清新且优雅的前端开发模板。追求极致的视觉体验与开发效率，内置完善的设计体系与工程化实践。
 
 ## 🎨 视觉规范 (Design System)

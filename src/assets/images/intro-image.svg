@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="155" viewBox="0 0 300 155">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#CED815;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#AFCD0F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8FC108;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="300" height="155" fill="url(#grad)" rx="12" ry="12"/>
+  
+  <!-- Content Container (Glassmorphism effect) -->
+  <rect x="15" y="15" width="270" height="125" fill="white" fill-opacity="0.1" rx="8" ry="8"/>
+  
+  <!-- Logo (Simplified and scaled) -->
+  <g transform="translate(30, 45) scale(0.0065)">
+    <path fill="white" d="M5178.4 2070.95c462.18,-105.31 407.18,59 407.18,-238.37 -53.4,-26.57 -354.8,9.4 -449.06,9.4l-2282.67 0c-182,0 -288.58,-18.72 -467.76,-18.72l0 187.11c75.56,17.6 74.35,14.42 168.27,18.84 480.81,22.64 467.89,397.55 467.89,823.13l0 4359.54c0,568.74 -41.1,785.84 -636.16,785.84l0 187.1c1048.89,0 2038.02,-18.71 3087.22,-18.71l2133 18.71c-57.8,-694.49 -74.85,-1114.48 -74.85,-1814.91 0,-694.78 156.21,-617.45 -187.1,-617.45l-49.01 194.23c-80.71,359.73 -238.7,715.57 -433.42,1026.01 -160.82,256.39 -180.35,242.39 -314.23,415.47 -176.26,227.9 -574.48,572.13 -887.29,572.13 -418.03,0 -730.47,66.01 -783.05,-246.02 -48.2,-286 -21.49,-4248.03 -21.49,-4861.94 0,-263.78 -10.51,-388.85 80.29,-593.28l88.6 -117.23c43.07,-35.21 95.58,-57.64 153.64,-70.88z"/>
+  </g>
+
+  <!-- Project Name -->
+  <text x="100" y="65" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white">Frontend Template</text>
+  
+  <!-- Description/Tech Stack -->
+  <text x="100" y="90" font-family="Arial, sans-serif" font-size="9" fill="white" opacity="0.9">Vue3 + Vite + TypeScript</text>
+  <text x="100" y="105" font-family="Arial, sans-serif" font-size="9" fill="white" opacity="0.9">NaiveUI + UnoCSS</text>
+  
+  <!-- Author or Brand -->
+  <text x="230" y="130" font-family="Arial, sans-serif" font-size="8" font-style="italic" fill="white" opacity="0.7">by Rouarn</text>
+</svg>
