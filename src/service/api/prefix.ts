@@ -11,7 +11,7 @@ const apiPrefixConfig = {
   // 路由/菜单模块
   route: '/api/route',
   // 文件上传/下载模块
-  files: '/api/files',
+  files: '/api/upload',
 } as const
 
 export type ApiPrefixKey = keyof typeof apiPrefixConfig

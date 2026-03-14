@@ -152,7 +152,7 @@ src/
 
 ### 📦 路由数据
 
-- 路由由后端（此处为本地 JSON 模拟）提供：`src/assets/json/authMenuList.json`
+- 路由由后端（此处为本地 JSON 模拟）提供：`src/assets/json/auth-menu-list.json`
 - 支持分组目录：`demos` 与 `directives`，其余为单层路由
 - 国际化键采用层级+连字符格式：
 

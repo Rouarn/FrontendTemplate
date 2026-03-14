@@ -99,15 +99,9 @@ export function uploadAvatar(file: File) {
   formData.append('description', '用户头像')
   formData.append('isPublic', '1')
   return http.upload<{
-    fileId: string
-    filename: string
-    originalName: string
-    size: number
-    mimeType: string
-    path: string
-    hash: string
-    downloadUrl: string
-  }>(`${apiPrefix.files}/upload`, formData)
+    url: string
+    completeUrl: string
+  }>(`${apiPrefix.files}`, formData)
 }
 
 // ==================== 认证相关 ====================
