@@ -1,5 +1,9 @@
-<script setup lang="ts" name="debounceDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'debounceDirect',
+})
 
 const clickCount = ref(0)
 const executeCount = ref(0)

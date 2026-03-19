@@ -1,5 +1,9 @@
-<script setup lang="ts" name="highlightDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'highlightDirect',
+})
 
 const searchText = ref('Vue')
 const highlightColor = ref('#059669')
@@ -60,7 +64,7 @@ const presetColors = [
 
           <div class="p-16px rd-16px bg-primary/5 border border-primary/10">
             <h4 class="text-14px font-bold text-primary mb-8px flex items-center gap-6px">
-              <SvgIcon icon="ph:info-duotone" />
+              <SvgIcon icon="ph:lightbulb-duotone" />
               使用提示
             </h4>
             <p class="text-12px text-slate-500 leading-relaxed">

@@ -1,5 +1,9 @@
-<script setup lang="ts" name="rippleDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'rippleDirect',
+})
 
 const rippleDisabled = ref(false)
 const rippleCount = ref(0)

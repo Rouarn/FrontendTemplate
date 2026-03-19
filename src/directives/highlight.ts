@@ -101,9 +101,10 @@ function highlightText(html: string, options: HighlightOptions): string {
     const regex = new RegExp(pattern, flags)
 
     // 执行替换，避免替换已经高亮的内容
-    result = result.replace(regex, (match) => {
+    result = result.replace(regex, (match, ...args) => {
+      const offset = args[args.length - 2] as number
       // 检查是否已经在标签内
-      const beforeMatch = result.substring(0, result.indexOf(match))
+      const beforeMatch = result.substring(0, offset)
       const openTags = (beforeMatch.match(/<[^>]*>/g) || []).length
       const closeTags = (beforeMatch.match(/<\/[^>]*>/g) || []).length
 

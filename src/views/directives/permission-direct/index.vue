@@ -1,10 +1,17 @@
-<script setup lang="ts" name="permissionDirect">
+<script setup lang="ts">
 import { computed } from 'vue'
+
+defineOptions({
+  name: 'permissionDirect',
+  inheritAttrs: false,
+})
 import { useAuthStore } from '@/stores/modules/auth'
+import { usePermission } from '@/hooks/auth/use-permission'
 import { useRole } from '@/hooks/auth/use-role'
 
 const authStore = useAuthStore()
 const { roleNames } = useRole()
+const { permissions: currentPermissions } = usePermission()
 
 const userRole = computed(() => {
   const list = roleNames.value
@@ -12,24 +19,6 @@ const userRole = computed(() => {
   if (list.includes('R_EDITOR')) return 'editor'
   if (list.includes('R_USER')) return 'user'
   return 'guest'
-})
-
-const currentPermissions = computed(() => {
-  const names = roleNames.value
-  const permissions = new Set<string>()
-  if (names.includes('R_SUPER_ADMIN')) {
-    permissions.add('admin')
-    permissions.add('editor')
-    permissions.add('user')
-  }
-  if (names.includes('R_EDITOR')) {
-    permissions.add('editor')
-    permissions.add('user')
-  }
-  if (names.includes('R_USER')) {
-    permissions.add('user')
-  }
-  return Array.from(permissions)
 })
 
 const switchRole = (role: string) => {
@@ -46,7 +35,7 @@ const switchRole = (role: string) => {
 </script>
 
 <template>
-  <div class="flex-col gap-16px">
+  <div v-bind="$attrs" class="flex-col gap-16px">
     <!-- Header Card -->
     <NCard :bordered="false" class="card-wrapper overflow-hidden">
       <div class="flex items-center gap-24px">

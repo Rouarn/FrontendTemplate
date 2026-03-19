@@ -1,5 +1,9 @@
-<script setup lang="ts" name="watermarkDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'watermarkDirect',
+})
 
 const watermarkText = ref('Fresh & Elegant')
 const watermarkOpacity = ref(0.1)

@@ -1,5 +1,9 @@
-<script setup lang="ts" name="clickoutsideDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'clickoutsideDirect',
+})
 
 const isDropdownOpen = ref(false)
 const clickCount = ref(0)

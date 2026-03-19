@@ -1,12 +1,17 @@
-<script setup lang="ts" name="focusDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'focusDirect',
+  inheritAttrs: false,
+})
 
 const focusEnabled = ref(true)
 const inputValue = ref('')
 </script>
 
 <template>
-  <div class="flex-col gap-16px">
+  <div v-bind="$attrs" class="flex-col gap-16px">
     <!-- Header Card -->
     <NCard :bordered="false" class="card-wrapper overflow-hidden">
       <div class="flex items-center gap-24px">

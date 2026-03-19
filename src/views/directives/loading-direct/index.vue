@@ -1,5 +1,9 @@
-<script setup lang="ts" name="loadingDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'loadingDirect',
+})
 
 const isLoading = ref(false)
 const isTableLoading = ref(false)

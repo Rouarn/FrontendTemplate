@@ -1,5 +1,9 @@
-<script setup lang="ts" name="longpressDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'longpressDirect',
+})
 
 const longpressCount = ref(0)
 const isPressing = ref(false)

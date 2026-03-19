@@ -5,7 +5,7 @@ import type { RouteLocationRaw, Router } from 'vue-router'
 
 /** 创建路由守卫（鉴权、菜单初始化、登录页拦截） */
 export function createRouteGuard(router: Router) {
-  router.beforeEach(async (to, from, next) => {
+  router.beforeEach(async (to, from) => {
     const authStore = useAuthStore()
     const routeStore = useRouteStore()
 
@@ -29,7 +29,7 @@ export function createRouteGuard(router: Router) {
           hash: to.hash,
         }
 
-        return next(location)
+        return location
       }
     }
 
@@ -37,7 +37,7 @@ export function createRouteGuard(router: Router) {
       // 获取用户信息
       const success = await authStore.getUserInfo()
       if (!success) {
-        return next({ path: `/${RouteNameEnum.LOGIN}`, replace: false, query: { redirect: to.fullPath } })
+        return { path: `/${RouteNameEnum.LOGIN}`, replace: false, query: { redirect: to.fullPath } }
       }
     }
 
@@ -45,18 +45,18 @@ export function createRouteGuard(router: Router) {
     if (to.meta.isAuth) {
       // 未登录则跳转登录
       if (!authStore.isLogin) {
-        return next({ path: RouteNameEnum.LOGIN, replace: false, query: { redirect: to.fullPath } })
+        return { path: RouteNameEnum.LOGIN, replace: false, query: { redirect: to.fullPath } }
       }
     }
 
     // 访问登录页：已登录则留在原页，未登录允许访问
     if (to.path.toLocaleLowerCase() === `/${RouteNameEnum.LOGIN}`) {
-      if (authStore.isLogin) return next(from.fullPath)
-      return next()
+      if (authStore.isLogin) return from.fullPath
+      return true
     }
 
     // 正常访问页面
-    next()
+    return true
   })
 
   router.afterEach((to) => {

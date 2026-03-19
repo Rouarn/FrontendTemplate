@@ -1,5 +1,10 @@
-<script setup lang="ts" name="animateDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'animateDirect',
+  inheritAttrs: false,
+})
 
 const animations = [
   { label: '淡入', value: 'fadeIn', icon: 'ph:eye-duotone' },
@@ -38,7 +43,7 @@ const triggerAnimation = (animation: string) => {
 </script>
 
 <template>
-  <div class="flex-col gap-16px">
+  <div v-bind="$attrs" class="flex-col gap-16px">
     <!-- Header Card -->
     <NCard :bordered="false" class="card-wrapper overflow-hidden">
       <div class="flex items-center gap-24px">

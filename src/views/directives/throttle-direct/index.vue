@@ -1,5 +1,9 @@
-<script setup lang="ts" name="throttleDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'throttleDirect',
+})
 
 const clickCount = ref(0)
 const executeCount = ref(0)

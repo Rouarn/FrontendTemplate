@@ -1,5 +1,9 @@
-<script setup lang="ts" name="lazyDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'lazyDirect',
+})
 
 const imageList = ref([
   { id: 1, src: 'https://picsum.photos/400/300?random=1', alt: '自然风光 1' },

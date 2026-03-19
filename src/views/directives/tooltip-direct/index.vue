@@ -1,5 +1,10 @@
-<script setup lang="ts" name="tooltipDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'tooltipDirect',
+  inheritAttrs: false,
+})
 
 const tooltipCount = ref(0)
 const tooltipPosition = ref<'top' | 'bottom' | 'left' | 'right'>('top')
@@ -17,7 +22,7 @@ const positions = [
 </script>
 
 <template>
-  <div class="flex-col gap-16px">
+  <div v-bind="$attrs" class="flex-col gap-16px">
     <!-- Header Card -->
     <NCard :bordered="false" class="card-wrapper overflow-hidden">
       <div class="flex items-center gap-24px">

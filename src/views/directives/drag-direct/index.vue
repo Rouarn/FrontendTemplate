@@ -1,5 +1,9 @@
-<script setup lang="ts" name="dragDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'dragDirect',
+})
 
 const dragCount = ref(0)
 const isDragging = ref(false)

@@ -1,5 +1,9 @@
-<script setup lang="ts" name="scrollDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'scrollDirect',
+})
 
 const scrollStats = ref({
   position: 0,

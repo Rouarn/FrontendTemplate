@@ -1,5 +1,9 @@
-<script setup lang="ts" name="copyDirect">
+<script setup lang="ts">
 import { ref } from 'vue'
+
+defineOptions({
+  name: 'copyDirect',
+})
 
 const data = ref<string>('我是被复制的内容 🍒 🍉 🍊')
 const copySuccess = ref(false)

@@ -1,5 +1,9 @@
-<script setup lang="ts" name="maskDirect">
+<script setup lang="ts">
 import { reactive, ref } from 'vue'
+
+defineOptions({
+  name: 'maskDirect',
+})
 
 const showBasicMask = ref(false)
 

@@ -41,10 +41,6 @@ export default defineConfig((configEnv) => {
     preview: {
       port: 9725,
     },
-    esbuild: {
-      // 开发环境下保持简单配置，主要的调试代码清理由 terser 在生产环境处理
-      drop: ['debugger'], // 开发环境只删除 debugger
-    },
     build: {
       outDir: 'dist',
       // 开发环境使用 esbuild（快速），生产环境使用 terser（更好的压缩）
@@ -94,15 +90,22 @@ export default defineConfig((configEnv) => {
           entryFileNames: 'assets/js/[name]-[hash].js',
           assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
           // 优化代码分割策略
-          manualChunks: {
-            // 将Vue相关库分离到单独的chunk
-            'vue-vendor': ['vue', 'vue-router', 'pinia'],
-            // 将UI库分离到单独的chunk
-            'ui-vendor': ['naive-ui'],
-            // 将工具库分离到单独的chunk
-            'utils-vendor': ['axios', 'dayjs', '@vueuse/core'],
-            // 将图标库分离到单独的chunk
-            'icons-vendor': ['@iconify/vue'],
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (['vue', 'vue-router', 'pinia'].some((pkg) => id.includes(pkg))) {
+                return 'vue-vendor'
+              }
+              if (id.includes('naive-ui')) {
+                return 'ui-vendor'
+              }
+              if (['axios', 'dayjs', '@vueuse/core'].some((pkg) => id.includes(pkg))) {
+                return 'utils-vendor'
+              }
+              if (id.includes('@iconify/vue')) {
+                return 'icons-vendor'
+              }
+              return 'vendor'
+            }
           },
         },
       },
