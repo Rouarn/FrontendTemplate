@@ -24,10 +24,10 @@ declare namespace Env {
     readonly VITE_HTTP_PROXY: CommonType.YesOrNo
     /** 是否启用代理日志 */
     readonly VITE_PROXY_LOG: CommonType.YesOrNo
-    /** 是否移除 console */
-    readonly VITE_DROP_CONSOLE: CommonType.YesOrNo
     /** 应用的路由模式 */
     readonly VITE_ROUTER_MODE: RouterHistoryMode
+    /** 是否开启 source map */
+    readonly VITE_SOURCE_MAP: CommonType.YesOrNo
     /** 存储键前缀 */
     readonly VITE_STORAGE_PREFIX: string
     /** Node 运行环境 */

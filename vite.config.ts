@@ -43,8 +43,6 @@ export default defineConfig((configEnv) => {
     },
     build: {
       outDir: 'dist',
-      // 开发环境使用 esbuild（快速），生产环境使用 terser（更好的压缩）
-      minify: configEnv.command === 'build' ? 'terser' : 'esbuild',
       // terser 配置：生产环境下更好的代码压缩和清理
       terserOptions: {
         compress: {
@@ -78,34 +76,46 @@ export default defineConfig((configEnv) => {
         },
       },
       // 是否生成源码视图
-      sourcemap: false,
+      sourcemap: viteEnv.VITE_SOURCE_MAP === 'Y',
       // 禁用 gzip 压缩大小报告，可略微减少打包时间
       reportCompressedSize: false,
       // 规定触发警告的 chunk 大小
       chunkSizeWarningLimit: 1000,
-      rollupOptions: {
+      rolldownOptions: {
         output: {
           // 静态资源分类与打包
           chunkFileNames: 'assets/js/[name]-[hash].js',
           entryFileNames: 'assets/js/[name]-[hash].js',
           assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
-          // 优化代码分割策略
-          manualChunks(id) {
-            if (id.includes('node_modules')) {
-              if (['vue', 'vue-router', 'pinia'].some((pkg) => id.includes(pkg))) {
-                return 'vue-vendor'
-              }
-              if (id.includes('naive-ui')) {
-                return 'ui-vendor'
-              }
-              if (['axios', 'dayjs', '@vueuse/core'].some((pkg) => id.includes(pkg))) {
-                return 'utils-vendor'
-              }
-              if (id.includes('@iconify/vue')) {
-                return 'icons-vendor'
-              }
-              return 'vendor'
-            }
+          // 使用 Rolldown 特有的代码分割配置
+          codeSplitting: {
+            groups: [
+              {
+                name: 'vue-vendor',
+                test: /[\\/]node_modules[\\/](vue|vue-router|pinia)[\\/]/,
+                priority: 40,
+              },
+              {
+                name: 'ui-vendor',
+                test: /[\\/]node_modules[\\/]naive-ui[\\/]/,
+                priority: 30,
+              },
+              {
+                name: 'utils-vendor',
+                test: /[\\/]node_modules[\\/](axios|dayjs|@vueuse[\\/]core)[\\/]/,
+                priority: 20,
+              },
+              {
+                name: 'icons-vendor',
+                test: /[\\/]node_modules[\\/]@iconify[\\/]vue[\\/]/,
+                priority: 15,
+              },
+              {
+                name: 'vendor',
+                test: /[\\/]node_modules[\\/]/,
+                priority: 10,
+              },
+            ],
           },
         },
       },
