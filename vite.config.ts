@@ -43,45 +43,23 @@ export default defineConfig((configEnv) => {
     },
     build: {
       outDir: 'dist',
-      // terser 配置：生产环境下更好的代码压缩和清理
-      terserOptions: {
-        compress: {
-          // 根据环境变量控制是否移除 console
-          drop_console: viteEnv.VITE_DROP_CONSOLE === 'Y',
-          drop_debugger: true,
-          // 移除未使用的代码
-          dead_code: true,
-          // 移除无用的条件判断
-          conditionals: true,
-          // 压缩布尔值
-          booleans: true,
-          // 优化 if-return 和 if-continue
-          if_return: true,
-          // 合并连续的 var 声明
-          join_vars: true,
-          // 移除无用的分号
-          sequences: true,
-        },
-        mangle: {
-          // 混淆变量名以减少文件大小
-          toplevel: true,
-          // 保留类名（可选，根据需要调整）
-          keep_classnames: false,
-          // 保留函数名（可选，根据需要调整）
-          keep_fnames: false,
-        },
-        format: {
-          // 移除注释
-          comments: false,
-        },
-      },
+      // Vite 8 使用 Rolldown 内置压缩，无需 terserOptions
       // 是否生成源码视图
       sourcemap: viteEnv.VITE_SOURCE_MAP === 'Y',
       // 禁用 gzip 压缩大小报告，可略微减少打包时间
       reportCompressedSize: false,
       // 规定触发警告的 chunk 大小
       chunkSizeWarningLimit: 1000,
+      // Vite 8 使用 Rolldown 的最佳实践配置
       rolldownOptions: {
+        // 目标环境：现代浏览器
+        target: 'es2022',
+        // 启用 Tree-shaking
+        treeShaking: true,
+        // 压缩配置
+        minify: true,
+        // 根据环境变量控制是否移除 console
+        dropConsole: viteEnv.VITE_DROP_CONSOLE === 'Y',
         output: {
           // 静态资源分类与打包
           chunkFileNames: 'assets/js/[name]-[hash].js',
@@ -119,6 +97,10 @@ export default defineConfig((configEnv) => {
           },
         },
       },
+      // CSS 代码分割
+      cssCodeSplit: true,
+      // 模块预加载
+      modulePreload: true,
     },
   }
 })
