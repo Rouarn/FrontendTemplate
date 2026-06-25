@@ -5,7 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 export function setupPWAPlugin(): PluginOption {
   return VitePWA({
     registerType: 'autoUpdate',
-    includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+    includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
     manifest: {
       name: pkg.name,
       short_name: pkg.name,

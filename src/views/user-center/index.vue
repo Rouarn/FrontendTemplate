@@ -4,6 +4,7 @@ import CroppingImage from '@/components/custom/cropping-image.vue'
 import chinaCitys from '@/assets/json/china-citys.json'
 import { changePassword, updateUserInfo, uploadAvatar } from '@/service/api'
 import { useAuthStore } from '@/stores/modules/auth'
+import { $t } from '@/locales'
 import type { FormInst, FormRules } from 'naive-ui'
 
 defineOptions({
@@ -48,9 +49,9 @@ const passwordForm = reactive({
 
 // 性别选项
 const genderOptions = [
-  { label: '男性', value: 0 },
-  { label: '女性', value: 1 },
-  { label: '保密', value: 2 },
+  { label: $t('userCenter.genderMale'), value: 0 },
+  { label: $t('userCenter.genderFemale'), value: 1 },
+  { label: $t('userCenter.genderUnknown'), value: 2 },
 ] as const
 
 // 城市选项
@@ -106,11 +107,11 @@ const userRoleName = computed(() => {
   if (Array.isArray(roles) && roles.length > 0) {
     return roles.map((r) => r.alias).join(' / ')
   }
-  return '普通用户'
+  return $t('userCenter.regularUser')
 })
 
 const statusText = computed(() => {
-  return authStore.userInfo.auth.status === 1 ? '正常' : '禁用'
+  return authStore.userInfo.auth.status === 1 ? $t('userCenter.normal') : $t('userCenter.disabled')
 })
 
 const statusType = computed(() => {
@@ -153,7 +154,7 @@ async function handleSave() {
     })
 
     isEditing.value = false
-    window.$message?.success('保存成功')
+    window.$message?.success($t('userCenter.saveSuccess'))
   } finally {
     saving.value = false
   }
@@ -175,11 +176,11 @@ async function handlePasswordChange() {
         newPassword: '',
         confirmPassword: '',
       })
-      window.$message?.success(result.data?.message || '密码修改成功')
+      window.$message?.success(result.data?.message || $t('userCenter.passwordChangeSuccess'))
       await authStore.resetStore()
     }
   } catch (_) {
-    window.$message?.error('密码修改失败，请检查当前密码是否正确')
+    window.$message?.error($t('userCenter.passwordChangeFailed'))
   } finally {
     changingPassword.value = false
   }
@@ -218,10 +219,10 @@ async function onCropDone(payload: { blob?: Blob; fileName?: string }) {
         ...authStore.userInfo,
         avatar: res.data.completeUrl,
       })
-      window.$message?.success('头像上传成功')
+      window.$message?.success($t('userCenter.avatarUploadSuccess'))
     }
   } catch (_) {
-    window.$message?.error('头像上传失败，请重试')
+    window.$message?.error($t('userCenter.avatarUploadFailed'))
   } finally {
     cutterRef.value?.closeCropper()
     cutterRef.value?.clearImage()
@@ -276,11 +277,11 @@ function formatDate(dateStr?: string | Date) {
 
           <div class="border-t border-layout pt-24px space-y-16px text-left">
             <div class="flex justify-between items-center">
-              <span class="text-14px text-slate-500 font-medium">角色权限</span>
+              <span class="text-14px text-slate-500 font-medium">{{ $t('userCenter.rolePermission') }}</span>
               <NTag type="primary" size="small" round class="font-bold">{{ userRoleName }}</NTag>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-14px text-slate-500 font-medium">用户 ID</span>
+              <span class="text-14px text-slate-500 font-medium">{{ $t('userCenter.userId') }}</span>
               <span
                 class="text-12px text-slate-400 font-mono bg-layout px-8px py-2px rd-4px truncate max-w-120px"
                 :title="authStore.userInfo.id"
@@ -292,7 +293,7 @@ function formatDate(dateStr?: string | Date) {
         </NCard>
 
         <!-- Login Stats -->
-        <NCard :bordered="false" class="card-wrapper" title="账号动态">
+        <NCard :bordered="false" class="card-wrapper" :title="$t('userCenter.accountActivity')">
           <template #header-extra>
             <SvgIcon icon="ph:chart-line-up-duotone" class="text-18px text-primary" />
           </template>
@@ -302,7 +303,7 @@ function formatDate(dateStr?: string | Date) {
                 <SvgIcon icon="ph:clock-duotone" />
               </div>
               <div class="flex-1 min-w-0">
-                <p class="text-12px text-slate-400">最后登录时间</p>
+                <p class="text-12px text-slate-400">{{ $t('userCenter.lastLoginTime') }}</p>
                 <p class="text-13px font-medium text-slate-700 dark:text-slate-300 truncate">
                   {{ formatDate(authStore.userInfo.auth.lastLoginAt) }}
                 </p>
@@ -313,9 +314,9 @@ function formatDate(dateStr?: string | Date) {
                 <SvgIcon icon="ph:map-pin-duotone" />
               </div>
               <div class="flex-1 min-w-0">
-                <p class="text-12px text-slate-400">最后登录 IP</p>
+                <p class="text-12px text-slate-400">{{ $t('userCenter.lastLoginIp') }}</p>
                 <p class="text-13px font-medium text-slate-700 dark:text-slate-300 font-mono">
-                  {{ authStore.userInfo.auth.lastLoginIp || '未知' }}
+                  {{ authStore.userInfo.auth.lastLoginIp || $t('userCenter.unknown') }}
                 </p>
               </div>
             </div>
@@ -327,22 +328,22 @@ function formatDate(dateStr?: string | Date) {
       <div class="lg:col-span-3">
         <NCard :bordered="false" class="card-wrapper min-h-600px">
           <NTabs v-model:value="activeTab" type="line" animated justify-content="start" class="user-tabs">
-            <NTabPane name="profile" tab="个人档案">
+            <NTabPane name="profile" :tab="$t('userCenter.profile')">
               <div class="flex justify-between items-center mb-32px mt-8px">
                 <div class="flex items-center gap-8px">
                   <div class="w-4px h-20px bg-primary rd-full" />
-                  <h2 class="text-18px font-bold text-base-text">基本资料</h2>
+                  <h2 class="text-18px font-bold text-base-text">{{ $t('userCenter.basicInfo') }}</h2>
                 </div>
                 <div class="flex gap-12px">
                   <NButton v-if="!isEditing" type="primary" secondary strong class="rd-8px" @click="handleEdit">
                     <template #icon><SvgIcon icon="ph:pencil-simple-line-duotone" /></template>
-                    编辑资料
+                    {{ $t('userCenter.editProfile') }}
                   </NButton>
                   <template v-else>
-                    <NButton class="rd-8px" @click="handleCancel" :disabled="saving">取消</NButton>
+                    <NButton class="rd-8px" @click="handleCancel" :disabled="saving">{{ $t('userCenter.cancel') }}</NButton>
                     <NButton type="primary" strong class="rd-8px shadow-low" @click="handleSave" :loading="saving">
                       <template #icon><SvgIcon icon="ph:check-circle-duotone" /></template>
-                      保存更改
+                      {{ $t('userCenter.saveChanges') }}
                     </NButton>
                   </template>
                 </div>
@@ -356,11 +357,11 @@ function formatDate(dateStr?: string | Date) {
                 :disabled="!isEditing"
                 class="grid grid-cols-1 md:grid-cols-2 gap-x-32px gap-y-8px"
               >
-                <NFormItem label="显示昵称" path="nickname">
-                  <NInput v-model:value="userForm.nickname" placeholder="想一个响亮的名字" class="rd-8px" />
+                <NFormItem :label="$t('userCenter.nickname')" path="nickname">
+                  <NInput v-model:value="userForm.nickname" :placeholder="$t('userCenter.nicknamePlaceholder')" class="rd-8px" />
                 </NFormItem>
 
-                <NFormItem label="性别选择" path="gender">
+                <NFormItem :label="$t('userCenter.gender')" path="gender">
                   <NRadioGroup v-model:value="userForm.gender" class="flex items-center">
                     <NSpace :size="24">
                       <NRadio v-for="option in genderOptions" :key="option.value" :value="option.value" class="font-medium">
@@ -370,35 +371,41 @@ function formatDate(dateStr?: string | Date) {
                   </NRadioGroup>
                 </NFormItem>
 
-                <NFormItem label="手机号码" path="mobile">
-                  <NInput v-model:value="userForm.mobile" placeholder="用于账号通知" class="rd-8px" />
+                <NFormItem :label="$t('userCenter.mobile')" path="mobile">
+                  <NInput v-model:value="userForm.mobile" :placeholder="$t('userCenter.mobilePlaceholder')" class="rd-8px" />
                 </NFormItem>
 
-                <NFormItem label="电子邮箱" path="email">
-                  <NInput v-model:value="userForm.email" placeholder="用于安全验证" class="rd-8px" />
+                <NFormItem :label="$t('userCenter.email')" path="email">
+                  <NInput v-model:value="userForm.email" :placeholder="$t('userCenter.emailPlaceholder')" class="rd-8px" />
                 </NFormItem>
 
-                <NFormItem label="出生日期" path="birthday">
-                  <NDatePicker v-model:value="userForm.birthday" type="date" placeholder="选择你的生日" class="w-full rd-8px" clearable />
+                <NFormItem :label="$t('userCenter.birthday')" path="birthday">
+                  <NDatePicker
+                    v-model:value="userForm.birthday"
+                    type="date"
+                    :placeholder="$t('userCenter.birthdayPlaceholder')"
+                    class="w-full rd-8px"
+                    clearable
+                  />
                 </NFormItem>
 
-                <NFormItem label="现居城市" path="city">
+                <NFormItem :label="$t('userCenter.city')" path="city">
                   <NCascader
                     v-model:value="userForm.city"
                     :options="cityOptions"
                     check-strategy="child"
-                    placeholder="请选择城市"
+                    :placeholder="$t('userCenter.cityPlaceholder')"
                     class="rd-8px"
                     clearable
                     filterable
                   />
                 </NFormItem>
 
-                <NFormItem label="个人简介" path="bio" class="md:col-span-2">
+                <NFormItem :label="$t('userCenter.bio')" path="bio" class="md:col-span-2">
                   <NInput
                     v-model:value="userForm.bio"
                     type="textarea"
-                    placeholder="介绍一下你自己..."
+                    :placeholder="$t('userCenter.bioPlaceholder')"
                     :autosize="{ minRows: 3, maxRows: 5 }"
                     class="rd-12px p-12px"
                   />
@@ -406,41 +413,41 @@ function formatDate(dateStr?: string | Date) {
               </NForm>
             </NTabPane>
 
-            <NTabPane name="security" tab="安全设置">
+            <NTabPane name="security" :tab="$t('userCenter.security')">
               <div class="max-w-480px mx-auto pt-32px">
                 <div class="text-center mb-40px">
                   <div class="size-64px flex-center bg-amber-500/10 text-amber-500 rd-24px mx-auto mb-16px">
                     <SvgIcon icon="ph:shield-check-duotone" class="text-32px" />
                   </div>
-                  <h2 class="text-20px font-bold text-base-text">修改登录密码</h2>
-                  <p class="text-14px text-slate-500 mt-8px">建议定期更换密码以保障账号安全</p>
+                  <h2 class="text-20px font-bold text-base-text">{{ $t('userCenter.changePassword') }}</h2>
+                  <p class="text-14px text-slate-500 mt-8px">{{ $t('userCenter.changePasswordDesc') }}</p>
                 </div>
 
                 <NForm ref="passwordFormRef" :model="passwordForm" :rules="passwordRules" label-placement="top">
-                  <NFormItem label="当前密码" path="oldPassword">
+                  <NFormItem :label="$t('userCenter.currentPassword')" path="oldPassword">
                     <NInput
                       v-model:value="passwordForm.oldPassword"
                       type="password"
                       show-password-on="click"
-                      placeholder="输入现有密码"
+                      :placeholder="$t('userCenter.currentPasswordPlaceholder')"
                       class="rd-8px"
                     />
                   </NFormItem>
-                  <NFormItem label="新密码" path="newPassword">
+                  <NFormItem :label="$t('userCenter.newPassword')" path="newPassword">
                     <NInput
                       v-model:value="passwordForm.newPassword"
                       type="password"
                       show-password-on="click"
-                      placeholder="设置新密码 (不少于6位)"
+                      :placeholder="$t('userCenter.newPasswordPlaceholder')"
                       class="rd-8px"
                     />
                   </NFormItem>
-                  <NFormItem label="确认新密码" path="confirmPassword">
+                  <NFormItem :label="$t('userCenter.confirmPassword')" path="confirmPassword">
                     <NInput
                       v-model:value="passwordForm.confirmPassword"
                       type="password"
                       show-password-on="click"
-                      placeholder="再次输入新密码"
+                      :placeholder="$t('userCenter.confirmPasswordPlaceholder')"
                       class="rd-8px"
                     />
                   </NFormItem>
@@ -454,7 +461,7 @@ function formatDate(dateStr?: string | Date) {
                       @click="handlePasswordChange"
                       :loading="changingPassword"
                     >
-                      确认修改
+                      {{ $t('userCenter.confirmChange') }}
                     </NButton>
                   </div>
                 </NForm>
@@ -465,7 +472,13 @@ function formatDate(dateStr?: string | Date) {
       </div>
     </div>
     <input ref="fileInputRef" type="file" accept="image/*" class="hidden" @change="onAvatarFileChange" />
-    <CroppingImage ref="cutterRef" cropper-title="裁剪头像" :mask-closable="false" @done="onCropDone" @error="onCropError" />
+    <CroppingImage
+      ref="cutterRef"
+      :cropper-title="$t('userCenter.croppingTitle')"
+      :mask-closable="false"
+      @done="onCropDone"
+      @error="onCropError"
+    />
   </div>
 </template>
 
@@ -508,7 +521,7 @@ function formatDate(dateStr?: string | Date) {
 // 表单样式优化
 :deep(.n-form-item-label) {
   font-weight: 500;
-  color: #374151;
+  color: var(--n-text-color);
 }
 
 // 按钮样式优化

@@ -197,6 +197,36 @@ declare namespace App {
         'user-center': string
       }
       page: {
+        home: {
+          heroDescription: string
+          getStarted: string
+          viewSource: string
+          coreFeatures: string
+          coreFeaturesDesc: string
+          feature1Title: string
+          feature1Desc: string
+          feature2Title: string
+          feature2Desc: string
+          feature3Title: string
+          feature3Desc: string
+          feature4Title: string
+          feature4Desc: string
+          techStack: string
+          techStackDesc: string
+          progressiveFramework: string
+          nextGenBuildTool: string
+          typeSafe: string
+          highQualityComponentLib: string
+          atomicEngine: string
+          stateManagement: string
+          currentVersion: string
+          coreDependencies: string
+          openSourceLicense: string
+          readyToStart: string
+          readyToStartDesc: string
+          downloadNow: string
+          readDocs: string
+        }
         about: {
           title: string
           introduction: string
@@ -213,8 +243,75 @@ declare namespace App {
         login: {
           common: {
             loginOrRegister: string
+            welcomeBack: string
+            enterCredentials: string
+            createAccount: string
+            fillRegisterInfo: string
+            noAccount: string
+            registerNow: string
+            username: string
+            password: string
+            confirmPassword: string
+            captcha: string
+            loading: string
+            login: string
+            register: string
+            backToLogin: string
+            nicknameOptional: string
+            emailOptional: string
+            mobileOptional: string
+            registerSuccess: string
+            registerFailed: string
           }
         }
+      }
+      userCenter: {
+        profile: string
+        basicInfo: string
+        editProfile: string
+        cancel: string
+        saveChanges: string
+        saveSuccess: string
+        nickname: string
+        nicknamePlaceholder: string
+        gender: string
+        genderMale: string
+        genderFemale: string
+        genderUnknown: string
+        mobile: string
+        mobilePlaceholder: string
+        email: string
+        emailPlaceholder: string
+        birthday: string
+        birthdayPlaceholder: string
+        city: string
+        cityPlaceholder: string
+        bio: string
+        bioPlaceholder: string
+        security: string
+        changePassword: string
+        changePasswordDesc: string
+        currentPassword: string
+        currentPasswordPlaceholder: string
+        newPassword: string
+        newPasswordPlaceholder: string
+        confirmPassword: string
+        confirmPasswordPlaceholder: string
+        confirmChange: string
+        passwordChangeSuccess: string
+        passwordChangeFailed: string
+        rolePermission: string
+        userId: string
+        accountActivity: string
+        lastLoginTime: string
+        lastLoginIp: string
+        unknown: string
+        normal: string
+        disabled: string
+        regularUser: string
+        avatarUploadSuccess: string
+        avatarUploadFailed: string
+        croppingTitle: string
       }
 
       icon: {

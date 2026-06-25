@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import PwdLogin from './modules/pwd-login.vue'
 import UserRegister from './modules/register.vue'
 import SvgIcon from '@/components/custom/svg-icon.vue'
+import { $t } from '@/locales'
 
 defineOptions({
   name: 'GlobalLogin',
@@ -37,10 +38,10 @@ function handleSwitchToLogin() {
           <SvgIcon icon="ph:feather-duotone" class="text-40px text-primary" />
         </div>
         <h2 class="text-24px font-bold text-base-text">
-          {{ loginMode === 'register' ? '创建账号' : '欢迎回来' }}
+          {{ loginMode === 'register' ? $t('page.login.common.createAccount') : $t('page.login.common.welcomeBack') }}
         </h2>
         <p class="text-14px text-slate-500">
-          {{ loginMode === 'register' ? '填写以下信息完成注册' : '请输入您的账号和密码登录' }}
+          {{ loginMode === 'register' ? $t('page.login.common.fillRegisterInfo') : $t('page.login.common.enterCredentials') }}
         </p>
       </div>
 
@@ -49,8 +50,10 @@ function handleSwitchToLogin() {
           <div v-if="loginMode === 'pwd'" key="pwd">
             <PwdLogin @login-success="handleLoginSuccess" />
             <div class="mt-24px flex items-center justify-center gap-8px text-14px">
-              <span class="text-slate-500">还没有账号？</span>
-              <NButton text type="primary" class="font-medium" @click="switchMode('register')"> 立即注册 </NButton>
+              <span class="text-slate-500">{{ $t('page.login.common.noAccount') }}</span>
+              <NButton text type="primary" class="font-medium" @click="switchMode('register')">
+                {{ $t('page.login.common.registerNow') }}
+              </NButton>
             </div>
           </div>
 

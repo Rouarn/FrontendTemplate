@@ -24,5 +24,8 @@
     "moduleResolution": "node",
     "ignoreDeprecations": "6.0",
     "rootDir": "."
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

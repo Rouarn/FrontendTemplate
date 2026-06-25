@@ -2,6 +2,7 @@
 import { onMounted, reactive, ref } from 'vue'
 import { fetchCaptcha, fetchCaptchaCheck } from '@/service/api/login'
 import { useAuthStore } from '@/stores/modules/auth'
+import { $t } from '@/locales'
 import type { FormInst, FormRules } from 'naive-ui'
 
 defineOptions({
@@ -24,17 +25,17 @@ const model = reactive({
 const rules: FormRules = {
   userName: {
     required: true,
-    message: '请输入用户名',
+    message: $t('page.login.common.username'),
     trigger: 'blur',
   },
   password: {
     required: true,
-    message: '请输入密码',
+    message: $t('page.login.common.password'),
     trigger: 'blur',
   },
   captcha: {
     required: true,
-    message: '请输入验证码',
+    message: $t('page.login.common.captcha'),
     trigger: 'blur',
   },
 }
@@ -101,14 +102,20 @@ async function handleLogin() {
 <template>
   <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false" @keyup.enter="handleLogin">
     <NFormItem path="userName">
-      <NInput v-model:value="model.userName" placeholder="用户名" class="rd-8px">
+      <NInput v-model:value="model.userName" :placeholder="$t('page.login.common.username')" class="rd-8px">
         <template #prefix>
           <div class="i-ph:user-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="password">
-      <NInput v-model:value="model.password" type="password" show-password-on="click" placeholder="密码" class="rd-8px">
+      <NInput
+        v-model:value="model.password"
+        type="password"
+        show-password-on="click"
+        :placeholder="$t('page.login.common.password')"
+        class="rd-8px"
+      >
         <template #prefix>
           <div class="i-ph:lock-duotone text-20px text-primary/60" />
         </template>
@@ -116,7 +123,7 @@ async function handleLogin() {
     </NFormItem>
     <NFormItem path="captcha">
       <div class="flex w-full gap-12px items-center">
-        <NInput v-model:value="model.captcha" placeholder="验证码" class="flex-1 rd-8px">
+        <NInput v-model:value="model.captcha" :placeholder="$t('page.login.common.captcha')" class="flex-1 rd-8px">
           <template #prefix>
             <div class="i-ph:shield-check-duotone text-20px text-primary/60" />
           </template>
@@ -126,7 +133,7 @@ async function handleLogin() {
           @click="resetCaptcha"
         >
           <img v-if="captchaCode" :src="captchaCode" alt="验证码" class="h-full w-100px object-cover" />
-          <div v-else class="flex-center h-full w-100px text-12px text-slate-400">加载中...</div>
+          <div v-else class="flex-center h-full w-100px text-12px text-slate-400">{{ $t('page.login.common.loading') }}</div>
         </div>
       </div>
     </NFormItem>
@@ -137,7 +144,7 @@ async function handleLogin() {
       class="rd-8px text-16px font-bold shadow-low transition-all duration-300 hover:shadow-high active:scale-95"
       @click="handleLogin"
     >
-      登录
+      {{ $t('page.login.common.login') }}
     </NButton>
   </NForm>
 </template>

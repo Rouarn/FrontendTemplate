@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { $t } from '@/locales'
 import pkg from '~/package.json'
 
 const router = useRouter()
@@ -7,37 +8,37 @@ const router = useRouter()
 const features = [
   {
     icon: 'ph:speedometer-duotone',
-    title: '极速体验',
-    description: '基于 Vite 7 构建，毫秒级热更新，极速开发响应',
+    title: $t('page.home.feature1Title'),
+    description: $t('page.home.feature1Desc'),
     color: '#10b981',
   },
   {
     icon: 'ph:palette-duotone',
-    title: '优雅设计',
-    description: '采用 Naive UI 与 UnoCSS，清新自然，支持深色模式',
+    title: $t('page.home.feature2Title'),
+    description: $t('page.home.feature2Desc'),
     color: '#3b82f6',
   },
   {
     icon: 'ph:code-duotone',
-    title: '强类型安全',
-    description: '全程 TypeScript 赋能，极致的代码补全与类型检查',
+    title: $t('page.home.feature3Title'),
+    description: $t('page.home.feature3Desc'),
     color: '#f59e0b',
   },
   {
     icon: 'ph:devices-duotone',
-    title: '全端适配',
-    description: '灵活的响应式布局，完美适配移动端与桌面端',
+    title: $t('page.home.feature4Title'),
+    description: $t('page.home.feature4Desc'),
     color: '#ef4444',
   },
 ]
 
 const techStack = [
-  { name: 'Vue 3', version: '3.5+', icon: 'logos:vue', description: '渐进式框架' },
-  { name: 'Vite 7', version: '7.x', icon: 'logos:vitejs', description: '下一代构建工具' },
-  { name: 'TypeScript', version: '5.x', icon: 'logos:typescript-icon', description: '类型安全' },
-  { name: 'Naive UI', version: '2.x', icon: 'ph:app-window-duotone', description: '高品质组件库' },
-  { name: 'UnoCSS', version: '0.x', icon: 'logos:unocss', description: '原子化引擎' },
-  { name: 'Pinia', version: '2.x', icon: 'logos:pinia', description: '状态管理' },
+  { name: 'Vue 3', version: '3.5+', icon: 'logos:vue', description: $t('page.home.progressiveFramework') },
+  { name: 'Vite 7', version: '7.x', icon: 'logos:vitejs', description: $t('page.home.nextGenBuildTool') },
+  { name: 'TypeScript', version: '5.x', icon: 'logos:typescript-icon', description: $t('page.home.typeSafe') },
+  { name: 'Naive UI', version: '2.x', icon: 'ph:app-window-duotone', description: $t('page.home.highQualityComponentLib') },
+  { name: 'UnoCSS', version: '0.x', icon: 'logos:unocss', description: $t('page.home.atomicEngine') },
+  { name: 'Pinia', version: '2.x', icon: 'logos:pinia', description: $t('page.home.stateManagement') },
 ]
 
 // 按钮功能函数
@@ -74,7 +75,7 @@ const handleViewDocs = () => {
           </div>
           <h1 class="text-48px font-bold tracking-tight text-base-text sm:text-64px"><span class="text-primary">Fresh</span> & Elegant</h1>
           <p class="mt-24px text-18px leading-relaxed text-slate-500 max-w-700px mx-auto">
-            {{ pkg.description }}
+            {{ $t('page.home.heroDescription') }}
           </p>
           <div class="flex items-center justify-center mt-40px gap-16px">
             <NButton
@@ -86,7 +87,7 @@ const handleViewDocs = () => {
               <template #icon>
                 <SvgIcon icon="ph:play-circle-duotone" />
               </template>
-              立即开启
+              {{ $t('page.home.getStarted') }}
             </NButton>
             <NButton
               secondary
@@ -97,7 +98,7 @@ const handleViewDocs = () => {
               <template #icon>
                 <SvgIcon icon="ph:github-logo-duotone" />
               </template>
-              查看源码
+              {{ $t('page.home.viewSource') }}
             </NButton>
           </div>
         </div>
@@ -107,9 +108,9 @@ const handleViewDocs = () => {
     <!-- Features Section -->
     <div class="px-24px py-80px mx-auto max-w-1200px">
       <div class="text-center mb-64px">
-        <h2 class="text-32px font-bold text-base-text">核心特性</h2>
+        <h2 class="text-32px font-bold text-base-text">{{ $t('page.home.coreFeatures') }}</h2>
         <div class="mt-8px h-4px w-48px bg-primary rd-full mx-auto" />
-        <p class="mt-16px text-16px text-slate-500">精心雕琢的现代化开发体验</p>
+        <p class="mt-16px text-16px text-slate-500">{{ $t('page.home.coreFeaturesDesc') }}</p>
       </div>
       <div class="grid grid-cols-1 gap-32px sm:grid-cols-2 lg:grid-cols-4">
         <NCard v-for="feature in features" :key="feature.title" class="card-wrapper" :bordered="false">
@@ -134,9 +135,9 @@ const handleViewDocs = () => {
     <div class="bg-container/50 py-80px">
       <div class="px-24px mx-auto max-w-1200px">
         <div class="text-center mb-64px">
-          <h2 class="text-32px font-bold text-base-text">技术栈</h2>
+          <h2 class="text-32px font-bold text-base-text">{{ $t('page.home.techStack') }}</h2>
           <div class="mt-8px h-4px w-48px bg-primary rd-full mx-auto" />
-          <p class="mt-16px text-16px text-slate-500">站在巨人的肩膀上，构建未来</p>
+          <p class="mt-16px text-16px text-slate-500">{{ $t('page.home.techStackDesc') }}</p>
         </div>
         <div class="grid grid-cols-1 gap-24px sm:grid-cols-2 lg:grid-cols-3">
           <NCard
@@ -167,15 +168,15 @@ const handleViewDocs = () => {
       <div class="grid grid-cols-1 gap-40px sm:grid-cols-3">
         <div class="text-center p-32px rd-24px bg-primary/5 border border-primary/10 transition-all duration-300 hover:bg-primary/10">
           <div class="text-48px font-bold text-primary tabular-nums">{{ pkg.version }}</div>
-          <div class="mt-8px text-16px font-medium text-slate-500">当前版本</div>
+          <div class="mt-8px text-16px font-medium text-slate-500">{{ $t('page.home.currentVersion') }}</div>
         </div>
         <div class="text-center p-32px rd-24px bg-blue-500/5 border border-blue-500/10 transition-all duration-300 hover:bg-blue-500/10">
           <div class="text-48px font-bold text-blue-500 tabular-nums">{{ Object.keys(pkg.dependencies).length }}</div>
-          <div class="mt-8px text-16px font-medium text-slate-500">核心依赖</div>
+          <div class="mt-8px text-16px font-medium text-slate-500">{{ $t('page.home.coreDependencies') }}</div>
         </div>
         <div class="text-center p-32px rd-24px bg-amber-500/5 border border-amber-500/10 transition-all duration-300 hover:bg-amber-500/10">
           <div class="text-40px font-bold text-amber-500 tabular-nums">{{ pkg.license }}</div>
-          <div class="mt-8px text-16px font-medium text-slate-500">开源协议</div>
+          <div class="mt-8px text-16px font-medium text-slate-500">{{ $t('page.home.openSourceLicense') }}</div>
         </div>
       </div>
     </div>
@@ -190,9 +191,9 @@ const handleViewDocs = () => {
           class="absolute bottom-0 left-0 size-300px bg-white/10 rd-full -ml-150px -mb-150px blur-3xl transition-transform duration-700 group-hover:scale-125"
         />
 
-        <h2 class="text-36px font-bold text-white relative z-10">准备好开始了吗？</h2>
+        <h2 class="text-36px font-bold text-white relative z-10">{{ $t('page.home.readyToStart') }}</h2>
         <p class="mt-16px text-18px text-white/80 max-w-600px mx-auto relative z-10">
-          立即下载模板，享受最纯粹的 Vue 3 开发乐趣，构建属于你的清新优雅作品。
+          {{ $t('page.home.readyToStartDesc') }}
         </p>
         <div class="flex items-center justify-center mt-40px gap-16px relative z-10">
           <NButton
@@ -205,7 +206,7 @@ const handleViewDocs = () => {
             <template #icon>
               <SvgIcon icon="ph:download-simple-duotone" />
             </template>
-            立即下载
+            {{ $t('page.home.downloadNow') }}
           </NButton>
           <NButton
             quaternary
@@ -216,7 +217,7 @@ const handleViewDocs = () => {
             <template #icon>
               <SvgIcon icon="ph:book-open-duotone" />
             </template>
-            阅读文档
+            {{ $t('page.home.readDocs') }}
           </NButton>
         </div>
       </div>

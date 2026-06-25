@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { fetchCaptcha, fetchRegister } from '@/service/api/login'
+import { $t } from '@/locales'
 import type { FormInst, FormRules } from 'naive-ui'
 
 defineOptions({
@@ -27,32 +28,32 @@ const model = reactive({
 
 const rules: FormRules = {
   username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 20, message: '用户名长度应在3-20个字符之间', trigger: 'blur' },
+    { required: true, message: $t('page.login.common.username'), trigger: 'blur' },
+    { min: 3, max: 20, message: $t('page.login.common.username'), trigger: 'blur' },
   ],
   password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, message: '密码长度不能少于6位', trigger: 'blur' },
+    { required: true, message: $t('page.login.common.password'), trigger: 'blur' },
+    { min: 6, message: $t('page.login.common.password'), trigger: 'blur' },
   ],
   confirmPassword: [
-    { required: true, message: '请确认密码', trigger: 'blur' },
+    { required: true, message: $t('page.login.common.confirmPassword'), trigger: 'blur' },
     {
       validator: (_rule, value) => {
         return value === model.password
       },
-      message: '两次输入的密码不一致',
+      message: $t('page.login.common.confirmPassword'),
       trigger: 'blur',
     },
   ],
-  captcha: { required: true, message: '请输入验证码', trigger: 'blur' },
+  captcha: { required: true, message: $t('page.login.common.captcha'), trigger: 'blur' },
   email: {
     type: 'email',
-    message: '邮箱格式不正确',
+    message: $t('page.login.common.emailOptional'),
     trigger: 'blur',
   },
   mobile: {
     pattern: /^1[3-9]\d{9}$/,
-    message: '手机号格式不正确',
+    message: $t('page.login.common.mobileOptional'),
     trigger: 'blur',
   },
 }
@@ -105,15 +106,15 @@ async function handleRegister() {
     })
 
     if (error) {
-      window.$message?.error(message || '注册失败')
+      window.$message?.error(message || $t('page.login.common.registerFailed'))
       await resetCaptcha()
       return
     }
 
-    window.$message?.success('注册成功，请登录')
+    window.$message?.success($t('page.login.common.registerSuccess'))
     emit('registerSuccess')
   } catch (_) {
-    window.$message?.error('注册失败，请重试')
+    window.$message?.error($t('page.login.common.registerFailed'))
     await resetCaptcha()
   } finally {
     loading.value = false
@@ -124,42 +125,54 @@ async function handleRegister() {
 <template>
   <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false" @keyup.enter="handleRegister">
     <NFormItem path="username">
-      <NInput v-model:value="model.username" placeholder="用户名" class="rd-8px">
+      <NInput v-model:value="model.username" :placeholder="$t('page.login.common.username')" class="rd-8px">
         <template #prefix>
           <div class="i-ph:user-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="password">
-      <NInput v-model:value="model.password" type="password" show-password-on="click" placeholder="密码" class="rd-8px">
+      <NInput
+        v-model:value="model.password"
+        type="password"
+        show-password-on="click"
+        :placeholder="$t('page.login.common.password')"
+        class="rd-8px"
+      >
         <template #prefix>
           <div class="i-ph:lock-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="confirmPassword">
-      <NInput v-model:value="model.confirmPassword" type="password" show-password-on="click" placeholder="确认密码" class="rd-8px">
+      <NInput
+        v-model:value="model.confirmPassword"
+        type="password"
+        show-password-on="click"
+        :placeholder="$t('page.login.common.confirmPassword')"
+        class="rd-8px"
+      >
         <template #prefix>
           <div class="i-ph:shield-warning-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="nickname">
-      <NInput v-model:value="model.nickname" placeholder="昵称 (可选)" class="rd-8px">
+      <NInput v-model:value="model.nickname" :placeholder="$t('page.login.common.nicknameOptional')" class="rd-8px">
         <template #prefix>
           <div class="i-ph:identification-card-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="email">
-      <NInput v-model:value="model.email" placeholder="邮箱 (可选)" class="rd-8px">
+      <NInput v-model:value="model.email" :placeholder="$t('page.login.common.emailOptional')" class="rd-8px">
         <template #prefix>
           <div class="i-ph:envelope-simple-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="mobile">
-      <NInput v-model:value="model.mobile" placeholder="手机号 (可选)" class="rd-8px">
+      <NInput v-model:value="model.mobile" :placeholder="$t('page.login.common.mobileOptional')" class="rd-8px">
         <template #prefix>
           <div class="i-ph:phone-duotone text-20px text-primary/60" />
         </template>
@@ -167,7 +180,7 @@ async function handleRegister() {
     </NFormItem>
     <NFormItem path="captcha">
       <div class="flex w-full gap-12px items-center">
-        <NInput v-model:value="model.captcha" placeholder="验证码" class="flex-1 rd-8px">
+        <NInput v-model:value="model.captcha" :placeholder="$t('page.login.common.captcha')" class="flex-1 rd-8px">
           <template #prefix>
             <div class="i-ph:shield-check-duotone text-20px text-primary/60" />
           </template>
@@ -177,7 +190,7 @@ async function handleRegister() {
           @click="resetCaptcha"
         >
           <img v-if="captchaCode" :src="captchaCode" alt="验证码" class="h-full w-100px object-cover" />
-          <div v-else class="flex-center h-full w-100px text-12px text-slate-400">加载中...</div>
+          <div v-else class="flex-center h-full w-100px text-12px text-slate-400">{{ $t('page.login.common.loading') }}</div>
         </div>
       </div>
     </NFormItem>
@@ -190,9 +203,9 @@ async function handleRegister() {
         class="rd-8px text-16px font-bold shadow-low transition-all duration-300 hover:shadow-high active:scale-95"
         @click="handleRegister"
       >
-        注册
+        {{ $t('page.login.common.register') }}
       </NButton>
-      <NButton block ghost class="rd-8px" @click="emit('switchToLogin')"> 返回登录 </NButton>
+      <NButton block ghost class="rd-8px" @click="emit('switchToLogin')"> {{ $t('page.login.common.backToLogin') }} </NButton>
     </div>
   </NForm>
 </template>
