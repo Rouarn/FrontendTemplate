@@ -1,5 +1,5 @@
-import { createViteProxy, getBuildTime } from './build/config'
-import { setupVitePlugins } from './build/plugins'
+import { setupVitePlugins } from './build/plugins/index.ts'
+import { createViteProxy, getBuildTime } from './build/config/index.ts'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 

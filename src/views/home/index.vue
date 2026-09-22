@@ -34,7 +34,7 @@ const features = [
 
 const techStack = [
   { name: 'Vue 3', version: '3.5+', icon: 'logos:vue', description: $t('page.home.progressiveFramework') },
-  { name: 'Vite 7', version: '7.x', icon: 'logos:vitejs', description: $t('page.home.nextGenBuildTool') },
+  { name: 'Vite 8', version: '8.x', icon: 'logos:vitejs', description: $t('page.home.nextGenBuildTool') },
   { name: 'TypeScript', version: '5.x', icon: 'logos:typescript-icon', description: $t('page.home.typeSafe') },
   { name: 'Naive UI', version: '2.x', icon: 'ph:app-window-duotone', description: $t('page.home.highQualityComponentLib') },
   { name: 'UnoCSS', version: '0.x', icon: 'logos:unocss', description: $t('page.home.atomicEngine') },
