@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { fetchCaptcha, fetchCaptchaCheck } from '@/service/api/login'
+import { fetchCaptcha } from '@/service/api/login'
 import { useAuthStore } from '@/stores/modules/auth'
 import { $t } from '@/locales'
 import type { FormInst, FormRules } from 'naive-ui'
@@ -76,20 +76,12 @@ async function handleLogin() {
   loading.value = true
 
   try {
-    const { error } = await fetchCaptchaCheck({
-      token: captchaToken.value,
-      code: model.captcha,
-    })
-
-    if (error) {
-      await resetCaptcha()
-      return
-    }
-
-    await authStore.login(model.userName, model.password)
+    await authStore.login(model.userName, model.password, model.captcha, captchaToken.value)
 
     if (authStore.isLogin) {
       emit('loginSuccess')
+    } else {
+      await resetCaptcha()
     }
   } catch {
     await resetCaptcha()

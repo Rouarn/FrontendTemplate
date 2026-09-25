@@ -1,11 +1,13 @@
 import apiPrefix from '@/service/api/prefix'
 import { request } from '@/service/request'
 
-/** 用户登录 */
-export function fetchLogin(username: string, password: string) {
+/** 用户登录（验证码校验由登录接口一并完成） */
+export function fetchLogin(username: string, password: string, captchaCode: string, captchaToken: string) {
   return request.post<Api.Auth.LoginToken>(`${apiPrefix.auth}/login`, {
     username,
     password,
+    captchaCode,
+    captchaToken,
   })
 }
 
@@ -22,14 +24,6 @@ export function fetchRegister(user: Api.Auth.RegisterUser) {
 /** 生成验证码 */
 export function fetchCaptcha() {
   return request.get<Api.Auth.Captcha>(`${apiPrefix.auth}/captcha`, {}, { loading: false })
-}
-
-/** 验证码校验 */
-export function fetchCaptchaCheck({ token, code }: Api.Auth.CaptchaVerify) {
-  return request.post<Api.Auth.LoginToken>(`${apiPrefix.auth}/captcha/verify`, {
-    token,
-    code,
-  })
 }
 
 /** 退出登录 */

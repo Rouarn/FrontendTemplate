@@ -22,7 +22,7 @@ const model = reactive({
   nickname: '',
   email: '',
   mobile: '',
-  gender: 0 as Api.Common.Gender, // 0: 未知, 1: 男, 2: 女
+  gender: null as Api.Common.Gender | null, // 0: 男, 1: 女, 2: 保密
   captcha: '',
 })
 
@@ -46,21 +46,37 @@ const rules: FormRules = {
     },
   ],
   captcha: { required: true, message: $t('page.login.common.captcha'), trigger: 'blur' },
-  email: {
-    type: 'email',
-    message: $t('page.login.common.emailOptional'),
-    trigger: 'blur',
-  },
-  mobile: {
-    pattern: /^1[3-9]\d{9}$/,
-    message: $t('page.login.common.mobileOptional'),
-    trigger: 'blur',
+  nickname: { required: true, message: $t('page.login.common.nickname'), trigger: 'blur' },
+  email: [
+    { required: true, message: $t('page.login.common.email'), trigger: 'blur' },
+    { type: 'email', message: $t('page.login.common.email'), trigger: 'blur' },
+  ],
+  mobile: [
+    { required: true, message: $t('page.login.common.mobile'), trigger: 'blur' },
+    {
+      pattern: /^1[3-9]\d{9}$/,
+      message: $t('page.login.common.mobile'),
+      trigger: 'blur',
+    },
+  ],
+  gender: {
+    required: true,
+    type: 'number',
+    message: $t('page.login.common.gender'),
+    trigger: 'change',
   },
 }
 
 const captchaCode = ref('') // 验证码图片
 const captchaToken = ref('') // 验证码token
 const loading = ref(false)
+
+// 性别选项
+const genderOptions = [
+  { label: $t('page.login.common.genderMale'), value: 0 },
+  { label: $t('page.login.common.genderFemale'), value: 1 },
+  { label: $t('page.login.common.genderUnknown'), value: 2 },
+] as const
 
 // 生成验证码
 async function generateCaptcha() {
@@ -100,7 +116,7 @@ async function handleRegister() {
       nickname: model.nickname || model.username, // 默认昵称为用户名
       email: model.email,
       mobile: model.mobile,
-      gender: model.gender,
+      gender: model.gender as Api.Common.Gender,
       captchaCode: model.captcha,
       captchaToken: captchaToken.value,
     })
@@ -158,25 +174,37 @@ async function handleRegister() {
       </NInput>
     </NFormItem>
     <NFormItem path="nickname">
-      <NInput v-model:value="model.nickname" :placeholder="$t('page.login.common.nicknameOptional')" class="rd-8px">
+      <NInput v-model:value="model.nickname" :placeholder="$t('page.login.common.nickname')" class="rd-8px">
         <template #prefix>
           <div class="i-ph:identification-card-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="email">
-      <NInput v-model:value="model.email" :placeholder="$t('page.login.common.emailOptional')" class="rd-8px">
+      <NInput v-model:value="model.email" :placeholder="$t('page.login.common.email')" class="rd-8px">
         <template #prefix>
           <div class="i-ph:envelope-simple-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="mobile">
-      <NInput v-model:value="model.mobile" :placeholder="$t('page.login.common.mobileOptional')" class="rd-8px">
+      <NInput v-model:value="model.mobile" :placeholder="$t('page.login.common.mobile')" class="rd-8px">
         <template #prefix>
           <div class="i-ph:phone-duotone text-20px text-primary/60" />
         </template>
       </NInput>
+    </NFormItem>
+    <NFormItem path="gender">
+      <div class="flex w-full items-center gap-16px">
+        <span class="shrink-0 text-14px text-slate-500">{{ $t('page.login.common.gender') }}</span>
+        <NRadioGroup v-model:value="model.gender">
+          <NSpace :size="24">
+            <NRadio v-for="option in genderOptions" :key="option.value" :value="option.value" class="font-medium">
+              {{ option.label }}
+            </NRadio>
+          </NSpace>
+        </NRadioGroup>
+      </div>
     </NFormItem>
     <NFormItem path="captcha">
       <div class="flex w-full gap-12px items-center">

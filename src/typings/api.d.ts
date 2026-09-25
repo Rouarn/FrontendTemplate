@@ -43,11 +43,6 @@ declare namespace Api {
       nonce: string
     }
 
-    interface CaptchaVerify {
-      token: string
-      code: string
-    }
-
     type UserRole = 'R_SUPER_ADMIN' | 'R_EDITOR' | 'R_USER'
 
     interface Role {

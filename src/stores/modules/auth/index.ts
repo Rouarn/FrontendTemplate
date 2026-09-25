@@ -33,7 +33,7 @@ interface AuthStoreActions {
   setRefreshToken(value: string): void
   setUserInfo(value?: Api.Auth.UserInfo): void
   resetStore(): Promise<void>
-  login(username: string, password: string, redirect?: boolean): Promise<void>
+  login(username: string, password: string, captchaCode: string, captchaToken: string, redirect?: boolean): Promise<void>
   getUserInfo(): Promise<boolean>
 }
 
@@ -159,10 +159,12 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, (): AuthStore => {
    * 登录
    * @param username 用户名
    * @param password 密码
+   * @param captchaCode 验证码
+   * @param captchaToken 验证码令牌
    * @param [redirect=true] 登录后是否重定向，默认 true
    */
-  async function login(username: string, password: string, redirect = true) {
-    const { data, error } = await fetchLogin(username.trim(), password.trim())
+  async function login(username: string, password: string, captchaCode: string, captchaToken: string, redirect = true) {
+    const { data, error } = await fetchLogin(username.trim(), password.trim(), captchaCode, captchaToken)
     if (error) return
     setToken(data?.accessToken ?? initialState.token)
     setTokenType(data?.tokenType ?? initialState.tokenType)

@@ -257,9 +257,13 @@ declare namespace App {
             login: string
             register: string
             backToLogin: string
-            nicknameOptional: string
-            emailOptional: string
-            mobileOptional: string
+            nickname: string
+            email: string
+            mobile: string
+            gender: string
+            genderMale: string
+            genderFemale: string
+            genderUnknown: string
             registerSuccess: string
             registerFailed: string
           }
