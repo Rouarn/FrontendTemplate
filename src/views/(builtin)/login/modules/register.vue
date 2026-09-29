@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { fetchCaptcha, fetchRegister } from '@/service/api/login'
+import { fetchCaptcha, fetchRegister } from '@/service/api'
 import { $t } from '@/locales'
 import type { FormInst, FormRules } from 'naive-ui'
 
@@ -80,12 +80,13 @@ const genderOptions = [
 
 // 生成验证码
 async function generateCaptcha() {
-  const { data, error } = await fetchCaptcha()
-  if (error) {
-    return
+  try {
+    const data = await fetchCaptcha()
+    captchaCode.value = data.image
+    captchaToken.value = data.token
+  } catch {
+    // 验证码获取失败提示由全局 onError 处理
   }
-  captchaCode.value = data.image
-  captchaToken.value = data.token
 }
 
 // 重置验证码
@@ -110,7 +111,7 @@ async function handleRegister() {
   loading.value = true
 
   try {
-    const { error, message } = await fetchRegister({
+    await fetchRegister({
       username: model.username,
       password: model.password,
       nickname: model.nickname || model.username, // 默认昵称为用户名
@@ -121,16 +122,10 @@ async function handleRegister() {
       captchaToken: captchaToken.value,
     })
 
-    if (error) {
-      window.$message?.error(message || $t('page.login.common.registerFailed'))
-      await resetCaptcha()
-      return
-    }
-
     window.$message?.success($t('page.login.common.registerSuccess'))
     emit('registerSuccess')
-  } catch (_) {
-    window.$message?.error($t('page.login.common.registerFailed'))
+  } catch {
+    // 注册失败提示由全局 onError 处理，这里仅重置验证码
     await resetCaptcha()
   } finally {
     loading.value = false

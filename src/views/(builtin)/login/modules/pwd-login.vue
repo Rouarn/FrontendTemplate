@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { fetchCaptcha } from '@/service/api/login'
+import { fetchCaptcha } from '@/service/api'
 import { useAuthStore } from '@/stores/modules/auth'
 import { $t } from '@/locales'
 import type { FormInst, FormRules } from 'naive-ui'
@@ -46,12 +46,13 @@ const loading = ref(false)
 
 // 生成验证码
 async function generateCaptcha() {
-  const { data, error } = await fetchCaptcha()
-  if (error) {
-    return
+  try {
+    const data = await fetchCaptcha()
+    captchaCode.value = data.image
+    captchaToken.value = data.token
+  } catch {
+    // 验证码获取失败提示由全局 onError 处理
   }
-  captchaCode.value = data.image
-  captchaToken.value = data.token
 }
 
 // 重置验证码

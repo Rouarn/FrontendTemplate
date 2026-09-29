@@ -144,8 +144,7 @@ async function handleSave() {
 
     // 调用更新用户信息的 API
     saving.value = true
-    const { error } = await updateUserInfo(authStore.userInfo.id, saveData)
-    if (error) return
+    await updateUserInfo(authStore.userInfo.id, saveData)
 
     // 更新本地状态
     authStore.setUserInfo({
@@ -155,6 +154,8 @@ async function handleSave() {
 
     isEditing.value = false
     window.$message?.success($t('userCenter.saveSuccess'))
+  } catch {
+    // 表单校验失败或请求失败（请求失败提示由全局 onError 处理）
   } finally {
     saving.value = false
   }
@@ -170,17 +171,15 @@ async function handlePasswordChange() {
       confirmPassword: passwordForm.confirmPassword,
     })
 
-    if (!result.error) {
-      Object.assign(passwordForm, {
-        oldPassword: '',
-        newPassword: '',
-        confirmPassword: '',
-      })
-      window.$message?.success(result.data?.message || $t('userCenter.passwordChangeSuccess'))
-      await authStore.resetStore()
-    }
-  } catch (_) {
-    window.$message?.error($t('userCenter.passwordChangeFailed'))
+    Object.assign(passwordForm, {
+      oldPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    })
+    window.$message?.success(result?.message || $t('userCenter.passwordChangeSuccess'))
+    await authStore.resetStore()
+  } catch {
+    // 表单校验失败或请求失败（请求失败提示由全局 onError 处理）
   } finally {
     changingPassword.value = false
   }
@@ -213,16 +212,16 @@ async function onCropDone(payload: { blob?: Blob; fileName?: string }) {
   userForm.avatar = URL.createObjectURL(payload.blob)
   try {
     const res = await uploadAvatar(file)
-    if (res.data && res.data.completeUrl) {
-      userForm.avatar = res.data.completeUrl
+    if (res?.completeUrl) {
+      userForm.avatar = res.completeUrl
       authStore.setUserInfo({
         ...authStore.userInfo,
-        avatar: res.data.completeUrl,
+        avatar: res.completeUrl,
       })
       window.$message?.success($t('userCenter.avatarUploadSuccess'))
     }
-  } catch (_) {
-    window.$message?.error($t('userCenter.avatarUploadFailed'))
+  } catch {
+    // 上传失败提示由全局 onError 处理
   } finally {
     cutterRef.value?.closeCropper()
     cutterRef.value?.clearImage()

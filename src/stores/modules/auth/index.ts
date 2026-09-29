@@ -1,6 +1,6 @@
 import { computed, reactive, ref } from 'vue'
 import router from '@/router'
-import { fetchLogin, fetchLogout, fetchUserInfo } from '@/service/api/login'
+import { fetchLogin, fetchLogout, fetchUserInfo } from '@/service/api'
 import { localStg } from '@/utils/storage'
 import { useRouteStore } from '../route'
 import { useThemeStore } from '../theme'
@@ -117,8 +117,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, (): AuthStore => {
   /** 重置认证状态（退出登录并清理本地数据） */
   async function resetStore() {
     try {
-      const { error } = await fetchLogout()
-      if (error) return
+      await fetchLogout()
     } catch (error) {
       console.error('[auth.resetStore] logout failed:', error)
       return
@@ -138,12 +137,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, (): AuthStore => {
    */
   async function getUserInfo() {
     try {
-      const { data, error } = await fetchUserInfo()
-      if (error) {
-        routeStore.resetStore()
-        resetAuthStore()
-        return false
-      }
+      const data = await fetchUserInfo()
       setUserInfo(data)
       setIsUserInfoFetched(true)
       return true
@@ -164,11 +158,15 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, (): AuthStore => {
    * @param [redirect=true] 登录后是否重定向，默认 true
    */
   async function login(username: string, password: string, captchaCode: string, captchaToken: string, redirect = true) {
-    const { data, error } = await fetchLogin(username.trim(), password.trim(), captchaCode, captchaToken)
-    if (error) return
-    setToken(data?.accessToken ?? initialState.token)
-    setTokenType(data?.tokenType ?? initialState.tokenType)
-    setRefreshToken(data?.refreshToken ?? initialState.refreshToken)
+    try {
+      const data = await fetchLogin({ username: username.trim(), password: password.trim(), captchaCode, captchaToken })
+      setToken(data.accessToken)
+      setTokenType(data.tokenType)
+      setRefreshToken(data.refreshToken ?? '')
+    } catch {
+      // 登录失败提示由全局 onError 处理
+      return
+    }
 
     await redirectFromLogin(redirect)
 

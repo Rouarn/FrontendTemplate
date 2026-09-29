@@ -21,6 +21,32 @@ declare namespace Api {
      * - "2": unknown
      */
     type Gender = 0 | 1 | 2
+
+    /**
+     * 分页查询参数（后端识别 current + size）
+     */
+    interface PageParams {
+      /** 当前页码 */
+      current?: number
+      /** 每页数量 */
+      size?: number
+    }
+
+    /**
+     * 分页响应数据（与后端 PaginatedData 对齐）
+     */
+    interface Paginated<T> {
+      /** 分页数据列表 */
+      records: T[]
+      /** 总记录数 */
+      total: number
+      /** 总页数 */
+      totalPages: number
+      /** 当前页码 */
+      current: number
+      /** 每页数量 */
+      size: number
+    }
   }
   /**
    * namespace Auth

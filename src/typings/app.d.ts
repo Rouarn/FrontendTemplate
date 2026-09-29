@@ -405,24 +405,4 @@ declare namespace App {
       menuType?: MenuType
     }
   }
-
-  /** 服务命名空间 */
-  namespace Service {
-    interface ServiceConfigItem {
-      /** 后端服务基础地址 */
-      baseURL: string
-      /** 后端服务基础地址的代理匹配模式 */
-      proxyPattern: string
-    }
-
-    /** 后端服务响应数据 */
-    type Response<T = unknown> = {
-      /** 响应码 */
-      code: number
-      /** 响应消息 */
-      message: string
-      /** 响应数据 */
-      data: T
-    }
-  }
 }
