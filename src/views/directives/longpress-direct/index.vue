@@ -39,24 +39,23 @@ const endPress = () => {
 const resetCounter = () => {
   longpressCount.value = 0
 }
+
+/** 使用指南示例代码 */
+const usageCode = `<!-- 基础用法 (默认 1000ms) -->
+<NButton v-longpress="handleLongpress">长按触发</NButton>
+
+<!-- 自定义时长 -->
+<NButton v-longpress="{ fn: handleLongpress, delay: 2000 }">长按 2 秒</NButton>`
 </script>
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:fingerprint-simple-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">长按指令 `v-longpress`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">
-            检测并响应长时间按压操作，支持自定义时长，有效防止误触并丰富交互反馈
-          </p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:fingerprint-simple-duotone"
+      title="长按指令 `v-longpress`"
+      description="检测并响应长时间按压操作，支持自定义时长，有效防止误触并丰富交互反馈"
+    />
 
     <!-- Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16px">
@@ -79,7 +78,13 @@ const resetCounter = () => {
     </div>
 
     <!-- Playground -->
-    <NCard title="👆 长按交互演示" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+    <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header>
+        <span class="flex items-center gap-10px">
+          <SvgIcon icon="ph:hand-tap-duotone" class="text-21px text-primary" />
+          长按交互演示
+        </span>
+      </template>
       <template #header-extra>
         <NButton quaternary @click="resetCounter">
           <template #icon><SvgIcon icon="ph:arrow-counter-clockwise-duotone" /></template>
@@ -128,15 +133,7 @@ const resetCounter = () => {
     </NCard>
 
     <!-- Guide -->
-    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="p-16px rd-12px bg-layout border border-primary/10">
-        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础用法 (默认 1000ms) --&gt;
-&lt;NButton v-longpress="handleLongpress"&gt;长按触发&lt;/NButton&gt;
-
-&lt;!-- 自定义时长 --&gt;
-&lt;NButton v-longpress="{ fn: handleLongpress, delay: 2000 }"&gt;长按 2 秒&lt;/NButton&gt;</code></pre>
-      </div>
-    </NCard>
+    <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>
 

@@ -33,24 +33,23 @@ const reset = () => {
   scrollCount.value = 0
   scrollExecuteCount.value = 0
 }
+
+/** 代码实现示例 */
+const usageCode = `<!-- 基础用法 (默认 1000ms) -->
+<NButton v-throttle="handleClick">点击</NButton>
+
+<!-- 自定义间隔时间 -->
+<NButton v-throttle="{ fn: handleClick, delay: 2000 }">间隔 2s</NButton>`
 </script>
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:hourglass-medium-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">节流指令 `v-throttle`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">
-            每隔一定时间最多执行一次。无论触发频率多高，都会按固定的时间间隔执行。
-          </p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:hourglass-medium-duotone"
+      title="节流指令 `v-throttle`"
+      description="每隔一定时间最多执行一次。无论触发频率多高，都会按固定的时间间隔执行。"
+    />
 
     <!-- Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16px">
@@ -74,7 +73,13 @@ const reset = () => {
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16px">
       <!-- Button Throttle -->
-      <NCard title="🖱️ 按钮点击节流" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:hand-tap-duotone" class="text-21px text-primary" />
+            按钮点击节流
+          </span>
+        </template>
         <div class="flex-col gap-20px py-12px h-full">
           <p class="text-14px text-slate-500">疯狂点击下方按钮，每 1000ms 才会执行一次逻辑，防止重复提交。</p>
           <div class="flex-center flex-1">
@@ -100,7 +105,13 @@ const reset = () => {
       </NCard>
 
       <!-- Scroll Throttle -->
-      <NCard title="📜 滚动事件节流" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:scroll-duotone" class="text-21px text-primary" />
+            滚动事件节流
+          </span>
+        </template>
         <div class="flex-col gap-20px py-12px">
           <p class="text-14px text-slate-500">在下方区域滚动，通过节流将高频滚动事件降低到 200ms 执行一次。</p>
           <div
@@ -119,7 +130,13 @@ const reset = () => {
     </div>
 
     <!-- Comparison Table -->
-    <NCard title="📊 防抖与节流对比" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+    <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header>
+        <span class="flex items-center gap-10px">
+          <SvgIcon icon="ph:table-duotone" class="text-21px text-blue-500" />
+          防抖与节流对比
+        </span>
+      </template>
       <NTable :bordered="false" :single-line="false">
         <thead>
           <tr>
@@ -149,15 +166,7 @@ const reset = () => {
     </NCard>
 
     <!-- Guide -->
-    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="p-16px rd-12px bg-layout border border-primary/10">
-        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础用法 (默认 1000ms) --&gt;
-&lt;NButton v-throttle="handleClick"&gt;点击&lt;/NButton&gt;
-
-&lt;!-- 自定义间隔时间 --&gt;
-&lt;NButton v-throttle="{ fn: handleClick, delay: 2000 }"&gt;间隔 2s&lt;/NButton&gt;</code></pre>
-      </div>
-    </NCard>
+    <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>
 

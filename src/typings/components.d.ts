@@ -14,6 +14,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppProvider: typeof import('./../components/common/app-provider.vue')['default']
     ButtonIcon: typeof import('./../components/custom/button-icon.vue')['default']
+    CodeBlock: typeof import('./../components/custom/code-block.vue')['default']
     CroppingImage: typeof import('./../components/custom/cropping-image.vue')['default']
     DarkModeContainer: typeof import('./../components/common/dark-mode-container.vue')['default']
     EmptyState: typeof import('./../components/common/empty-state.vue')['default']
@@ -77,6 +78,7 @@ declare module 'vue' {
     NTag: typeof import('naive-ui')['NTag']
     NTooltip: typeof import('naive-ui')['NTooltip']
     NWatermark: typeof import('naive-ui')['NWatermark']
+    PageHeader: typeof import('./../components/custom/page-header.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./../components/custom/svg-icon.vue')['default']
@@ -89,6 +91,7 @@ declare module 'vue' {
 declare global {
   const AppProvider: typeof import('./../components/common/app-provider.vue')['default']
   const ButtonIcon: typeof import('./../components/custom/button-icon.vue')['default']
+  const CodeBlock: typeof import('./../components/custom/code-block.vue')['default']
   const CroppingImage: typeof import('./../components/custom/cropping-image.vue')['default']
   const DarkModeContainer: typeof import('./../components/common/dark-mode-container.vue')['default']
   const EmptyState: typeof import('./../components/common/empty-state.vue')['default']
@@ -152,6 +155,7 @@ declare global {
   const NTag: typeof import('naive-ui')['NTag']
   const NTooltip: typeof import('naive-ui')['NTooltip']
   const NWatermark: typeof import('naive-ui')['NWatermark']
+  const PageHeader: typeof import('./../components/custom/page-header.vue')['default']
   const RouterLink: typeof import('vue-router')['RouterLink']
   const RouterView: typeof import('vue-router')['RouterView']
   const SvgIcon: typeof import('./../components/custom/svg-icon.vue')['default']

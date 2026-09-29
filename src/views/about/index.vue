@@ -42,38 +42,32 @@ const latestBuildTime = BUILD_TIME
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:info-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">{{ $t('page.about.title') }}</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">
-            {{ $t('page.about.introduction') }}
-          </p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader icon="ph:info-duotone" :title="$t('page.about.title')" :description="$t('page.about.introduction')" />
 
     <!-- Project Info -->
-    <NCard :title="$t('page.about.projectInfo.title')" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <NDescriptions label-placement="left" :column="column" class="mt-8px">
+    <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header>
+        <span class="flex items-center gap-10px">
+          <SvgIcon icon="ph:cube-duotone" class="text-21px text-primary" />
+          {{ $t('page.about.projectInfo.title') }}
+        </span>
+      </template>
+      <NDescriptions label-placement="left" :column="column" bordered class="mt-8px rd-12px">
         <NDescriptionsItem :label="$t('page.about.projectInfo.version')">
           <NTag type="primary" round size="small" class="font-bold">{{ pkgJson.version }}</NTag>
         </NDescriptionsItem>
         <NDescriptionsItem :label="$t('page.about.projectInfo.latestBuildTime')">
-          <NTag type="primary" round size="small" class="font-bold">{{ latestBuildTime }}</NTag>
+          <NTag type="info" round size="small" class="font-bold">{{ latestBuildTime }}</NTag>
         </NDescriptionsItem>
         <NDescriptionsItem :label="$t('page.about.projectInfo.githubLink')">
-          <a class="text-primary hover:underline flex items-center gap-4px" :href="pkg.homepage" target="_blank" rel="noopener noreferrer">
+          <a class="flex items-center gap-6px text-primary hover:underline" :href="pkg.homepage" target="_blank" rel="noopener noreferrer">
             <SvgIcon icon="ph:github-logo-duotone" />
             GitHub
           </a>
         </NDescriptionsItem>
         <NDescriptionsItem :label="$t('page.about.projectInfo.previewLink')">
-          <a class="text-primary hover:underline flex items-center gap-4px" :href="pkg.website" target="_blank" rel="noopener noreferrer">
+          <a class="flex items-center gap-6px text-primary hover:underline" :href="pkg.website" target="_blank" rel="noopener noreferrer">
             <SvgIcon icon="ph:browser-duotone" />
             {{ $t('page.about.projectInfo.previewLink') }}
           </a>
@@ -82,35 +76,57 @@ const latestBuildTime = BUILD_TIME
     </NCard>
 
     <!-- Dependencies -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-16px">
-      <NCard :title="$t('page.about.prdDep')" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+    <div class="grid grid-cols-1 gap-16px md:grid-cols-2">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:package-duotone" class="text-21px text-primary" />
+            {{ $t('page.about.prdDep') }}
+          </span>
+        </template>
         <template #header-extra>
           <NTag type="success" size="small" round>{{ pkgJson.dependencies.length }}</NTag>
         </template>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-24px gap-y-12px">
+        <div class="grid grid-cols-1 gap-x-24px sm:grid-cols-2">
           <div
             v-for="item in pkgJson.dependencies"
             :key="item.name"
-            class="flex items-center justify-between py-8px border-b border-layout last:border-none"
+            class="group flex items-center justify-between gap-8px border-b border-layout py-10px transition-colors last:border-none hover:border-primary/30"
           >
-            <span class="text-14px font-medium text-slate-600 dark:text-slate-400">{{ item.name }}</span>
-            <NTag :bordered="false" size="small" class="bg-primary/5 text-primary rd-4px font-mono">{{ item.version }}</NTag>
+            <span class="flex items-center gap-8px truncate text-14px font-medium text-slate-600 dark:text-slate-400">
+              <SvgIcon icon="ph:cube-duotone" class="shrink-0 text-14px text-primary/50 transition-colors group-hover:text-primary" />
+              {{ item.name }}
+            </span>
+            <NTag :bordered="false" size="small" class="shrink-0 bg-primary/5 font-mono text-primary rd-4px">
+              {{ item.version }}
+            </NTag>
           </div>
         </div>
       </NCard>
 
-      <NCard :title="$t('page.about.devDep')" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:wrench-duotone" class="text-21px text-amber-500" />
+            {{ $t('page.about.devDep') }}
+          </span>
+        </template>
         <template #header-extra>
           <NTag type="warning" size="small" round>{{ pkgJson.devDependencies.length }}</NTag>
         </template>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-24px gap-y-12px">
+        <div class="grid grid-cols-1 gap-x-24px sm:grid-cols-2">
           <div
             v-for="item in pkgJson.devDependencies"
             :key="item.name"
-            class="flex items-center justify-between py-8px border-b border-layout last:border-none"
+            class="group flex items-center justify-between gap-8px border-b border-layout py-10px transition-colors last:border-none hover:border-amber-500/30"
           >
-            <span class="text-14px font-medium text-slate-600 dark:text-slate-400">{{ item.name }}</span>
-            <NTag :bordered="false" size="small" class="bg-amber-500/5 text-amber-600 rd-4px font-mono">{{ item.version }}</NTag>
+            <span class="flex items-center gap-8px truncate text-14px font-medium text-slate-600 dark:text-slate-400">
+              <SvgIcon icon="ph:cube-duotone" class="shrink-0 text-14px text-amber-500/50 transition-colors group-hover:text-amber-500" />
+              {{ item.name }}
+            </span>
+            <NTag :bordered="false" size="small" class="shrink-0 bg-amber-500/5 font-mono text-amber-600 rd-4px">
+              {{ item.version }}
+            </NTag>
           </div>
         </div>
       </NCard>

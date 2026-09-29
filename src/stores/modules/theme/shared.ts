@@ -10,7 +10,9 @@ export function initThemeSettings() {
   const isProd = import.meta.env.VITE_USER_NODE_ENV === 'production'
 
   //如果是开发模式，主题设置将不会被缓存，通过更新‘ src/theme/settings ’中的‘ themessettings ’。这是更新主题设置
-  if (!isProd) return themeSettings
+  //注意：必须返回默认配置的深拷贝，否则 ref 会直接持有并污染模块单例，
+  //导致 resetStore 拿到的仍是被改脏的同一对象，主题色无法还原
+  if (!isProd) return JSON.parse(JSON.stringify(themeSettings)) as App.Theme.ThemeSetting
 
   //如果是生产模式，主题设置将缓存在localStorage中
   //如果想在发布新版本时更新主题设置，请更新src/theme/settings.ts中的overridethemessettings
@@ -27,7 +29,7 @@ export function initThemeSettings() {
     localStg.set('overrideThemeFlag', BUILD_TIME)
   }
 
-  return settings
+  return JSON.parse(JSON.stringify(settings)) as App.Theme.ThemeSetting
 }
 
 type NaiveColorScene = '' | 'Suppl' | 'Hover' | 'Pressed' | 'Active'

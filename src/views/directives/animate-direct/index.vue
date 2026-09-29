@@ -40,22 +40,23 @@ const triggerAnimation = (animation: string) => {
   selectedAnimation.value = animation
   animationKeyMap.value[animation]++
 }
+
+/** 使用指南示例代码 */
+const usageCode = `// 基础用法
+<div v-animate="'fadeIn'">淡入动画</div>
+
+// 带参数用法 (持续时间, 延迟)
+<div v-animate="{ type: 'zoomIn', duration: 1000, delay: 200 }">缩放动画</div>`
 </script>
 
 <template>
   <div v-bind="$attrs" class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:magic-wand-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">动画指令 `v-animate`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">通过指令轻松为元素注入生命力，支持多种内置动画效果与自定义配置</p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:magic-wand-duotone"
+      title="动画指令 `v-animate`"
+      description="通过指令轻松为元素注入生命力，支持多种内置动画效果与自定义配置"
+    />
 
     <!-- Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-16px">
@@ -70,7 +71,13 @@ const triggerAnimation = (animation: string) => {
     </div>
 
     <!-- Animation Playground -->
-    <NCard title="🎬 动画效果演示" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+    <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header>
+        <span class="flex items-center gap-10px">
+          <SvgIcon icon="ph:film-slate-duotone" class="text-21px text-primary" />
+          动画效果演示
+        </span>
+      </template>
       <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-20px py-24px">
         <div
           v-for="item in animations"
@@ -90,15 +97,7 @@ const triggerAnimation = (animation: string) => {
     </NCard>
 
     <!-- Guide -->
-    <NCard title="💡 使用指南" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="p-16px rd-12px bg-layout border border-primary/10">
-        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>// 基础用法
-&lt;div v-animate="'fadeIn'"&gt;淡入动画&lt;/div&gt;
-
-// 带参数用法 (持续时间, 延迟)
-&lt;div v-animate="{ type: 'zoomIn', duration: 1000, delay: 200 }"&gt;缩放动画&lt;/div&gt;</code></pre>
-      </div>
-    </NCard>
+    <CodeBlock title="使用指南" :code="usageCode" />
   </div>
 </template>
 

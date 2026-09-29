@@ -14,25 +14,33 @@ const handleCopy = () => {
     copySuccess.value = false
   }, 2000)
 }
+
+/** 代码实现示例 */
+const usageCode = `<!-- 基础用法 -->
+<NButton v-copy="'Hello World'">复制文本</NButton>
+
+<!-- 动态内容 -->
+<NInput v-model:value="inputValue" />
+<NButton v-copy="inputValue">复制输入框内容</NButton>`
 </script>
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:copy-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">复制指令 `v-copy`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">便捷的一键复制功能，支持动态绑定内容，显著提升用户的操作效率</p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:copy-duotone"
+      title="复制指令 `v-copy`"
+      description="便捷的一键复制功能，支持动态绑定内容，显著提升用户的操作效率"
+    />
 
     <!-- Playground -->
-    <NCard title="📋 试试复制功能" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+    <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header>
+        <span class="flex items-center gap-10px">
+          <SvgIcon icon="ph:clipboard-text-duotone" class="text-21px text-primary" />
+          试试复制功能
+        </span>
+      </template>
       <div class="max-w-600px mx-auto py-32px">
         <div class="flex gap-12px">
           <NInput v-model:value="data" size="large" placeholder="输入要复制的文本" class="rd-12px flex-1" />
@@ -63,16 +71,7 @@ const handleCopy = () => {
     </NCard>
 
     <!-- Guide -->
-    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="p-16px rd-12px bg-layout border border-primary/10">
-        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础用法 --&gt;
-&lt;NButton v-copy="'Hello World'"&gt;复制文本&lt;/NButton&gt;
-
-&lt;!-- 动态内容 --&gt;
-&lt;NInput v-model:value="inputValue" /&gt;
-&lt;NButton v-copy="inputValue"&gt;复制输入框内容&lt;/NButton&gt;</code></pre>
-      </div>
-    </NCard>
+    <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>
 

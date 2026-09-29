@@ -35,28 +35,37 @@ const tableColumns = [
   { title: '角色', key: 'role' },
   { title: '状态', key: 'status' },
 ]
+
+/** 使用指南示例代码 */
+const usageCode = `<!-- 基础用法 -->
+<div v-loading="isLoading">...</div>
+
+<!-- 高级配置 -->
+<div v-loading="{
+  loading: true,
+  text: '加载中...',
+  background: 'rgba(0,0,0,0.6)'
+}">...</div>`
 </script>
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:spinner-duotone" class="text-40px animate-spin" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">加载指令 `v-loading`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">
-            为任意容器添加局部加载遮罩，支持自定义文本、图标与背景色，提供丝滑的加载过渡体验
-          </p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:spinner-duotone"
+      title="加载指令 `v-loading`"
+      description="为任意容器添加局部加载遮罩，支持自定义文本、图标与背景色，提供丝滑的加载过渡体验"
+    />
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16px">
       <!-- Basic Usage -->
-      <NCard title="🔄 基础加载" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:spinner-gap-duotone" class="text-21px text-primary" />
+            基础加载
+          </span>
+        </template>
         <div class="flex-col gap-16px">
           <div v-loading="isLoading" class="relative h-240px rd-16px bg-layout border border-primary/5 flex-center overflow-hidden">
             <div class="text-center p-24px">
@@ -72,7 +81,13 @@ const tableColumns = [
       </NCard>
 
       <!-- Table Loading -->
-      <NCard title="📊 表格集成" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:table-duotone" class="text-21px text-primary" />
+            表格集成
+          </span>
+        </template>
         <div class="flex-col gap-16px">
           <div
             v-loading="{ loading: isTableLoading, text: '同步中...', background: 'rgba(255,255,255,0.8)' }"
@@ -88,7 +103,13 @@ const tableColumns = [
     </div>
 
     <!-- Features -->
-    <NCard title="✨ 核心特性" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+    <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header>
+        <span class="flex items-center gap-10px">
+          <SvgIcon icon="ph:sparkles-duotone" class="text-21px text-amber-500" />
+          核心特性
+        </span>
+      </template>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-24px">
         <div class="flex items-start gap-16px">
           <div class="size-40px flex-center bg-primary/10 text-primary rd-10px flex-shrink-0">
@@ -121,19 +142,7 @@ const tableColumns = [
     </NCard>
 
     <!-- Guide -->
-    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="p-16px rd-12px bg-layout border border-primary/10">
-        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础用法 --&gt;
-&lt;div v-loading="isLoading"&gt;...&lt;/div&gt;
-
-&lt;!-- 高级配置 --&gt;
-&lt;div v-loading="{ 
-  loading: true, 
-  text: '加载中...', 
-  background: 'rgba(0,0,0,0.6)' 
-}"&gt;...&lt;/div&gt;</code></pre>
-      </div>
-    </NCard>
+    <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>
 

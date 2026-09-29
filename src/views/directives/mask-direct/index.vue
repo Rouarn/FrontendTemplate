@@ -26,28 +26,37 @@ const handleMaskClose = (event: CustomEvent) => {
     clickableMask.visible = false
   }
 }
+
+/** 使用指南示例代码 */
+const usageCode = `<!-- 基础用法 -->
+<div v-mask="isVisible">...</div>
+
+<!-- 高级用法 -->
+<div v-mask="{
+  visible: true,
+  content: '<span>Loading</span>',
+  background: 'rgba(0,0,0,0.5)'
+}">...</div>`
 </script>
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:mask-happy-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">遮罩指令 `v-mask`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">
-            为特定容器快速生成覆盖层，支持 HTML 自定义内容、点击外部关闭与精细化样式控制
-          </p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:mask-happy-duotone"
+      title="遮罩指令 `v-mask`"
+      description="为特定容器快速生成覆盖层，支持 HTML 自定义内容、点击外部关闭与精细化样式控制"
+    />
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-16px">
       <!-- Basic Mask -->
-      <NCard title="🎭 基础遮罩" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:mask-happy-duotone" class="text-21px text-primary" />
+            基础遮罩
+          </span>
+        </template>
         <div class="flex-col gap-16px">
           <div v-mask="showBasicMask" class="relative h-200px rd-16px bg-layout border border-primary/5 flex-center overflow-hidden">
             <div class="text-center p-20px">
@@ -62,7 +71,13 @@ const handleMaskClose = (event: CustomEvent) => {
       </NCard>
 
       <!-- Content Mask -->
-      <NCard title="📝 增强内容遮罩" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:pencil-line-duotone" class="text-21px text-primary" />
+            增强内容遮罩
+          </span>
+        </template>
         <div class="flex-col gap-16px">
           <div v-mask="maskWithContent" class="relative h-200px rd-16px bg-layout border border-primary/5 flex-center overflow-hidden">
             <div class="text-center p-20px">
@@ -85,7 +100,13 @@ const handleMaskClose = (event: CustomEvent) => {
       </NCard>
 
       <!-- Interactive Mask -->
-      <NCard title="👆 交互式关闭" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:cursor-click-duotone" class="text-21px text-primary" />
+            交互式关闭
+          </span>
+        </template>
         <div class="flex-col gap-16px">
           <div
             v-mask="clickableMask"
@@ -104,21 +125,7 @@ const handleMaskClose = (event: CustomEvent) => {
       </NCard>
 
       <!-- Code Example -->
-      <NCard title="💡 代码示例" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-        <div class="h-full flex-col justify-center">
-          <div class="p-16px rd-12px bg-layout border border-primary/10">
-            <pre class="text-13px font-mono text-primary leading-relaxed"><code>&lt;!-- 基础用法 --&gt;
-&lt;div v-mask="isVisible"&gt;...&lt;/div&gt;
-
-&lt;!-- 高级用法 --&gt;
-&lt;div v-mask="{
-  visible: true,
-  content: '&lt;span&gt;Loading&lt;/span&gt;',
-  background: 'rgba(0,0,0,0.5)'
-}"&gt;...&lt;/div&gt;</code></pre>
-          </div>
-        </div>
-      </NCard>
+      <CodeBlock title="代码示例" :code="usageCode" />
     </div>
   </div>
 </template>

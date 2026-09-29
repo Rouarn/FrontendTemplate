@@ -14,8 +14,17 @@ const appStore = useAppStore()
 </script>
 
 <template>
-  <NDrawer v-model:show="appStore.themeDrawerVisible" display-directive="show" :width="360">
-    <NDrawerContent :title="$t('theme.themeDrawerTitle')" :native-scrollbar="false" closable>
+  <NDrawer v-model:show="appStore.themeDrawerVisible" display-directive="show" :width="appStore.isMobile ? '100%' : 360">
+    <NDrawerContent :native-scrollbar="false" closable>
+      <template #header>
+        <div class="flex items-center gap-12px">
+          <div class="flex-center size-38px rd-12px bg-primary/10 text-primary shadow-low">
+            <SvgIcon icon="ph:sliders-horizontal-duotone" class="text-20px" />
+          </div>
+          <h3 class="text-16px font-bold text-base-text">{{ $t('theme.themeDrawerTitle') }}</h3>
+        </div>
+      </template>
+
       <DarkMode />
       <ThemeColor />
       <WatermarkSettings />

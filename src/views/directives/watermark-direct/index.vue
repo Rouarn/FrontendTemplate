@@ -58,28 +58,38 @@ const resetSettings = () => {
   watermarkAngle.value = -20
   updateWatermark()
 }
+
+/** 代码实现示例 */
+const usageCode = `<!-- 基础用法 -->
+<div v-watermark="'版权所有'">...</div>
+
+<!-- 高级配置 -->
+<div v-watermark="{ 
+  text: '机密', 
+  color: 'rgba(0,0,0,0.1)', 
+  fontSize: 16, 
+  rotate: -20 
+}">...</div>`
 </script>
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:shield-check-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">水印指令 `v-watermark`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">
-            为页面或特定容器添加防盗用水印保护，支持高度自定义的文本、颜色与角度
-          </p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:shield-check-duotone"
+      title="水印指令 `v-watermark`"
+      description="为页面或特定容器添加防盗用水印保护，支持高度自定义的文本、颜色与角度"
+    />
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-16px">
       <!-- Controls -->
-      <NCard title="⚙️ 水印配置" :bordered="false" class="card-wrapper lg:col-span-1" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper lg:col-span-1" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:sliders-horizontal-duotone" class="text-21px text-primary" />
+            水印配置
+          </span>
+        </template>
         <template #header-extra>
           <NButton quaternary @click="resetSettings">
             <template #icon><SvgIcon icon="ph:arrow-counter-clockwise-duotone" /></template>
@@ -131,7 +141,13 @@ const resetSettings = () => {
       </NCard>
 
       <!-- Preview Area -->
-      <NCard title="🛡️ 效果预览" :bordered="false" class="card-wrapper lg:col-span-2" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper lg:col-span-2" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:eye-duotone" class="text-21px text-primary" />
+            效果预览
+          </span>
+        </template>
         <div
           v-watermark="currentWatermark"
           class="relative h-400px rd-16px bg-layout border-2 border-dashed border-primary/10 flex-center overflow-hidden transition-all duration-500"
@@ -150,21 +166,8 @@ const resetSettings = () => {
       </NCard>
     </div>
 
-    <!-- Usage -->
-    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="p-16px rd-12px bg-layout border border-primary/10">
-        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础用法 --&gt;
-&lt;div v-watermark="'版权所有'"&gt;...&lt;/div&gt;
-
-&lt;!-- 高级配置 --&gt;
-&lt;div v-watermark="{ 
-  text: '机密', 
-  color: 'rgba(0,0,0,0.1)', 
-  fontSize: 16, 
-  rotate: -20 
-}"&gt;...&lt;/div&gt;</code></pre>
-      </div>
-    </NCard>
+    <!-- Guide -->
+    <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>
 

@@ -19,26 +19,37 @@ const presetColors = [
   { name: '活力橙', value: '#f59e0b' },
   { name: '警示红', value: '#ef4444' },
 ]
+
+/** 使用指南示例代码 */
+const usageCode = `<!-- 基础用法 -->
+<div v-highlight="'关键词'">...</div>
+
+<!-- 自定义配置 -->
+<div v-highlight="{ 
+  keywords: 'Vue', 
+  colors: '#059669', 
+  textColor: '#fff' 
+}">...</div>`
 </script>
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:highlighter-circle-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">高亮指令 `v-highlight`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">智能识别并高亮文本中的关键词，支持动态搜索、颜色定制与多种高亮样式</p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:highlighter-circle-duotone"
+      title="高亮指令 `v-highlight`"
+      description="智能识别并高亮文本中的关键词，支持动态搜索、颜色定制与多种高亮样式"
+    />
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-16px">
       <!-- Controls -->
-      <NCard title="⚙️ 配置中心" :bordered="false" class="card-wrapper lg:col-span-1" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper lg:col-span-1" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:sliders-horizontal-duotone" class="text-21px text-primary" />
+            配置中心
+          </span>
+        </template>
         <div class="flex-col gap-24px">
           <div class="space-y-8px">
             <label class="text-14px font-bold text-base-text">搜索关键词</label>
@@ -75,7 +86,13 @@ const presetColors = [
       </NCard>
 
       <!-- Preview Area -->
-      <NCard title="📝 实时预览" :bordered="false" class="card-wrapper lg:col-span-2" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper lg:col-span-2" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:eye-duotone" class="text-21px text-primary" />
+            实时预览
+          </span>
+        </template>
         <div class="p-24px rd-20px bg-layout border border-primary/5 min-h-300px">
           <div
             v-highlight="{ keywords: searchText, colors: highlightColor }"
@@ -107,19 +124,7 @@ const presetColors = [
     </div>
 
     <!-- Guide -->
-    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="p-16px rd-12px bg-layout border border-primary/10">
-        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础用法 --&gt;
-&lt;div v-highlight="'关键词'"&gt;...&lt;/div&gt;
-
-&lt;!-- 自定义配置 --&gt;
-&lt;div v-highlight="{ 
-  keywords: 'Vue', 
-  colors: '#059669', 
-  textColor: '#fff' 
-}"&gt;...&lt;/div&gt;</code></pre>
-      </div>
-    </NCard>
+    <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>
 

@@ -12,12 +12,14 @@ defineProps<Props>()
 </script>
 
 <template>
-  <div class="w-full flex-y-center justify-between">
-    <div>
-      <span class="pr-8px text-base-text">{{ label }}</span>
+  <div class="w-full flex-y-center justify-between gap-8px">
+    <div class="flex min-w-0 items-center">
+      <span class="truncate pr-8px text-base-text">{{ label }}</span>
       <slot name="suffix"></slot>
     </div>
-    <slot></slot>
+    <div class="shrink-0">
+      <slot></slot>
+    </div>
   </div>
 </template>
 

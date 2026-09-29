@@ -139,7 +139,10 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
 
   /** 重置 Store（setup store 无内置 $reset，手动重置状态） */
   function resetStore() {
-    settings.value = initThemeSettings()
+    // 注意：必须就地写入默认值，不能用 `settings.value = initThemeSettings()` 替换对象。
+    // 因为 store 通过 `...toRefs(settings.value)` 暴露属性 ref，替换对象会让这些 ref
+    // 成为绑在旧对象上的孤儿，导致重置后外部读到的开关/颜色仍是旧值
+    Object.assign(settings.value, initThemeSettings())
     localStg.remove('darkMode')
     localStg.remove('themeColor')
     localStg.remove('themeSettings')

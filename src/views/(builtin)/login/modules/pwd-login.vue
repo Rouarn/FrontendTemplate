@@ -22,7 +22,7 @@ const model = reactive({
   captcha: '',
 })
 
-const rules: FormRules = {
+const rules = computed<FormRules>(() => ({
   userName: {
     required: true,
     message: $t('page.login.common.username'),
@@ -38,7 +38,7 @@ const rules: FormRules = {
     message: $t('page.login.common.captcha'),
     trigger: 'blur',
   },
-}
+}))
 
 const captchaCode = ref('') // 验证码图片
 const captchaToken = ref('') // 验证码token

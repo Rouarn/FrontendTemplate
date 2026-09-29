@@ -20,22 +20,25 @@ const handleDragEnd = () => {
 const resetCounter = () => {
   dragCount.value = 0
 }
+
+/** 代码实现示例 */
+const usageCode = `<!-- 基础拖拽 -->
+<div v-draggable>我是可拖拽的元素</div>
+
+<!-- 限制在父容器内 -->
+<div class="parent">
+  <div v-draggable>我只能在父容器里跑</div>
+</div>`
 </script>
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:hand-grabbing-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">拖拽指令 `v-draggable`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">赋予元素自由拖拽移动的能力，支持自定义边界限制与吸附效果</p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:hand-grabbing-duotone"
+      title="拖拽指令 `v-draggable`"
+      description="赋予元素自由拖拽移动的能力，支持自定义边界限制与吸附效果"
+    />
 
     <!-- Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-16px">
@@ -53,7 +56,13 @@ const resetCounter = () => {
     </div>
 
     <!-- Playground -->
-    <NCard title="🎮 拖拽演示区域" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+    <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header>
+        <span class="flex items-center gap-10px">
+          <SvgIcon icon="ph:arrows-out-cardinal-duotone" class="text-21px text-primary" />
+          拖拽演示区域
+        </span>
+      </template>
       <template #header-extra>
         <NButton quaternary @click="resetCounter">
           <template #icon><SvgIcon icon="ph:arrow-counter-clockwise-duotone" /></template>
@@ -91,17 +100,7 @@ const resetCounter = () => {
     </NCard>
 
     <!-- Guide -->
-    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="p-16px rd-12px bg-layout border border-primary/10">
-        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础拖拽 --&gt;
-&lt;div v-draggable&gt;我是可拖拽的元素&lt;/div&gt;
-
-&lt;!-- 限制在父容器内 --&gt;
-&lt;div class="parent"&gt;
-  &lt;div v-draggable&gt;我只能在父容器里跑&lt;/div&gt;
-&lt;/div&gt;</code></pre>
-      </div>
-    </NCard>
+    <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>
 

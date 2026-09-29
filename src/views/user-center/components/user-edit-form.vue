@@ -25,11 +25,11 @@ const formRef = ref<FormInst | null>(null)
 const saving = ref(false)
 
 // 性别选项
-const genderOptions = [
+const genderOptions = computed(() => [
   { label: $t('userCenter.genderMale'), value: 0 },
   { label: $t('userCenter.genderFemale'), value: 1 },
   { label: $t('userCenter.genderUnknown'), value: 2 },
-] as const
+])
 
 // 城市选项：懒构造 + 缓存，避免 setup 顶层一次性构造上千级联项拖慢首屏
 const cityOptions = computed(() =>
@@ -48,18 +48,18 @@ const cityOptions = computed(() =>
 )
 
 // 表单验证规则
-const rules: FormRules = {
+const rules = computed<FormRules>(() => ({
   nickname: [
-    { required: true, message: '请输入昵称', trigger: 'blur' },
-    { min: 2, max: 20, message: '昵称长度为 2-20 个字符', trigger: 'blur' },
+    { required: true, message: $t('userCenter.nicknameRequired'), trigger: 'blur' },
+    { min: 2, max: 20, message: $t('userCenter.nicknameLength'), trigger: 'blur' },
   ],
   mobile: [
-    { required: true, message: '请输入手机号', trigger: 'blur' },
-    { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
+    { required: true, message: $t('userCenter.mobileRequired'), trigger: 'blur' },
+    { pattern: /^1[3-9]\d{9}$/, message: $t('userCenter.mobileInvalid'), trigger: 'blur' },
   ],
-  email: [{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }],
-  bio: [{ max: 200, message: '个人简介最多 200 个字符', trigger: 'blur' }],
-}
+  email: [{ type: 'email', message: $t('userCenter.emailInvalid'), trigger: 'blur' }],
+  bio: [{ max: 200, message: $t('userCenter.bioMaxLength'), trigger: 'blur' }],
+}))
 
 function handleEdit() {
   editable.value = true

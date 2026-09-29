@@ -34,10 +34,10 @@ function onAvatarUploaded(url: string) {
 </script>
 
 <template>
-  <div class="p-16px lg:p-24px bg-layout min-h-full">
-    <div class="max-w-1200px mx-auto grid grid-cols-1 lg:grid-cols-4 gap-24px">
+  <div class="bg-layout min-h-full">
+    <div class="max-w-1200px mx-auto grid grid-cols-1 lg:grid-cols-4 gap-16px">
       <!-- 左栏：用户概览（头像上传、角色、登录统计） -->
-      <div class="lg:col-span-1 space-y-24px">
+      <div class="lg:col-span-1 space-y-16px">
         <UserProfileCard
           :avatar="userForm.avatar"
           :nickname="userForm.nickname"

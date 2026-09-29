@@ -65,22 +65,22 @@ function checkLoadingStatus() {
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:spinner-gap-duotone" class="text-40px animate-spin" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">现代化 Loading 组件</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">适用于全局或局部加载状态的优雅交互方案，支持智能计数与文本自定义</p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:spinner-gap-duotone"
+      title="现代化 Loading 组件"
+      description="适用于全局或局部加载状态的优雅交互方案，支持智能计数与文本自定义"
+    />
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-16px">
       <!-- 基础用法 -->
-      <NCard title="🚀 基础用法" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:rocket-launch-duotone" class="text-21px text-primary" />
+            基础用法
+          </span>
+        </template>
         <div class="flex-col gap-16px">
           <p class="text-14px text-slate-500">最简单的调用方式，显示全局加载动画，2秒后自动关闭</p>
           <NButton
@@ -96,7 +96,13 @@ function checkLoadingStatus() {
       </NCard>
 
       <!-- 自定义文本 -->
-      <NCard title="📝 自定义文本" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:text-t-duotone" class="text-21px text-blue-500" />
+            自定义文本
+          </span>
+        </template>
         <div class="flex-col gap-16px">
           <p class="text-14px text-slate-500">动态更新加载提示文字内容，为用户提供更清晰的反馈</p>
           <NButton
@@ -114,7 +120,13 @@ function checkLoadingStatus() {
       </NCard>
 
       <!-- 状态检查 -->
-      <NCard title="🔍 状态检查" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:magnifying-glass-duotone" class="text-21px text-slate-500" />
+            状态检查
+          </span>
+        </template>
         <div class="flex-col gap-16px">
           <p class="text-14px text-slate-500">实时获取当前 Loading 服务的运行状态，辅助业务逻辑判断</p>
           <NButton @click="checkLoadingStatus" quaternary size="large" class="rd-8px font-bold transition-all duration-300 active:scale-95">
@@ -125,7 +137,13 @@ function checkLoadingStatus() {
       </NCard>
 
       <!-- 多重调用 -->
-      <NCard title="🔄 多重调用" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:stack-duotone" class="text-21px text-amber-500" />
+            多重调用
+          </span>
+        </template>
         <div class="flex-col gap-16px">
           <p class="text-14px text-slate-500">模拟并发场景，确保 Loading 正确管理计数，所有请求结束后再隐藏</p>
           <NButton
@@ -143,7 +161,13 @@ function checkLoadingStatus() {
       </NCard>
 
       <!-- HTTP 请求模拟 -->
-      <NCard title="🌐 HTTP 请求模拟" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper md:col-span-2" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:globe-duotone" class="text-21px text-success" />
+            HTTP 请求模拟
+          </span>
+        </template>
         <div class="flex-col gap-16px">
           <p class="text-14px text-slate-500">模拟真实的 HTTP 请求场景，展示在请求期间的局部加载效果</p>
           <NButton
@@ -163,8 +187,14 @@ function checkLoadingStatus() {
     </div>
 
     <!-- Features -->
-    <NCard title="✨ 核心特性" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-24px">
+    <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header>
+        <span class="flex items-center gap-10px">
+          <SvgIcon icon="ph:star-duotone" class="text-21px text-amber-500" />
+          核心特性
+        </span>
+      </template>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16px">
         <div class="flex items-start gap-16px">
           <div class="size-40px flex-center bg-primary/10 text-primary rd-10px flex-shrink-0">
             <SvgIcon icon="ph:hash-duotone" class="text-20px" />

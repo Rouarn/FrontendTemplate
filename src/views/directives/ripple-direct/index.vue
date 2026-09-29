@@ -16,24 +16,27 @@ const handleRippleClick = () => {
 const resetCounter = () => {
   rippleCount.value = 0
 }
+
+/** 代码实现示例 */
+const usageCode = `<!-- 基础用法 -->
+<div v-ripple>点击产生波纹</div>
+
+<!-- 高级配置 -->
+<div v-ripple="{
+  color: 'rgba(255, 255, 255, 0.5)',
+  duration: 600,
+  disabled: false
+}">...</div>`
 </script>
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:waves-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">波纹指令 `v-ripple`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">
-            为元素注入灵动的 Material Design 风格波纹反馈，提升交互的确定感与品质感
-          </p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:waves-duotone"
+      title="波纹指令 `v-ripple`"
+      description="为元素注入灵动的 Material Design 风格波纹反馈，提升交互的确定感与品质感"
+    />
 
     <!-- Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-16px">
@@ -51,7 +54,13 @@ const resetCounter = () => {
     </div>
 
     <!-- Playground -->
-    <NCard title="🌊 波纹交互演示" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+    <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header>
+        <span class="flex items-center gap-10px">
+          <SvgIcon icon="ph:waves-duotone" class="text-21px text-primary" />
+          波纹交互演示
+        </span>
+      </template>
       <template #header-extra>
         <NSpace align="center" :size="16">
           <div class="flex items-center gap-8px">
@@ -131,19 +140,7 @@ const resetCounter = () => {
     </NCard>
 
     <!-- Guide -->
-    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="p-16px rd-12px bg-layout border border-primary/10">
-        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础用法 --&gt;
-&lt;div v-ripple&gt;点击产生波纹&lt;/div&gt;
-
-&lt;!-- 高级配置 --&gt;
-&lt;div v-ripple="{ 
-  color: 'rgba(255, 255, 255, 0.5)', 
-  duration: 600,
-  disabled: false 
-}"&gt;...&lt;/div&gt;</code></pre>
-      </div>
-    </NCard>
+    <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>
 

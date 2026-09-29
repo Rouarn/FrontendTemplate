@@ -19,24 +19,28 @@ const positions = [
   { label: '左侧', value: 'left', icon: 'ph:caret-left-bold' },
   { label: '右侧', value: 'right', icon: 'ph:caret-right-bold' },
 ]
+
+/** 代码实现示例 */
+const usageCode = `<!-- 简易用法 -->
+<div v-tooltip="'提示内容'">...</div>
+
+<!-- 全量配置 -->
+<div v-tooltip="{ 
+  content: '自定义内容', 
+  placement: 'right', 
+  theme: 'dark',
+  delay: 200 
+}">...</div>`
 </script>
 
 <template>
   <div v-bind="$attrs" class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:chat-teardrop-dots-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">提示指令 `v-tooltip`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">
-            轻量级的气泡提示解决方案，支持多方位弹出、自定义图标与丰富的视觉主题
-          </p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:chat-teardrop-dots-duotone"
+      title="提示指令 `v-tooltip`"
+      description="轻量级的气泡提示解决方案，支持多方位弹出、自定义图标与丰富的视觉主题"
+    />
 
     <!-- Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16px">
@@ -57,7 +61,13 @@ const positions = [
     </div>
 
     <!-- Playground -->
-    <NCard title="💬 交互演示" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+    <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header>
+        <span class="flex items-center gap-10px">
+          <SvgIcon icon="ph:chat-circle-dots-duotone" class="text-21px text-primary" />
+          交互演示
+        </span>
+      </template>
       <div class="flex-col-center py-64px bg-layout/50 rd-24px border-2 border-dashed border-primary/10">
         <div class="relative">
           <NButton
@@ -105,20 +115,7 @@ const positions = [
     </NCard>
 
     <!-- Guide -->
-    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="p-16px rd-12px bg-layout border border-primary/10">
-        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 简易用法 --&gt;
-&lt;div v-tooltip="'提示内容'"&gt;...&lt;/div&gt;
-
-&lt;!-- 全量配置 --&gt;
-&lt;div v-tooltip="{ 
-  content: '自定义内容', 
-  placement: 'right', 
-  theme: 'dark',
-  delay: 200 
-}"&gt;...&lt;/div&gt;</code></pre>
-      </div>
-    </NCard>
+    <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>
 

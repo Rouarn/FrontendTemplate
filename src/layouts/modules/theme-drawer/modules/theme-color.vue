@@ -34,38 +34,51 @@ const swatches: string[] = [
 </script>
 
 <template>
-  <NDivider>{{ $t('theme.themeColor.title') }}</NDivider>
-  <div class="flex-col-stretch gap-12px">
-    <NTooltip placement="top-start">
-      <template #trigger>
-        <SettingItem key="recommend-color" :label="$t('theme.recommendColor')">
-          <NSwitch v-model:value="themeStore.recommendColor" />
-        </SettingItem>
-      </template>
-      <p>
-        <span class="pr-12px">{{ $t('theme.recommendColorDesc') }}</span>
-        <br />
-        <NButton text tag="a" href="https://uicolors.app/create" target="_blank" rel="noopener noreferrer" class="text-gray">
-          https://uicolors.app/create
-        </NButton>
-      </p>
-    </NTooltip>
-    <SettingItem v-for="(_, key) in themeStore.themeColors" :key="key" :label="$t(`theme.themeColor.${key}`)">
-      <template v-if="key === 'info'" #suffix>
-        <NCheckbox v-model:checked="themeStore.isInfoFollowPrimary">
-          {{ $t('theme.themeColor.followPrimary') }}
-        </NCheckbox>
-      </template>
-      <NColorPicker
-        class="w-90px"
-        :value="themeStore.themeColors[key]"
-        :disabled="key === 'info' && themeStore.isInfoFollowPrimary"
-        :show-alpha="false"
-        :swatches="swatches"
-        @update:value="handleUpdateColor($event, key)"
-      />
-    </SettingItem>
-  </div>
+  <section class="mb-18px">
+    <!-- 分区标题 -->
+    <div class="mb-10px flex items-center gap-8px">
+      <div class="flex-center size-26px rd-8px bg-primary/10 text-primary">
+        <SvgIcon icon="ph:palette-duotone" class="text-15px" />
+      </div>
+      <h4 class="text-13px font-bold text-base-text">{{ $t('theme.themeColor.title') }}</h4>
+    </div>
+
+    <!-- 分组内容 -->
+    <div class="flex-col gap-12px rd-14px bg-layout p-14px">
+      <NTooltip placement="top-start">
+        <template #trigger>
+          <SettingItem key="recommend-color" :label="$t('theme.recommendColor')">
+            <NSwitch v-model:value="themeStore.recommendColor" />
+          </SettingItem>
+        </template>
+        <p>
+          <span class="pr-12px">{{ $t('theme.recommendColorDesc') }}</span>
+          <br />
+          <NButton text tag="a" href="https://uicolors.app/create" target="_blank" rel="noopener noreferrer" class="text-gray">
+            https://uicolors.app/create
+          </NButton>
+          <span class="mt-6px block text-12px text-gray-400">
+            {{ $t('theme.recommendColorEffectTip') }}
+          </span>
+        </p>
+      </NTooltip>
+      <SettingItem v-for="(_, key) in themeStore.themeColors" :key="key" :label="$t(`theme.themeColor.${key}`)">
+        <template v-if="key === 'info'" #suffix>
+          <NCheckbox v-model:checked="themeStore.isInfoFollowPrimary">
+            {{ $t('theme.themeColor.followPrimary') }}
+          </NCheckbox>
+        </template>
+        <NColorPicker
+          class="w-90px"
+          :value="themeStore.themeColors[key]"
+          :disabled="key === 'info' && themeStore.isInfoFollowPrimary"
+          :show-alpha="false"
+          :swatches="swatches"
+          @update:value="handleUpdateColor($event, key)"
+        />
+      </SettingItem>
+    </div>
+  </section>
 </template>
 
 <style scoped></style>

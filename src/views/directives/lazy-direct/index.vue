@@ -18,24 +18,27 @@ const loadedCount = ref(0)
 const onImageLoad = () => {
   loadedCount.value++
 }
+
+/** 使用指南示例代码 */
+const usageCode = `<!-- 基础用法 -->
+<img v-lazy="'/path/to/image.jpg'" />
+
+<!-- 高级用法 -->
+<img v-lazy="{ 
+  src: '/real/image.jpg', 
+  placeholder: '/placeholder.jpg',
+  error: '/error.jpg' 
+}" />`
 </script>
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:image-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">懒加载指令 `v-lazy`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">
-            图片进入可视区域时才触发加载，显著降低首屏流量消耗并提升页面加载速度
-          </p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:image-duotone"
+      title="懒加载指令 `v-lazy`"
+      description="图片进入可视区域时才触发加载，显著降低首屏流量消耗并提升页面加载速度"
+    />
 
     <!-- Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-16px">
@@ -58,7 +61,13 @@ const onImageLoad = () => {
     </div>
 
     <!-- Playground -->
-    <NCard title="🖼️ 滚动加载演示" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+    <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header>
+        <span class="flex items-center gap-10px">
+          <SvgIcon icon="ph:images-duotone" class="text-21px text-primary" />
+          滚动加载演示
+        </span>
+      </template>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24px py-16px">
         <div
           v-for="image in imageList"
@@ -88,7 +97,13 @@ const onImageLoad = () => {
     </NCard>
 
     <!-- Features -->
-    <NCard title="✨ 核心特性" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+    <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header>
+        <span class="flex items-center gap-10px">
+          <SvgIcon icon="ph:star-duotone" class="text-21px text-amber-500" />
+          核心特性
+        </span>
+      </template>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-24px">
         <div class="flex items-start gap-16px">
           <div class="size-40px flex-center bg-primary/10 text-primary rd-10px flex-shrink-0">
@@ -121,19 +136,7 @@ const onImageLoad = () => {
     </NCard>
 
     <!-- Guide -->
-    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="p-16px rd-12px bg-layout border border-primary/10">
-        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础用法 --&gt;
-&lt;img v-lazy="'/path/to/image.jpg'" /&gt;
-
-&lt;!-- 高级用法 --&gt;
-&lt;img v-lazy="{ 
-  src: '/real/image.jpg', 
-  placeholder: '/placeholder.jpg',
-  error: '/error.jpg' 
-}" /&gt;</code></pre>
-      </div>
-    </NCard>
+    <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>
 

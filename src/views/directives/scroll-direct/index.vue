@@ -36,22 +36,25 @@ const scrollToBottom = () => {
     element.scrollTo({ top: element.scrollHeight, behavior: 'smooth' })
   }
 }
+
+/** 代码实现示例 */
+const usageCode = `<!-- 基础滚动监听 -->
+<div v-scroll="handleScroll">...</div>
+
+// 回调数据结构
+const handleScroll = ({ position, percentage, direction, velocity }) => {
+  console.log('当前滚动百分比:', percentage)
+}`
 </script>
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:mouse-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">滚动指令 `v-scroll`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">实时监听并精准控制容器滚动状态，支持方向识别、百分比计算与平滑定位</p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:mouse-duotone"
+      title="滚动指令 `v-scroll`"
+      description="实时监听并精准控制容器滚动状态，支持方向识别、百分比计算与平滑定位"
+    />
 
     <!-- Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16px">
@@ -85,7 +88,13 @@ const scrollToBottom = () => {
     </div>
 
     <!-- Playground -->
-    <NCard title="🖱️ 滚动演示与控制" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+    <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header>
+        <span class="flex items-center gap-10px">
+          <SvgIcon icon="ph:mouse-scroll-duotone" class="text-21px text-primary" />
+          滚动演示与控制
+        </span>
+      </template>
       <template #header-extra>
         <NSpace>
           <NButton size="small" secondary strong @click="scrollToTop">回到顶部</NButton>
@@ -156,17 +165,7 @@ const scrollToBottom = () => {
     </NCard>
 
     <!-- Guide -->
-    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="p-16px rd-12px bg-layout border border-primary/10">
-        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础滚动监听 --&gt;
-&lt;div v-scroll="handleScroll"&gt;...&lt;/div&gt;
-
-// 回调数据结构
-const handleScroll = ({ position, percentage, direction, velocity }) => {
-  console.log('当前滚动百分比:', percentage)
-}</code></pre>
-      </div>
-    </NCard>
+    <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>
 

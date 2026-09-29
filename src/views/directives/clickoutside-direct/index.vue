@@ -25,22 +25,22 @@ const handleMenuItemClick = (itemName: string) => {
   window.$message?.success(`点击了：${itemName}`)
   isDropdownOpen.value = false
 }
+
+/** 代码实现示例 */
+const usageCode = `<!-- 在需要监听外部点击的元素上使用 -->
+<div v-if="visible" v-clickoutside="handleClose">
+  我是菜单内容
+</div>`
 </script>
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:cursor-click-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">点击外部指令 `v-clickoutside`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">检测点击元素外部区域的事件，常用于关闭下拉菜单、模态框或气泡提示</p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:cursor-click-duotone"
+      title="点击外部指令 `v-clickoutside`"
+      description="检测点击元素外部区域的事件，常用于关闭下拉菜单、模态框或气泡提示"
+    />
 
     <!-- Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-16px">
@@ -58,7 +58,13 @@ const handleMenuItemClick = (itemName: string) => {
     </div>
 
     <!-- Playground -->
-    <NCard title="🎯 交互演示" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+    <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <template #header>
+        <span class="flex items-center gap-10px">
+          <SvgIcon icon="ph:target-duotone" class="text-21px text-primary" />
+          交互演示
+        </span>
+      </template>
       <div class="flex-col-center py-64px bg-layout/50 rd-24px border-2 border-dashed border-primary/10">
         <div class="relative">
           <NButton
@@ -104,14 +110,7 @@ const handleMenuItemClick = (itemName: string) => {
     </NCard>
 
     <!-- Guide -->
-    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="p-16px rd-12px bg-layout border border-primary/10">
-        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 在需要监听外部点击的元素上使用 --&gt;
-&lt;div v-if="visible" v-clickoutside="handleClose"&gt;
-  我是菜单内容
-&lt;/div&gt;</code></pre>
-      </div>
-    </NCard>
+    <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>
 

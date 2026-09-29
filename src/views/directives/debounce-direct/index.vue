@@ -36,24 +36,27 @@ const reset = () => {
   searchText.value = ''
   searchResult.value = []
 }
+
+/** 代码实现示例 */
+const usageCode = `<!-- 基础用法 (默认 500ms 延迟) -->
+<NButton v-debounce="handleClick">点击</NButton>
+
+<!-- 进阶配置 (立即执行) -->
+<NButton v-debounce="{ 
+  fn: handleClick, 
+  delay: 1000, 
+  immediate: true 
+}">立即响应</NButton>`
 </script>
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Header Card -->
-    <NCard :bordered="false" class="card-wrapper overflow-hidden">
-      <div class="flex items-center gap-24px">
-        <div class="size-80px flex-center bg-primary/10 rd-20px text-primary shadow-low">
-          <SvgIcon icon="ph:timer-duotone" class="text-40px" />
-        </div>
-        <div class="flex-1">
-          <h1 class="text-24px font-bold text-base-text">防抖指令 `v-debounce`</h1>
-          <p class="mt-8px text-16px text-slate-500 leading-relaxed">
-            在事件停止触发后延迟一定时间再执行。如果在延迟时间内再次触发，则重新计时。
-          </p>
-        </div>
-      </div>
-    </NCard>
+    <!-- Page Header -->
+    <PageHeader
+      icon="ph:timer-duotone"
+      title="防抖指令 `v-debounce`"
+      description="在事件停止触发后延迟一定时间再执行。如果在延迟时间内再次触发，则重新计时。"
+    />
 
     <!-- Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16px">
@@ -73,7 +76,13 @@ const reset = () => {
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16px">
       <!-- Trailing Debounce (Search) -->
-      <NCard title="🔍 搜索场景 (延迟执行)" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:magnifying-glass-duotone" class="text-21px text-primary" />
+            搜索场景 (延迟执行)
+          </span>
+        </template>
         <div class="flex-col gap-20px py-12px">
           <p class="text-14px text-slate-500">停止输入 500ms 后才触发搜索请求，避免每输入一个字符都发请求。</p>
           <NInput
@@ -97,7 +106,13 @@ const reset = () => {
       </NCard>
 
       <!-- Leading Debounce (Button) -->
-      <NCard title="⚡ 按钮场景 (立即执行)" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+      <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
+        <template #header>
+          <span class="flex items-center gap-10px">
+            <SvgIcon icon="ph:lightning-duotone" class="text-21px text-primary" />
+            按钮场景 (立即执行)
+          </span>
+        </template>
         <div class="flex-col gap-20px py-12px h-full">
           <p class="text-14px text-slate-500">点击后立即响应，但 1000ms 内重复点击无效。保证首发响应，后续拦截。</p>
           <div class="flex-center flex-1">
@@ -124,19 +139,7 @@ const reset = () => {
     </div>
 
     <!-- Guide -->
-    <NCard title="💡 代码实现" :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
-      <div class="p-16px rd-12px bg-layout border border-primary/10">
-        <pre class="text-13px font-mono text-primary leading-relaxed overflow-x-auto"><code>&lt;!-- 基础用法 (默认 500ms 延迟) --&gt;
-&lt;NButton v-debounce="handleClick"&gt;点击&lt;/NButton&gt;
-
-&lt;!-- 进阶配置 (立即执行) --&gt;
-&lt;NButton v-debounce="{ 
-  fn: handleClick, 
-  delay: 1000, 
-  immediate: true 
-}"&gt;立即响应&lt;/NButton&gt;</code></pre>
-      </div>
-    </NCard>
+    <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>
 

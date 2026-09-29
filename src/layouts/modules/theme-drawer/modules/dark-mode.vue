@@ -34,29 +34,39 @@ function handleColourWeaknessChange(value: boolean) {
 </script>
 
 <template>
-  <NDivider>{{ $t('theme.themeSchema.title') }}</NDivider>
-  <div class="flex-col-stretch gap-16px">
-    <div class="i-flex-center">
-      <NTabs
-        :key="themeStore.themeScheme"
-        type="segment"
-        size="small"
-        class="relative w-214px"
-        :value="themeStore.themeScheme"
-        @update:value="handleSegmentChange"
-      >
-        <NTab v-for="(_, key) in themeSchemaRecord" :key="key" :name="key">
-          <SvgIcon :icon="icons[key]" class="h-23px text-icon-small" />
-        </NTab>
-      </NTabs>
+  <section class="mb-18px">
+    <!-- 分区标题 -->
+    <div class="mb-10px flex items-center gap-8px">
+      <div class="flex-center size-26px rd-8px bg-primary/10 text-primary">
+        <SvgIcon icon="ph:circle-half-duotone" class="text-15px" />
+      </div>
+      <h4 class="text-13px font-bold text-base-text">{{ $t('theme.themeSchema.title') }}</h4>
     </div>
-    <SettingItem :label="$t('theme.grayscale')">
-      <NSwitch :value="themeStore.grayscale" @update:value="handleGrayscaleChange" />
-    </SettingItem>
-    <SettingItem :label="$t('theme.colourWeakness')">
-      <NSwitch :value="themeStore.colourWeakness" @update:value="handleColourWeaknessChange" />
-    </SettingItem>
-  </div>
+
+    <!-- 分组内容 -->
+    <div class="flex-col gap-14px rd-14px bg-layout p-14px">
+      <div class="i-flex-center">
+        <NTabs
+          :key="themeStore.themeScheme"
+          type="segment"
+          size="small"
+          class="relative w-214px max-w-full"
+          :value="themeStore.themeScheme"
+          @update:value="handleSegmentChange"
+        >
+          <NTab v-for="(_, key) in themeSchemaRecord" :key="key" :name="key">
+            <SvgIcon :icon="icons[key]" class="h-23px text-icon-small" />
+          </NTab>
+        </NTabs>
+      </div>
+      <SettingItem :label="$t('theme.grayscale')">
+        <NSwitch :value="themeStore.grayscale" @update:value="handleGrayscaleChange" />
+      </SettingItem>
+      <SettingItem :label="$t('theme.colourWeakness')">
+        <NSwitch :value="themeStore.colourWeakness" @update:value="handleColourWeaknessChange" />
+      </SettingItem>
+    </div>
+  </section>
 </template>
 
 <style scoped>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { fetchCaptcha, fetchRegister } from '@/service/api'
 import { $t } from '@/locales'
 import type { FormInst, FormRules } from 'naive-ui'
@@ -26,7 +26,7 @@ const model = reactive({
   captcha: '',
 })
 
-const rules: FormRules = {
+const rules = computed<FormRules>(() => ({
   username: [
     { required: true, message: $t('page.login.common.username'), trigger: 'blur' },
     { min: 3, max: 20, message: $t('page.login.common.username'), trigger: 'blur' },
@@ -65,18 +65,18 @@ const rules: FormRules = {
     message: $t('page.login.common.gender'),
     trigger: 'change',
   },
-}
+}))
 
 const captchaCode = ref('') // 验证码图片
 const captchaToken = ref('') // 验证码token
 const loading = ref(false)
 
 // 性别选项
-const genderOptions = [
+const genderOptions = computed(() => [
   { label: $t('page.login.common.genderMale'), value: 0 },
   { label: $t('page.login.common.genderFemale'), value: 1 },
   { label: $t('page.login.common.genderUnknown'), value: 2 },
-] as const
+])
 
 // 生成验证码
 async function generateCaptcha() {

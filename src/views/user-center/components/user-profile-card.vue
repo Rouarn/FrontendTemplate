@@ -56,8 +56,8 @@ function handleUploaded(url: string) {
 
 <template>
   <NCard :bordered="false" class="card-wrapper text-center overflow-hidden">
-    <div class="relative pt-24px pb-32px">
-      <div class="absolute top-0 left-0 w-full h-80px bg-primary/10" />
+    <div class="relative pt-28px pb-32px">
+      <div class="profile-banner absolute top-0 left-0 w-full h-110px" />
       <div class="relative flex-center flex-col gap-16px z-10">
         <AvatarUploader
           :avatar="avatar"
@@ -121,4 +121,21 @@ function handleUploaded(url: string) {
   </NCard>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.profile-banner {
+  overflow: hidden;
+  background: linear-gradient(135deg, rgb(var(--primary-color) / 0.2), rgb(var(--primary-color) / 0.02));
+}
+
+.profile-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgb(var(--primary-color) / 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--primary-color) / 0.12) 1px, transparent 1px);
+  background-size: 26px 26px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent);
+  mask-image: linear-gradient(to bottom, #000 30%, transparent);
+}
+</style>

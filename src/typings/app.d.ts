@@ -139,6 +139,7 @@ declare namespace App {
         colourWeakness: string
         recommendColor: string
         recommendColorDesc: string
+        recommendColorEffectTip: string
         themeColor: {
           title: string
           followPrimary: string
@@ -197,6 +198,7 @@ declare namespace App {
       }
       page: {
         home: {
+          heroBadge: string
           heroDescription: string
           getStarted: string
           viewSource: string
@@ -225,6 +227,14 @@ declare namespace App {
           readyToStartDesc: string
           downloadNow: string
           readDocs: string
+          philosophyTitle: string
+          philosophyDesc: string
+          philosophy1Title: string
+          philosophy1Desc: string
+          philosophy2Title: string
+          philosophy2Desc: string
+          philosophy3Title: string
+          philosophy3Desc: string
         }
         about: {
           title: string
@@ -277,20 +287,26 @@ declare namespace App {
         saveSuccess: string
         nickname: string
         nicknamePlaceholder: string
+        nicknameRequired: string
+        nicknameLength: string
         gender: string
         genderMale: string
         genderFemale: string
         genderUnknown: string
         mobile: string
         mobilePlaceholder: string
+        mobileRequired: string
+        mobileInvalid: string
         email: string
         emailPlaceholder: string
+        emailInvalid: string
         birthday: string
         birthdayPlaceholder: string
         city: string
         cityPlaceholder: string
         bio: string
         bioPlaceholder: string
+        bioMaxLength: string
         security: string
         changePassword: string
         changePasswordDesc: string
