@@ -213,21 +213,6 @@
           }
         },
         {
-          "name": "directives-permission-direct",
-          "path": "/directives/permission-direct",
-          "component": "/directives/permission-direct/index",
-          "meta": {
-            "title": "Directives Permission Direct",
-            "i18nKey": "route.directives.permission-direct",
-            "icon": "",
-            "order": 2,
-            "hideInMenu": false,
-            "isKeepAlive": true,
-            "isAuth": false,
-            "menuType": 2
-          }
-        },
-        {
           "name": "directives-scroll-direct",
           "path": "/directives/scroll-direct",
           "component": "/directives/scroll-direct/index",

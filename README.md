@@ -32,15 +32,15 @@
 
 ### 🎯 路由与菜单
 
-- **后端路由数据驱动**，基于 `src/assets/json/authMenuList.json`
+- **后端路由数据驱动**，基于 `src/assets/json/auth-menu-list.json`
 - **组件自动解析**，字符串组件路径自动映射到 `src/views` 真实组件
 - **智能菜单生成**，自动分组与排序，支持任意层级嵌套
 
 ### 🏗️ 现代化技术栈
 
 - **Vue 3.5+** - 最新 Composition API，性能卓越
-- **Vite 7+** - 极速开发构建，HMR 体验丝滑
-- **TypeScript 5+** - 完整类型安全，开发体验一流
+- **Vite 8+** - 极速开发构建，HMR 体验丝滑
+- **TypeScript 6+** - 完整类型安全，开发体验一流
 - **Naive UI 2+** - 现代化组件库，深度定制 UI
 - **UnoCSS** - 原子化 CSS，极致的样式复用与按需加载
 
@@ -64,19 +64,19 @@
 | 分类         | 技术选型       | 版本 | 说明                           |
 | ------------ | -------------- | ---- | ------------------------------ |
 | **核心框架** | Vue            | 3.5+ | 最新 Composition API，性能卓越 |
-|              | Vite           | 7+   | 极速构建工具，开发体验一流     |
-|              | TypeScript     | 5+   | 完整类型安全，智能提示         |
+|              | Vite           | 8+   | 极速构建工具，开发体验一流     |
+|              | TypeScript     | 6+   | 完整类型安全，智能提示         |
 | **UI 组件**  | Naive UI       | 2+   | 现代化 Vue 3 组件库            |
 |              | UnoCSS         | -    | 原子化 CSS 引擎                |
 |              | Iconify        | -    | 统一图标解决方案，100+ 图标集  |
 | **路由状态** | Elegant Router | -    | 文件系统路由生成器             |
 |              | Vue Router     | 4+   | 官方路由管理器                 |
-|              | Pinia          | 3+   | 官方推荐状态管理               |
+|              | Pinia          | 4+   | 官方推荐状态管理               |
 | **工具库**   | VueUse         | -    | Composition API 工具集         |
 |              | Axios          | -    | HTTP 客户端库                  |
 |              | Day.js         | -    | 轻量级日期处理                 |
 |              | Vue I18n       | 11+  | 国际化解决方案                 |
-| **开发工具** | ESLint         | 9+   | 代码质量检查                   |
+| **开发工具** | ESLint         | 10+  | 代码质量检查                   |
 |              | Prettier       | 3+   | 代码格式化                     |
 |              | Husky          | 9+   | Git hooks 管理                 |
 
@@ -191,7 +191,7 @@ export function resolveRouteComponent(route, modules) {
 ### 🛡️ 路由守卫与初始化
 
 - 首次进入应用，若已登录但尚未初始化，执行路由初始化并重定向到原目标路径
-- 无论分支如何，守卫均调用 `next()` 保证导航有效，避免 “The next callback was never called” 报错
+- 守卫采用 vue-router 4 的 return-based 导航（`return location` / `return true` / `return false`），无需手动调用 `next()`，避免 "next callback was never called" 报错
 
 ### 🎯 多层级菜单支持
 
@@ -219,7 +219,13 @@ src/views/
 │   └── animate-direct/
 │       └── index.vue        # → /directives/animate-direct
 ├── user-center/             # → /user-center
-│   └── index.vue
+│   ├── index.vue            # 容器：布局与状态桥接
+│   ├── shared.ts            # 表单类型与初始化工具
+│   └── components/          # 子组件
+│       ├── avatar-uploader.vue   # 头像裁剪上传
+│       ├── user-profile-card.vue # 用户概览卡片
+│       ├── user-edit-form.vue    # 资料编辑表单
+│       └── password-change.vue   # 修改密码
 └── (builtin)/               # 内置页面
     ├── 403/
     │   └── index.vue        # → /403

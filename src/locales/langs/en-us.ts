@@ -88,7 +88,6 @@ const local: App.I18n.Schema = {
       'loading-direct': 'Loading Directive',
       'longpress-direct': 'Long Press Directive',
       'mask-direct': 'Mask Directive',
-      'permission-direct': 'Permission Directive',
       'scroll-direct': 'Scroll Directive',
       'throttle-direct': 'Throttle Directive',
       'tooltip-direct': 'Tooltip Directive',

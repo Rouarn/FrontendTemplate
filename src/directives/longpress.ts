@@ -15,6 +15,9 @@ interface LongPressOptions {
 interface HTMLEL extends HTMLElement {
   __longPressCleanup?: () => void
   __pressTimer__?: number | null
+  /** 最新回调（updated 时刷新，避免 start 闭包引用旧 fn 导致行为错乱） */
+  __longPressFn__?: LongPressHandler
+  __longPressDelay__?: number
 }
 
 const directive: Directive<HTMLEL, LongPressHandler | LongPressOptions> = {
@@ -26,7 +29,9 @@ const directive: Directive<HTMLEL, LongPressHandler | LongPressOptions> = {
       return
     }
 
-    const delay = options.delay || 1000
+    // 将 fn/delay 存储到元素属性上，start 运行时动态读取，保证 updated 刷新后回调不陈旧
+    el.__longPressFn__ = options.fn
+    el.__longPressDelay__ = options.delay || 1000
 
     const start = (e: MouseEvent | TouchEvent) => {
       // 如果是鼠标事件且不是左键点击，则忽略
@@ -36,9 +41,9 @@ const directive: Directive<HTMLEL, LongPressHandler | LongPressOptions> = {
 
       if (!el.__pressTimer__) {
         el.__pressTimer__ = window.setTimeout(() => {
-          options.fn(e)
+          el.__longPressFn__?.(e)
           el.__pressTimer__ = null
-        }, delay)
+        }, el.__longPressDelay__!)
       }
     }
 
@@ -72,10 +77,12 @@ const directive: Directive<HTMLEL, LongPressHandler | LongPressOptions> = {
     }
   },
 
-  updated(_el: HTMLEL, _binding: DirectiveBinding<LongPressHandler | LongPressOptions>) {
-    // 简单起见，如果 options 发生变化，我们只需要确保回调是最新的即可
-    // 由于 start 闭包引用了 options.fn，而 options 在 updated 中重新获取
-    // 我们可以重新执行 mounted 的逻辑，或者通过属性存储 fn
+  updated(el: HTMLEL, binding: DirectiveBinding<LongPressHandler | LongPressOptions>) {
+    const options: LongPressOptions = typeof binding.value === 'function' ? { fn: binding.value } : binding.value
+    if (typeof options.fn === 'function') {
+      el.__longPressFn__ = options.fn
+    }
+    el.__longPressDelay__ = options.delay || 1000
   },
 
   unmounted(el: HTMLEL) {
@@ -88,6 +95,8 @@ const directive: Directive<HTMLEL, LongPressHandler | LongPressOptions> = {
       clearTimeout(el.__pressTimer__)
       delete el.__pressTimer__
     }
+    delete el.__longPressFn__
+    delete el.__longPressDelay__
   },
 }
 

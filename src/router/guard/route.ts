@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/stores/modules/auth'
 import { useRouteStore } from '@/stores/modules/route'
-import { RouteNameEnum } from '@/enum'
+import { DEFAULT_ROUTE_AUTH_REQUIRED, RouteNameEnum } from '@/enum'
 import type { RouteLocationRaw, Router } from 'vue-router'
 
 /** 创建路由守卫（鉴权、菜单初始化、登录页拦截） */
@@ -41,11 +41,12 @@ export function createRouteGuard(router: Router) {
       }
     }
 
-    // 需要授权的页面
-    if (to.meta.isAuth) {
+    // 需要授权的页面（未显式声明 meta.isAuth 时按项目默认策略）
+    const requireAuth = to.meta.isAuth ?? DEFAULT_ROUTE_AUTH_REQUIRED
+    if (requireAuth) {
       // 未登录则跳转登录
       if (!authStore.isLogin) {
-        return { path: RouteNameEnum.LOGIN, replace: false, query: { redirect: to.fullPath } }
+        return { path: `/${RouteNameEnum.LOGIN}`, replace: false, query: { redirect: to.fullPath } }
       }
     }
 

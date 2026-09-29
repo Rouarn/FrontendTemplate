@@ -89,7 +89,6 @@ const local: App.I18n.Schema = {
       'loading-direct': '加载指令',
       'longpress-direct': '长按指令',
       'mask-direct': '遮罩指令',
-      'permission-direct': '权限指令',
       'scroll-direct': '滚动指令',
       'throttle-direct': '节流指令',
       'tooltip-direct': '工具提示指令',

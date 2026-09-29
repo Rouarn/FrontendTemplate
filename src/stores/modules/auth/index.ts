@@ -1,126 +1,60 @@
-import { computed, reactive, ref } from 'vue'
+import { computed } from 'vue'
 import router from '@/router'
 import { fetchLogin, fetchLogout, fetchUserInfo } from '@/service/api'
-import { localStg } from '@/utils/storage'
+import { routeLogger } from '@/utils/logger'
 import { useRouteStore } from '../route'
 import { useThemeStore } from '../theme'
-import { getRefreshToken, getToken } from './shared'
+import { useTokenStore } from './token'
+import { useUserStore } from './user'
 import { SetupStoreId } from '@/enum'
 import { useRouterPush } from '@/hooks/router'
-import useBoolean from '@/hooks/state/use-boolean'
 import { defineStore } from 'pinia'
-import type { ComputedRef, Ref } from 'vue'
 
-interface AuthInitialState {
-  token: string
-  tokenType: string
-  refreshToken: string
-  userInfo: Api.Auth.UserInfo
-}
-
-interface AuthStoreState {
-  token: Ref<string>
-  tokenType: Ref<string>
-  refreshToken: Ref<string>
-  userInfo: Api.Auth.UserInfo
-  isLogin: ComputedRef<boolean>
-  isUserInfoFetched: Ref<boolean>
-}
-
-interface AuthStoreActions {
-  setToken(value: string): void
-  setTokenType(value: string): void
-  setRefreshToken(value: string): void
-  setUserInfo(value?: Api.Auth.UserInfo): void
-  resetStore(): Promise<void>
-  login(username: string, password: string, captchaCode: string, captchaToken: string, redirect?: boolean): Promise<void>
-  getUserInfo(): Promise<boolean>
-}
-
-export type AuthStore = AuthStoreState & AuthStoreActions
-
-const initialState: AuthInitialState = {
-  token: '',
-  tokenType: 'Bearer',
-  refreshToken: '',
-  userInfo: {
-    id: '',
-    nickname: '',
-    avatar: '',
-    gender: 2,
-    mobile: '',
-    email: '',
-    bio: '',
-    birthday: '',
-    city: '',
-    profession: '',
-    roles: [],
-    auth: {
-      createTime: new Date(),
-      updateTime: new Date(),
-      id: '',
-      username: '',
-      status: 1,
-      lastLoginAt: new Date(),
-      lastLoginIp: '',
-      loginAttempts: 0,
-      lockedAt: null,
-      passwordChangedAt: new Date(),
-    },
-  },
-}
-
-export const useAuthStore = defineStore(SetupStoreId.Auth, (): AuthStore => {
+/**
+ * Auth 编排层（Facade）
+ *
+ * 自身不持有状态：凭证态由 useTokenStore 承载，用户资料态由 useUserStore 承载。
+ * 本 Store 仅组合两者并编排 login / getUserInfo / resetStore（退出登录）等跨域流程，
+ * 退出登录时分别调用 tokenStore / userStore / themeStore / routeStore 各自的 resetStore，
+ * 不再集中持有其它域的重置逻辑。
+ */
+export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
+  const tokenStore = useTokenStore()
+  const userStore = useUserStore()
   const themeStore = useThemeStore()
   const routeStore = useRouteStore()
   const { toLogin, redirectFromLogin } = useRouterPush(false)
-  const { bool: isUserInfoFetched, setBool: setIsUserInfoFetched } = useBoolean(false)
 
-  const token = ref<string>(getToken())
-  const refreshToken = ref<string>(getRefreshToken())
-  const tokenType = ref<string>(localStg.get('tokenType') || initialState.tokenType)
+  // 凭证（委托 tokenStore）
+  const token = computed(() => tokenStore.token)
+  const tokenType = computed(() => tokenStore.tokenType)
+  const refreshToken = computed(() => tokenStore.refreshToken)
+  const setToken = (value: string) => tokenStore.setToken(value)
+  const setTokenType = (value: string) => tokenStore.setTokenType(value)
+  const setRefreshToken = (value: string) => tokenStore.setRefreshToken(value)
 
-  const userInfo: Api.Auth.UserInfo = reactive(localStg.get('userInfo') ?? initialState.userInfo)
+  // 用户资料（委托 userStore）
+  const userInfo = userStore.userInfo
+  const isUserInfoFetched = computed(() => userStore.isUserInfoFetched)
+  const setUserInfo = (value?: Api.Auth.UserInfo) => userStore.setUserInfo(value)
 
-  const isLogin = computed<boolean>(() => Boolean(token.value))
+  const isLogin = computed<boolean>(() => Boolean(tokenStore.token))
 
-  const setToken = (value: string) => {
-    token.value = value
-    localStg.set('token', value)
-  }
-
-  const setTokenType = (value: string) => {
-    tokenType.value = value || initialState.tokenType
-    localStg.set('tokenType', tokenType.value)
-  }
-
-  const setRefreshToken = (value: string) => {
-    refreshToken.value = value
-    localStg.set('refreshToken', value)
-  }
-
-  const setUserInfo = (value: Api.Auth.UserInfo = initialState.userInfo) => {
-    Object.assign(userInfo, value)
-    localStg.set('userInfo', userInfo)
-  }
-
-  /** 重置认证状态（清理本地数据） */
+  /** 重置认证态：调用各子域自己的 resetStore，编排层不再越界重置 */
   function resetAuthStore() {
-    setUserInfo(initialState.userInfo)
-    setToken(initialState.token || '')
-    setRefreshToken(initialState.refreshToken || '')
-    setIsUserInfoFetched(false)
+    tokenStore.resetTokenStore()
+    userStore.resetUserStore()
     themeStore.resetStore()
-    routeStore.$reset()
+    routeStore.resetStore()
   }
 
-  /** 重置认证状态（退出登录并清理本地数据） */
+  /** 退出登录并清理本地数据（无论后端登出成败都执行本地清理） */
   async function resetStore() {
     try {
       await fetchLogout()
     } catch (error) {
-      console.error('[auth.resetStore] logout failed:', error)
-      return
+      routeLogger.error('[auth.resetStore] logout failed:', error)
+      // 即使后端登出失败，也必须清理本地凭证，避免残留
     }
 
     resetAuthStore()
@@ -132,17 +66,15 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, (): AuthStore => {
     }
   }
 
-  /**
-   * 获取用户信息
-   */
+  /** 获取用户信息 */
   async function getUserInfo() {
     try {
       const data = await fetchUserInfo()
-      setUserInfo(data)
-      setIsUserInfoFetched(true)
+      userStore.setUserInfo(data)
+      userStore.setIsUserInfoFetched(true)
       return true
     } catch (error) {
-      console.error('[auth.getUserInfo] 获取用户信息异常:', error)
+      routeLogger.error('[auth.getUserInfo] 获取用户信息异常:', error)
       routeStore.resetStore()
       resetAuthStore()
       return false
@@ -160,9 +92,9 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, (): AuthStore => {
   async function login(username: string, password: string, captchaCode: string, captchaToken: string, redirect = true) {
     try {
       const data = await fetchLogin({ username: username.trim(), password: password.trim(), captchaCode, captchaToken })
-      setToken(data.accessToken)
-      setTokenType(data.tokenType)
-      setRefreshToken(data.refreshToken ?? '')
+      tokenStore.setToken(data.accessToken)
+      tokenStore.setTokenType(data.tokenType)
+      tokenStore.setRefreshToken(data.refreshToken ?? '')
     } catch {
       // 登录失败提示由全局 onError 处理
       return
@@ -172,24 +104,28 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, (): AuthStore => {
 
     window.$notification?.success({
       title: '登录成功',
-      content: `欢迎回来：${userInfo.nickname || userInfo.mobile || userInfo.email}`,
+      content: `欢迎回来：${userStore.userInfo.nickname || userStore.userInfo.mobile || userStore.userInfo.email}`,
       duration: 4500,
     })
   }
 
   return {
+    // 凭证
     token,
     tokenType,
     refreshToken,
-    userInfo,
-    isLogin,
-    isUserInfoFetched,
-    login,
     setToken,
     setTokenType,
     setRefreshToken,
-    getUserInfo,
+    // 用户资料
+    userInfo,
+    isUserInfoFetched,
     setUserInfo,
+    // 派生
+    isLogin,
+    // 编排
+    login,
+    getUserInfo,
     resetStore,
   }
 })

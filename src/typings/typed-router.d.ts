@@ -71,12 +71,6 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>
     >
     DirectivesMaskDirect: RouteRecordInfo<'DirectivesMaskDirect', '/directives/mask-direct', Record<never, never>, Record<never, never>>
-    DirectivesPermissionDirect: RouteRecordInfo<
-      'DirectivesPermissionDirect',
-      '/directives/permission-direct',
-      Record<never, never>,
-      Record<never, never>
-    >
     DirectivesRippleDirect: RouteRecordInfo<
       'DirectivesRippleDirect',
       '/directives/ripple-direct',

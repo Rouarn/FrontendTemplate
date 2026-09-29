@@ -187,7 +187,6 @@ declare namespace App {
           'loading-direct': string
           'longpress-direct': string
           'mask-direct': string
-          'permission-direct': string
           'scroll-direct': string
           'throttle-direct': string
           'tooltip-direct': string

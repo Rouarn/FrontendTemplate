@@ -1,6 +1,7 @@
 import { builtinRoutes } from '@/router/routes'
 import router from '@/router'
 import { fetchGetUserRoutes } from '@/service/api'
+import { routeLogger } from '@/utils/logger'
 import {
   filterRoutesByHideInMenu,
   getCacheRouteNames,
@@ -89,12 +90,12 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
     removeRouteFns.push(fn)
   }
 
-  /** 重置 Store（清空路由相关状态） */
-  async function resetStore() {
-    const routeStore = useRouteStore()
-
-    routeStore.$reset()
-
+  /** 重置 Store（setup store 无内置 $reset，手动重置状态） */
+  function resetStore() {
+    menus.value = getGlobalMenuByBaseRoute(filterRoutesByHideInMenu(builtinRoutes))
+    excludeCacheRoutes.value = []
+    cacheRoutes.value = []
+    setIsInitAuthRoute(false)
     resetVueRoutes()
   }
 
@@ -123,10 +124,13 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
   async function createBuiltinVueRoutes(): Promise<RouteRecordRaw[]> {
     try {
       const { data, error } = await fetchGetUserRoutes()
-      if (error) return []
+      if (error) {
+        routeLogger.error('获取权限路由失败，返回空路由数组:', error)
+        return []
+      }
       return [...data] as unknown as RouteRecordRaw[]
     } catch (error) {
-      console.error('[route.createBuiltinVueRoutes] 获取权限路由异常:', error)
+      routeLogger.error('获取权限路由异常，返回空路由数组:', error)
       return []
     }
   }
@@ -137,6 +141,11 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
     if (isInitAuthRoute.value) return
 
     const routes = await createBuiltinVueRoutes()
+
+    // 调用方对空路由数组显式提示，避免静默渲染空菜单（E5）
+    if (routes.length === 0) {
+      routeLogger.warn('权限路由为空，将渲染空菜单，请检查后端路由配置或登录态')
+    }
 
     // 转换为单层
     const flatRoutes = getFlatMenuList(routes)

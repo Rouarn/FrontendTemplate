@@ -29,6 +29,17 @@ function kebabCase(str: string): string {
   return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
 }
 
+/** 净化 class 名，仅允许字母数字连字符，防止属性注入 */
+function sanitizeClassName(name: string): string {
+  const cleaned = name.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 50)
+  return cleaned || 'highlight'
+}
+
+/** 净化样式值，移除可闭合属性/标签的字符 */
+function sanitizeStyleValue(value: unknown): string {
+  return String(value).replace(/["'<>]/g, '')
+}
+
 function createHighlightTag(options: HighlightOptions): { start: string; end: string } {
   let styleAttr = ''
   const styles: string[] = []
@@ -36,17 +47,17 @@ function createHighlightTag(options: HighlightOptions): { start: string; end: st
   // 处理统一的颜色字段（支持单个或数组，这里取第一个值）
   const colorValue = Array.isArray(options.colors) ? options.colors[0] : options.colors
   if (colorValue) {
-    styles.push(`background-color: ${colorValue}`)
+    styles.push(`background-color: ${sanitizeStyleValue(colorValue)}`)
   }
 
   // 处理文本颜色
   if (options.textColor) {
-    styles.push(`color: ${options.textColor}`)
+    styles.push(`color: ${sanitizeStyleValue(options.textColor)}`)
   }
 
   // 处理自定义样式
   if (options.style) {
-    const customStyles = Object.entries(options.style).map(([key, value]) => `${kebabCase(key)}: ${value}`)
+    const customStyles = Object.entries(options.style).map(([key, value]) => `${kebabCase(key)}: ${sanitizeStyleValue(value)}`)
     styles.push(...customStyles)
   }
 
@@ -55,7 +66,7 @@ function createHighlightTag(options: HighlightOptions): { start: string; end: st
     styleAttr = ` style="${styles.join('; ')}"`
   }
 
-  const className = options.className || 'highlight'
+  const className = sanitizeClassName(options.className || 'highlight')
 
   return {
     start: `<span class="${className}"${styleAttr}>`,
@@ -69,55 +80,40 @@ function highlightText(html: string, options: HighlightOptions): string {
   // 统一处理颜色数组
   const colorList = Array.isArray(options.colors) ? options.colors : [options.colors]
 
-  if (keywordList.length === 0 || keywordList.every((k) => !k)) {
+  const validKeywords = keywordList.filter((k) => k && k.trim())
+  if (validKeywords.length === 0) {
     return html
   }
 
-  let result = html
-
-  keywordList.forEach((keyword, index) => {
-    if (!keyword.trim()) return
-
-    // 转义特殊字符
-    const escapedKeyword = escapeRegExp(keyword)
-
-    // 为每个关键词创建独立的高亮配置
-    const keywordOptions: HighlightOptions = {
-      ...options,
-      keywords: keyword, // 单个关键词
-      // 使用对应索引的颜色，如果没有对应颜色则使用第一个颜色或默认颜色
-      colors: colorList[index] || colorList[0] || '#ffeb3b',
-    }
-
-    const { start, end } = createHighlightTag(keywordOptions)
-
-    // 构建正则表达式
-    let pattern = escapedKeyword
-    if (options.wholeWord) {
-      pattern = `\\b${pattern}\\b`
-    }
-
-    const flags = options.caseSensitive ? 'g' : 'gi'
-    const regex = new RegExp(pattern, flags)
-
-    // 执行替换，避免替换已经高亮的内容
-    result = result.replace(regex, (match, ...args) => {
-      const offset = args[args.length - 2] as number
-      // 检查是否已经在标签内
-      const beforeMatch = result.substring(0, offset)
-      const openTags = (beforeMatch.match(/<[^>]*>/g) || []).length
-      const closeTags = (beforeMatch.match(/<\/[^>]*>/g) || []).length
-
-      // 如果在标签内，不进行替换
-      if (openTags !== closeTags) {
-        return match
-      }
-
-      return `${start}${match}${end}`
-    })
+  // 预建关键词→颜色映射，避免每次匹配重复查找
+  const tagCache = new Map<string, { start: string; end: string }>()
+  validKeywords.forEach((keyword, index) => {
+    const color = colorList[index] || colorList[0] || '#ffeb3b'
+    tagCache.set(keyword, createHighlightTag({ ...options, colors: color }))
   })
 
-  return result
+  // 构建联合正则（所有关键词单次匹配，O(n)）
+  const patternParts = validKeywords.map((k) => {
+    const escaped = escapeRegExp(k)
+    return options.wholeWord ? `\\b${escaped}\\b` : escaped
+  })
+  const flags = options.caseSensitive ? 'g' : 'gi'
+  const regex = new RegExp(patternParts.join('|'), flags)
+
+  // 按 HTML 标签分割：偶数段为纯文本，奇数段为标签（天然避免标签内替换）
+  const segments = html.split(/(<[^>]*>)/g)
+
+  for (let i = 0; i < segments.length; i += 2) {
+    segments[i] = segments[i].replace(regex, (match) => {
+      // 找到匹配的关键词（大小写敏感时精确匹配，否则忽略大小写）
+      const matchedKeyword = validKeywords.find((k) => (options.caseSensitive ? k === match : k.toLowerCase() === match.toLowerCase()))
+      if (!matchedKeyword) return match
+      const tag = tagCache.get(matchedKeyword)!
+      return `${tag.start}${match}${tag.end}`
+    })
+  }
+
+  return segments.join('')
 }
 
 function parseOptions(value: unknown): HighlightOptions {

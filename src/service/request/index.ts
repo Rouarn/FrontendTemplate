@@ -1,5 +1,6 @@
 import router from '@/router'
 import { useAuthStore } from '@/stores/modules/auth'
+import { logger } from '@/utils/logger'
 import { RouteNameEnum } from '@/enum'
 import { createClient } from '@vakao-ui/axios'
 
@@ -32,7 +33,9 @@ export const request = createClient({
         authStore.setTokenType(data.tokenType)
         if (data.refreshToken) authStore.setRefreshToken(data.refreshToken)
         return true
-      } catch {
+      } catch (error) {
+        // 刷新链路异常可观测：记录错误便于追溯，调用方仍按 false 处理（触发登出/跳登录）
+        logger.error('[request.onRefresh] 刷新令牌失败:', error)
         return false
       }
     },

@@ -1,7 +1,7 @@
 import { computed, effectScope, onScopeDispose, ref, toRefs, watch } from 'vue'
 import { toggleHtmlClass } from '@/utils/common'
 import { localStg } from '@/utils/storage'
-import { useAuthStore } from '../auth'
+import { useUserStore } from '../auth/user'
 import { addThemeVarsToGlobal, createThemeToken, getNaiveTheme, initThemeSettings, toggleAuxiliaryColorModes } from './shared'
 import { SetupStoreId } from '@/enum'
 import { getPaletteColorByNumber } from '@sa/color'
@@ -12,7 +12,7 @@ import type { Ref } from 'vue'
 export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
   const scope = effectScope()
   const osTheme = usePreferredColorScheme()
-  const authStore = useAuthStore()
+  const userStore = useUserStore()
 
   /** 主题设置 */
   const settings: Ref<App.Theme.ThemeSetting> = ref(initThemeSettings())
@@ -126,8 +126,8 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
   const watermarkContent = computed(() => {
     const { watermark } = settings.value
 
-    if (watermark.enableUserName && authStore.userInfo.auth.username) {
-      return authStore.userInfo.auth.username
+    if (watermark.enableUserName && userStore.userInfo.auth.username) {
+      return userStore.userInfo.auth.username
     }
 
     if (watermark.enableTime) {
@@ -137,11 +137,13 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
     return watermark.text
   })
 
-  /** 重置 Store */
+  /** 重置 Store（setup store 无内置 $reset，手动重置状态） */
   function resetStore() {
-    const themeStore = useThemeStore()
-
-    themeStore.$reset()
+    settings.value = initThemeSettings()
+    localStg.remove('darkMode')
+    localStg.remove('themeColor')
+    localStg.remove('themeSettings')
+    localStg.remove('overrideThemeFlag')
   }
 
   /**

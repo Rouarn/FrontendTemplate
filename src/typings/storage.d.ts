@@ -1,6 +1,10 @@
 /** 存储命名空间 */
 declare namespace StorageType {
   interface Session {
+    /** 令牌（sessionStorage：关闭标签页即失效） */
+    token: string
+    /** 刷新令牌 */
+    refreshToken: string
     /** 主题颜色 */
     themeColor: string
   }

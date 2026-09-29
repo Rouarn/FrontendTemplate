@@ -77,7 +77,8 @@ function showMask(el: MaskElement, options: MaskOptions) {
   // 如果有内容，创建内容容器
   if (content) {
     const contentEl = document.createElement('div')
-    contentEl.innerHTML = content
+    // 使用 textContent 避免 content 注入 HTML 导致 XSS；如需富文本请改用组件
+    contentEl.textContent = content
 
     // 应用内容样式
     const defaultContentStyle = {
@@ -162,8 +163,5 @@ const mask: Directive<MaskElement, boolean | MaskOptions> = {
     removeMask(el)
   },
 }
-
-// 设置深度监听
-mask.deep = true
 
 export default mask

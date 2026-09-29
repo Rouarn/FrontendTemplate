@@ -1,12 +1,12 @@
-import { localStg } from '@/utils/storage'
+import { localStg, sessionStg } from '@/utils/storage'
 
-/** 获取令牌 */
+/** 获取令牌（sessionStorage：关闭标签页即失效，缩小泄漏窗口） */
 export function getToken() {
-  return localStg.get('token') || ''
+  return sessionStg.get('token') || ''
 }
 
 export function getRefreshToken() {
-  return localStg.get('refreshToken') || ''
+  return sessionStg.get('refreshToken') || ''
 }
 
 export function getTokenType() {
