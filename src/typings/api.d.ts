@@ -117,21 +117,4 @@ declare namespace Api {
       captchaToken: string
     }
   }
-
-  /**
-   * namespace Route
-   *
-   * backend api module: "route"
-   */
-  namespace Route {
-    type RouteRecordRaw = import('vue-router').RouteRecordRaw
-
-    type MenuRoute = {
-      id: string
-    } & import('vue-router').RouteMeta
-
-    interface UserRoute {
-      routes: MenuRoute[]
-    }
-  }
 }

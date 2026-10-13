@@ -4,6 +4,7 @@ import { setupHtmlPlugin } from './htmlPlugin.ts'
 import { setupIconsPlugin } from './icons.ts'
 import { setupProgressPlugin } from './progress.ts'
 import { setupPWAPlugin } from './pwa.ts'
+import { setupElegantRouterPlugin } from './router.ts'
 import { setupSvgIconsPlugin } from './svgIcons.ts'
 import { setupUnocssPlugin } from './unocss.ts'
 import { setupVuePlugin } from './vue.ts'
@@ -23,6 +24,7 @@ export function setupVitePlugins(viteEnv: Env.ImportMeta, buildTime: string): Pl
 
   const plugins: PluginOption[] = [
     setupVuePlugin(),
+    setupElegantRouterPlugin(),
     setupVueJsxPlugin(),
     setupVueDevToolsPlugin(String(VITE_DEVTOOLS_LAUNCH_EDITOR)),
     setupUnocssPlugin(VITE_ICON_PREFIX, localIconPath, collectionName),

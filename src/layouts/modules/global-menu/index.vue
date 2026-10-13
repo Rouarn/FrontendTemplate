@@ -21,6 +21,11 @@ const selectedKey = computed(() => {
 
 const isVisible = ref(false)
 const inverted = computed(() => themeStore.themeScheme === 'dark')
+
+/** 菜单点击跳转（NMenu 回调 key 为 string，收窄为路由键类型） */
+function handleMenuSelect(key: string) {
+  routerPushByKeyWithMetaQuery(key as App.Global.RouteKey)
+}
 </script>
 
 <template>
@@ -32,7 +37,7 @@ const inverted = computed(() => themeStore.themeScheme === 'dark')
     :indent="18"
     :inverted="inverted"
     responsive
-    @update:value="routerPushByKeyWithMetaQuery"
+    @update:value="handleMenuSelect"
     class="flex-1 mx-6"
   />
 
@@ -50,7 +55,7 @@ const inverted = computed(() => themeStore.themeScheme === 'dark')
         mode="vertical"
         :options="routeStore.menus"
         :inverted="inverted"
-        @update:value="routerPushByKeyWithMetaQuery"
+        @update:value="handleMenuSelect"
       />
     </NDrawerContent>
   </NDrawer>

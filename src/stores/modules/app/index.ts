@@ -1,14 +1,14 @@
 import router from '@/router'
 import { localStg } from '@/utils/storage'
 import { useRouteStore } from '../route'
-import { SetupStoreId } from '@/enum'
+import { SETUP_STORE_ID } from '@/constants/store'
 import useBoolean from '@/hooks/state/use-boolean'
 import { $t, setLocale } from '@/locales'
 import { setDayjsLocale } from '@/locales/dayjs'
 import { breakpointsTailwind, useBreakpoints, useTitle } from '@vueuse/core'
 import { defineStore } from 'pinia'
 
-export const useAppStore = defineStore(SetupStoreId.App, () => {
+export const useAppStore = defineStore(SETUP_STORE_ID.App, () => {
   const routeStore = useRouteStore()
   const scope = effectScope()
   const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -74,9 +74,6 @@ export const useAppStore = defineStore(SetupStoreId.App, () => {
     watch(locale, () => {
       // 根据语言更新文档标题
       updateDocumentTitleByLocale()
-
-      // 根据语言更新全局菜单
-      routeStore.updateGlobalMenusByLocale()
 
       // 设置 dayjs 语言
       setDayjsLocale(locale.value)

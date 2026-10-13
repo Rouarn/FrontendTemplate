@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'scrollDirect',
+  name: 'DirectivesScrollDirect',
 })
 
 const scrollStats = ref({

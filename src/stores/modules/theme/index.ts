@@ -3,13 +3,13 @@ import { toggleHtmlClass } from '@/utils/common'
 import { localStg } from '@/utils/storage'
 import { useUserStore } from '../auth/user'
 import { addThemeVarsToGlobal, createThemeToken, getNaiveTheme, initThemeSettings, toggleAuxiliaryColorModes } from './shared'
-import { SetupStoreId } from '@/enum'
+import { SETUP_STORE_ID } from '@/constants/store'
 import { getPaletteColorByNumber } from '@sa/color'
 import { useDateFormat, useNow, usePreferredColorScheme } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import type { Ref } from 'vue'
 
-export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
+export const useThemeStore = defineStore(SETUP_STORE_ID.Theme, () => {
   const scope = effectScope()
   const osTheme = usePreferredColorScheme()
   const userStore = useUserStore()

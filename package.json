@@ -63,6 +63,7 @@
     "@vue/tsconfig": "^0.9.1",
     "commitizen": "^4.3.2",
     "cz-git": "^1.14.0",
+    "elegant-router": "1.4.0-beta.1",
     "eslint": "^10.12.0",
     "eslint-plugin-simple-import-sort": "^14.0.0",
     "eslint-plugin-vue": "~10.11.1",

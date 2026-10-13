@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'lazyDirect',
+  name: 'DirectivesLazyDirect',
 })
 
 const imageList = ref([

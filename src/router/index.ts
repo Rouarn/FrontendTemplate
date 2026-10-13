@@ -1,6 +1,8 @@
 import { createMemoryHistory, createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { createRouterGuard } from '@/router/guard'
-import { builtinRoutes } from './routes'
+import { layouts, views } from './_generated/imports'
+import { routes } from './_generated/routes'
+import { transformToVueRoutes } from './_generated/transformer'
 import type { App } from 'vue'
 
 const mode = import.meta.env.VITE_ROUTER_MODE as 'hash' | 'history' | 'memory'
@@ -12,7 +14,7 @@ const routerMode = {
 }
 const router = createRouter({
   history: routerMode[mode](),
-  routes: builtinRoutes,
+  routes: transformToVueRoutes(routes, layouts, views),
   strict: false,
   scrollBehavior: () => ({ left: 0, top: 0 }),
 })

@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'loadingDirect',
+  name: 'DirectivesLoadingDirect',
 })
 
 const isLoading = ref(false)

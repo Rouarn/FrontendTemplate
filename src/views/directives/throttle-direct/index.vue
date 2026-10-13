@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'throttleDirect',
+  name: 'DirectivesThrottleDirect',
 })
 
 const clickCount = ref(0)

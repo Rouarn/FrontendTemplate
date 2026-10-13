@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'dragDirect',
+  name: 'DirectivesDragDirect',
 })
 
 const dragCount = ref(0)

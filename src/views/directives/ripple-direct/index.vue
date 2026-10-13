@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'rippleDirect',
+  name: 'DirectivesRippleDirect',
 })
 
 const rippleDisabled = ref(false)

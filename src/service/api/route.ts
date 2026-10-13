@@ -1,9 +1,13 @@
 // import { request } from '@/service/request'
-// import servicePort from '../request/servicePort'
-import authMenuList from '@/assets/json/auth-menu-list.json'
+import { routes } from '@/router/_generated/routes'
 
-/** get constant routes */
-export function fetchGetUserRoutes() {
-  return authMenuList
-  // return request.get<Api.Route.UserRoute>(`${servicePort.route}`)
+/**
+ * 获取当前用户的路由权限码（route name 列表）
+ *
+ * 本地 mock：返回全部路由名，开发态全量可见
+ */
+export function fetchGetUserPermissions(): Promise<{ data: App.Global.RouteKey[]; error: null }> {
+  const data = routes.map((route) => route.name)
+  return Promise.resolve({ data, error: null })
+  // return request.get<App.Global.RouteKey[]>(`/api/route/permissions`)
 }

@@ -2,7 +2,6 @@ import router from '@/router'
 import { useAuthStore } from '@/stores/modules/auth'
 import { logger } from '@/utils/logger'
 import { resolveErrorMessage } from './error-message'
-import { RouteNameEnum } from '@/enum'
 import { createClient } from '@vakao-ui/axios'
 
 /**
@@ -45,7 +44,7 @@ export const request = createClient({
       const authStore = useAuthStore()
       authStore.setToken('')
       authStore.setRefreshToken('')
-      router.replace(`/${RouteNameEnum.LOGIN}`)
+      router.replace('/login')
     },
   },
 

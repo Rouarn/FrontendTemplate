@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 
 defineOptions({
-  name: 'maskDirect',
+  name: 'DirectivesMaskDirect',
 })
 
 const showBasicMask = ref(false)

@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import { localStg } from '@/utils/storage'
-import { SetupStoreId } from '@/enum'
+import { SETUP_STORE_ID } from '@/constants/store'
 import useBoolean from '@/hooks/state/use-boolean'
 import { defineStore } from 'pinia'
 
@@ -35,7 +35,7 @@ export const initialUserInfo: Api.Auth.UserInfo = {
  * 用户资料 Store：仅承载 userInfo + 是否已拉取标记
  * 与凭证态分离，可独立重置与测试
  */
-export const useUserStore = defineStore(SetupStoreId.User, () => {
+export const useUserStore = defineStore(SETUP_STORE_ID.User, () => {
   const { bool: isUserInfoFetched, setBool: setIsUserInfoFetched } = useBoolean(false)
 
   const userInfo: Api.Auth.UserInfo = reactive(localStg.get('userInfo') ?? initialUserInfo)

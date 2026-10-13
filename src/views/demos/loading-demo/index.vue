@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'LoadingDemo',
+  name: 'DemosLoadingDemo',
 })
 
 const requestLoading = ref(false)

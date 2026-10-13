@@ -372,10 +372,10 @@ declare namespace App {
 
   /** 全局命名空间 */
   namespace Global {
-    /** 路由键 */
-    type RouteKey = string
-    /** 路由路径 */
-    type RoutePath = string
+    /** 路由键（由 elegant-router 生成，随页面文件自动更新） */
+    type RouteKey = import('@elegant-router/types').RouteKey
+    /** 路由路径（由 elegant-router 生成，随页面文件自动更新） */
+    type RoutePath = import('@elegant-router/types').RoutePath
 
     /** 路由跳转参数 */
     type RouterPushOptions = {
@@ -391,17 +391,14 @@ declare namespace App {
       routePath: RoutePath
     }
 
-    /** 菜单类型 */
-    type MenuType = 1 | 2
-
     /** 全局菜单 */
     type Menu = {
       /**
        * 菜单键
        *
-       * 等同于路由键
+       * 叶子菜单等同于路由键；分组父菜单为路径首段
        */
-      key: RouteKey
+      key: string
       /** 菜单标签 */
       label: string
       /** 菜单的 i18n 键 */
@@ -416,8 +413,6 @@ declare namespace App {
       order?: number | null
       /** 子菜单 */
       children?: Menu[]
-      /** 菜单类型 */
-      menuType?: MenuType
     }
   }
 }

@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'clickoutsideDirect',
+  name: 'DirectivesClickoutsideDirect',
 })
 
 const isDropdownOpen = ref(false)

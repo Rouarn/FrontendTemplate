@@ -1,250 +1,107 @@
 import { useSvgIcon } from '@/hooks/icon'
 import { $t, $te } from '@/locales'
-import type { _RouteRecordBase, RouteComponent, RouteRecordRaw } from 'vue-router'
+import type { AutoRouterRoute, AutoRouterSingleView } from '@elegant-router/types'
 
-/**
- * @description 使用递归扁平化菜单，方便添加动态路由
- * @param {Array} menuList 菜单列表
- * @returns {Array}
- */
-export function getFlatMenuList(menuList: RouteRecordRaw[]): RouteRecordRaw[] {
-  const newMenuList: RouteRecordRaw[] = JSON.parse(JSON.stringify(menuList))
-  return newMenuList.flatMap((item) => [item, ...(item.children ? getFlatMenuList(item.children) : [])])
+/** 菜单分组元信息：按路由路径首段分组的父菜单配置 */
+const MENU_GROUP_META: Record<string, { i18nKey: App.I18n.I18nKey; order: number }> = {
+  demos: { i18nKey: 'route.demos.title', order: 2 },
+  directives: { i18nKey: 'route.directives.title', order: 1 },
+}
+
+/** 是否为页面路由（非重定向路由） */
+function isSingleViewRoute(route: AutoRouterRoute): route is AutoRouterSingleView {
+  return !('redirect' in route)
 }
 
 /**
- * 按顺序字段对路由排序
- *
- * @param route 路由
+ * 判断路由是否可显示为菜单
+ * - 排除重定向路由与 hideInMenu 路由
+ * - 显式声明 isAuth 的路由按权限码过滤
  */
-function sortRouteByOrder(route: RouteRecordRaw) {
-  if (route.children?.length) {
-    route.children.sort((next, prev) => (Number(next.meta?.order) || 0) - (Number(prev.meta?.order) || 0))
-    route.children.forEach(sortRouteByOrder)
-  }
-
-  return route
+function isVisibleMenuRoute(route: AutoRouterRoute, permissions: App.Global.RouteKey[]): route is AutoRouterSingleView {
+  if (!isSingleViewRoute(route)) return false
+  if (route.meta?.hideInMenu) return false
+  if (route.meta?.isAuth === true && !permissions.includes(route.name)) return false
+  return true
 }
 
-/**
- * 按顺序字段对路由列表排序
- *
- * @param routes 路由列表
- */
-export function sortRoutesByOrder(routes: RouteRecordRaw[]) {
-  routes.sort((next, prev) => (Number(next.meta?.order) || 0) - (Number(prev.meta?.order) || 0))
-  routes.forEach(sortRouteByOrder)
-
-  return routes
-}
-
-/**
- * 排除 route.meta?.hideInMenu 为 true 的路由
- */
-export function filterRoutesByHideInMenu(routes: RouteRecordRaw[]): RouteRecordRaw[] {
-  if (!routes?.length) return []
-
-  const result: RouteRecordRaw[] = []
-  routes.forEach((route) => {
-    const isRoot = route.name === 'Root' || route.path === '/'
-    const filteredChildren = filterRoutesByHideInMenu(route.children || [])
-
-    if (isRoot) {
-      result.push(...filteredChildren)
-      return
-    }
-
-    const visible = route.meta?.hideInMenu !== true
-    if (!visible) return
-
-    const newRoute: RouteRecordRaw = { ...route }
-    newRoute.children = filteredChildren.length ? filteredChildren : undefined
-
-    result.push(newRoute)
-  })
-
-  return result
-}
-
-/**
- * 根据语言更新全局菜单
- *
- * @param menus 菜单列表
- */
-export function updateLocaleOfGlobalMenus(menus: App.Global.Menu[]) {
-  const result: App.Global.Menu[] = []
-
-  menus.forEach((menu) => {
-    const { i18nKey, label, children } = menu
-
-    const newLabel = i18nKey && $te(i18nKey) ? $t(i18nKey) : label
-
-    const newMenu: App.Global.Menu = {
-      ...menu,
-      label: newLabel,
-    }
-
-    if (children?.length) {
-      newMenu.children = updateLocaleOfGlobalMenus(children)
-    }
-
-    result.push(newMenu)
-  })
-
-  return result
-}
-
-/**
- * 通过基础路由生成全局菜单
- *
- * @param routes 路由列表
- */
-export function getGlobalMenuByBaseRoute(routes: RouteRecordRaw[]) {
-  const { SvgIconVNode } = useSvgIcon()
-
-  function mapRouteToMenu(route: RouteRecordRaw): App.Global.Menu {
-    const { name, path, children } = route
-    const { title, i18nKey, icon = import.meta.env.VITE_MENU_ICON, localIcon, iconFontSize } = route.meta ?? {}
-
-    const label = i18nKey && $te(i18nKey) ? $t(i18nKey) : title!
-
-    const menu: App.Global.Menu = {
-      key: name as App.Global.RouteKey,
-      label,
-      i18nKey,
-      routeKey: name as App.Global.RouteKey,
-      routePath: path as App.Global.RoutePath,
-      icon: SvgIconVNode({ icon, localIcon, fontSize: iconFontSize || 20 }),
-    }
-
-    if (children?.length) {
-      menu.children = children.map(mapRouteToMenu)
-    }
-
-    return menu
-  }
-
-  return sortRoutesByOrder(routes).map(mapRouteToMenu)
-}
-
-/**
- * 按顺序字段对菜单排序
- *
- * @param menus 菜单列表
- */
+/** 按 order 字段对菜单列表排序 */
 export function sortMenusByOrder(menus: App.Global.Menu[]) {
   menus.sort((next, prev) => (Number(next.order) || 0) - (Number(prev.order) || 0))
-  menus.forEach((menu) => {
-    if (menu.children?.length) {
-      sortMenusByOrder(menu.children)
-    }
-  })
-
   return menus
 }
 
 /**
- * 获取需要缓存的路由名称
+ * 由 elegant-router 生成的路由构建全局菜单
+ * - 单段路径路由直接作为顶级菜单
+ * - 多段路径路由按路径首段分组为父菜单（分组元信息见 MENU_GROUP_META）
  *
- * @param routes Vue 路由（两级）
+ * 菜单 label 通过 $t 求值，在 computed 中调用时随语言切换自动更新
  */
-export function getCacheRouteNames(routes: RouteRecordRaw[]) {
-  const cacheNames: App.Global.RouteKey[] = []
+export function getGlobalMenus(routes: AutoRouterRoute[], permissions: App.Global.RouteKey[]): App.Global.Menu[] {
+  const { SvgIconVNode } = useSvgIcon()
 
-  routes.forEach((route) => {
-    // 仅获取最后两级且带组件的路由
-    route.children?.forEach((child) => {
-      if (child.component && child.meta?.isKeepAlive) {
-        cacheNames.push(child.name as App.Global.RouteKey)
+  function mapRouteToMenu(route: AutoRouterSingleView): App.Global.Menu {
+    const { name, path, meta } = route
+    const { title, i18nKey, icon = import.meta.env.VITE_MENU_ICON, localIcon, iconFontSize } = meta ?? {}
+
+    const label = i18nKey && $te(i18nKey) ? $t(i18nKey) : title!
+
+    return {
+      key: name,
+      label,
+      i18nKey,
+      routeKey: name,
+      routePath: path,
+      icon: SvgIconVNode({ icon, localIcon, fontSize: iconFontSize || 20 }),
+      order: meta?.order,
+    }
+  }
+
+  const topMenus: App.Global.Menu[] = []
+  const groupMap = new Map<string, App.Global.Menu[]>()
+
+  routes
+    .filter((route) => isVisibleMenuRoute(route, permissions))
+    .forEach((route) => {
+      const menu = mapRouteToMenu(route)
+      const [first, second] = route.path.split('/').filter(Boolean)
+
+      if (first && second) {
+        groupMap.set(first, [...(groupMap.get(first) ?? []), menu])
+      } else {
+        topMenus.push(menu)
       }
     })
+
+  const groupMenus: App.Global.Menu[] = [...groupMap.entries()].map(([segment, children]) => {
+    const groupMeta = MENU_GROUP_META[segment]
+    const sortedChildren = sortMenusByOrder(children)
+    const firstChild = sortedChildren[0]
+
+    const label = groupMeta && $te(groupMeta.i18nKey) ? $t(groupMeta.i18nKey) : segment
+
+    return {
+      key: segment,
+      label,
+      i18nKey: groupMeta?.i18nKey,
+      routeKey: firstChild.routeKey,
+      routePath: firstChild.routePath,
+      icon: firstChild.icon,
+      order: groupMeta?.order ?? 0,
+      children: sortedChildren,
+    }
   })
 
-  return cacheNames
+  return sortMenusByOrder([...topMenus, ...groupMenus])
 }
 
-/**
- * 根据路由名称判断路由是否存在
- *
- * @param routeName 路由名称
- * @param routes 路由列表
- */
-function recursiveGetIsRouteExistByRouteName(route: RouteRecordRaw, routeName: App.Global.RouteKey) {
-  let isExist = route.name === routeName
-
-  if (isExist) {
-    return true
-  }
-
-  if (route.children && route.children.length) {
-    isExist = route.children.some((item) => recursiveGetIsRouteExistByRouteName(item, routeName))
-  }
-
-  return isExist
-}
-
-export function isRouteExistByRouteName(routeName: App.Global.RouteKey, routes: RouteRecordRaw[]) {
-  return routes.some((route) => recursiveGetIsRouteExistByRouteName(route, routeName))
-}
-
-/**
- * 获取选中菜单的键路径
- *
- * @param selectedKey 选中键
- * @param menus 菜单列表
- */
-function findMenuPath(targetKey: string, menu: App.Global.Menu): string[] | null {
-  const path: string[] = []
-
-  function dfs(item: App.Global.Menu): boolean {
-    path.push(item.key)
-
-    if (item.key === targetKey) {
-      return true
-    }
-
-    if (item.children) {
-      for (const child of item.children) {
-        if (dfs(child)) {
-          return true
-        }
-      }
-    }
-
-    path.pop()
-
-    return false
-  }
-
-  if (dfs(menu)) {
-    return path
-  }
-
-  return null
-}
-
-/**
- * 查找菜单路径
- *
- * @param targetKey 目标菜单键
- * @param menu 菜单
- */
-export function getSelectedMenuKeyPathByKey(selectedKey: string, menus: App.Global.Menu[]) {
-  const keyPath: string[] = []
-
-  menus.some((menu) => {
-    const path = findMenuPath(selectedKey, menu)
-
-    const find = Boolean(path?.length)
-
-    if (find) {
-      keyPath.push(...path!)
-    }
-
-    return find
-  })
-
-  return keyPath
+/** 获取需要缓存的路由名称（meta.isKeepAlive；组件 name 由 elegant-router 注入，与路由名一致） */
+export function getCacheRouteNames(routes: AutoRouterRoute[]): App.Global.RouteKey[] {
+  return routes
+    .filter(isSingleViewRoute)
+    .filter((route) => route.meta?.isKeepAlive)
+    .map((route) => route.name)
 }
 
 /**
@@ -264,14 +121,4 @@ export function transformMenuToSearchMenus(menus: App.Global.Menu[], treeMap: Ap
     }
     return acc
   }, treeMap)
-}
-
-export function resolveRouteComponent(route: RouteRecordRaw, modules: Record<string, () => Promise<RouteComponent>>): RouteRecordRaw {
-  const comp = route.component as unknown as string | RouteComponent | undefined
-  if (typeof comp === 'string') {
-    const key = `/src/views${comp}.vue`
-    const loader = modules[key]
-    if (loader) route.component = loader
-  }
-  return route
 }

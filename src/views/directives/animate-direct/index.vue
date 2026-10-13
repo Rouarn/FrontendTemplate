@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'animateDirect',
+  name: 'DirectivesAnimateDirect',
   inheritAttrs: false,
 })
 

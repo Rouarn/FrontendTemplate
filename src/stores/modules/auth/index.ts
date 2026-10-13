@@ -6,7 +6,7 @@ import { useRouteStore } from '../route'
 import { useThemeStore } from '../theme'
 import { useTokenStore } from './token'
 import { useUserStore } from './user'
-import { SetupStoreId } from '@/enum'
+import { SETUP_STORE_ID } from '@/constants/store'
 import { useRouterPush } from '@/hooks/router'
 import { defineStore } from 'pinia'
 
@@ -18,7 +18,7 @@ import { defineStore } from 'pinia'
  * 退出登录时分别调用 tokenStore / userStore / themeStore / routeStore 各自的 resetStore，
  * 不再集中持有其它域的重置逻辑。
  */
-export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
+export const useAuthStore = defineStore(SETUP_STORE_ID.Auth, () => {
   const tokenStore = useTokenStore()
   const userStore = useUserStore()
   const themeStore = useThemeStore()

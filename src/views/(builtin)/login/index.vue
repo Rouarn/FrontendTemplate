@@ -6,7 +6,8 @@ import SvgIcon from '@/components/custom/svg-icon.vue'
 import { $t } from '@/locales'
 
 defineOptions({
-  name: 'GlobalLogin',
+  // eslint-disable-next-line vue/multi-word-component-names -- 与路由名保持一致，用于 keep-alive 匹配
+  name: 'Login',
 })
 
 type LoginMode = 'pwd' | 'register'

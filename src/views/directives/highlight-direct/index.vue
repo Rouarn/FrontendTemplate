@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'highlightDirect',
+  name: 'DirectivesHighlightDirect',
 })
 
 const searchText = ref('Vue')

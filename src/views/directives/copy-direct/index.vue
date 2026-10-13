@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'copyDirect',
+  name: 'DirectivesCopyDirect',
 })
 
 const data = ref<string>('我是被复制的内容 🍒 🍉 🍊')

@@ -1,4 +1,4 @@
-import { SetupStoreId } from '@/enum'
+import { SETUP_STORE_ID } from '@/constants/store'
 import { jsonClone } from '@sa/utils'
 import type { PiniaPluginContext } from 'pinia'
 
@@ -8,7 +8,7 @@ import type { PiniaPluginContext } from 'pinia'
  * @param context
  */
 export function resetSetupStore(context: PiniaPluginContext) {
-  const setupSyntaxIds = Object.values(SetupStoreId) as string[]
+  const setupSyntaxIds = Object.values(SETUP_STORE_ID) as string[]
 
   if (setupSyntaxIds.includes(context.store.$id)) {
     const { $state } = context.store

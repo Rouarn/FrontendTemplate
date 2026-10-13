@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'focusDirect',
+  name: 'DirectivesFocusDirect',
   inheritAttrs: false,
 })
 

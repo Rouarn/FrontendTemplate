@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'longpressDirect',
+  name: 'DirectivesLongpressDirect',
 })
 
 const longpressCount = ref(0)

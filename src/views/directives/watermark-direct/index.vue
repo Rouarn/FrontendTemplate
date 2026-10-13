@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'watermarkDirect',
+  name: 'DirectivesWatermarkDirect',
 })
 
 const watermarkText = ref('Fresh & Elegant')

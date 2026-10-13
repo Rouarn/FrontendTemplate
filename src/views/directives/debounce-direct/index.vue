@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'debounceDirect',
+  name: 'DirectivesDebounceDirect',
 })
 
 const clickCount = ref(0)
