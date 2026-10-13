@@ -2,12 +2,6 @@ import { useSvgIcon } from '@/hooks/icon'
 import { $t, $te } from '@/locales'
 import type { AutoRouterRoute, AutoRouterSingleView } from '@elegant-router/types'
 
-/** 菜单分组元信息：按路由路径首段分组的父菜单配置 */
-const MENU_GROUP_META: Record<string, { i18nKey: App.I18n.I18nKey; order: number }> = {
-  demos: { i18nKey: 'route.demos.title', order: 2 },
-  directives: { i18nKey: 'route.directives.title', order: 1 },
-}
-
 /** 是否为页面路由（非重定向路由） */
 function isSingleViewRoute(route: AutoRouterRoute): route is AutoRouterSingleView {
   return !('redirect' in route)
@@ -34,7 +28,8 @@ export function sortMenusByOrder(menus: App.Global.Menu[]) {
 /**
  * 由 elegant-router 生成的路由构建全局菜单
  * - 单段路径路由直接作为顶级菜单
- * - 多段路径路由按路径首段分组为父菜单（分组元信息见 MENU_GROUP_META）
+ * - 多段路径路由按路径首段分组为父菜单
+ * - 分组标题的 i18n 键约定为 route.{segment}.title，order 取首个子菜单的 order
  *
  * 菜单 label 通过 $t 求值，在 computed 中调用时随语言切换自动更新
  */
@@ -75,20 +70,20 @@ export function getGlobalMenus(routes: AutoRouterRoute[], permissions: App.Globa
     })
 
   const groupMenus: App.Global.Menu[] = [...groupMap.entries()].map(([segment, children]) => {
-    const groupMeta = MENU_GROUP_META[segment]
     const sortedChildren = sortMenusByOrder(children)
     const firstChild = sortedChildren[0]
+    const groupI18nKey = `route.${segment}.title` as App.I18n.I18nKey
 
-    const label = groupMeta && $te(groupMeta.i18nKey) ? $t(groupMeta.i18nKey) : segment
+    const label = $te(groupI18nKey) ? $t(groupI18nKey) : segment
 
     return {
       key: segment,
       label,
-      i18nKey: groupMeta?.i18nKey,
+      i18nKey: groupI18nKey,
       routeKey: firstChild.routeKey,
       routePath: firstChild.routePath,
       icon: firstChild.icon,
-      order: groupMeta?.order ?? 0,
+      order: firstChild.order,
       children: sortedChildren,
     }
   })

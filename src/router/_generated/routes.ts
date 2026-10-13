@@ -69,7 +69,6 @@ export const routes: AutoRouterRoute[] = [
       i18nKey: 'route.about',
       order: 999,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -82,7 +81,6 @@ export const routes: AutoRouterRoute[] = [
       i18nKey: 'route.demos.loading-demo',
       order: 2,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -93,9 +91,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Animate Direct',
       i18nKey: 'route.directives.animate-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -106,9 +103,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Clickoutside Direct',
       i18nKey: 'route.directives.clickoutside-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -119,9 +115,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Copy Direct',
       i18nKey: 'route.directives.copy-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -132,9 +127,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Debounce Direct',
       i18nKey: 'route.directives.debounce-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -145,9 +139,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Drag Direct',
       i18nKey: 'route.directives.drag-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -158,9 +151,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Focus Direct',
       i18nKey: 'route.directives.focus-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -171,9 +163,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Highlight Direct',
       i18nKey: 'route.directives.highlight-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -184,9 +175,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Lazy Direct',
       i18nKey: 'route.directives.lazy-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -197,9 +187,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Loading Direct',
       i18nKey: 'route.directives.loading-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -210,9 +199,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Longpress Direct',
       i18nKey: 'route.directives.longpress-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -223,9 +211,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Mask Direct',
       i18nKey: 'route.directives.mask-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -236,9 +223,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Ripple Direct',
       i18nKey: 'route.directives.ripple-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -249,9 +235,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Scroll Direct',
       i18nKey: 'route.directives.scroll-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -262,9 +247,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Throttle Direct',
       i18nKey: 'route.directives.throttle-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -275,9 +259,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Tooltip Direct',
       i18nKey: 'route.directives.tooltip-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -288,9 +271,8 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Directives Watermark Direct',
       i18nKey: 'route.directives.watermark-direct',
-      order: 2,
+      order: 3,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -303,7 +285,6 @@ export const routes: AutoRouterRoute[] = [
       i18nKey: 'route.home',
       order: 0,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -314,10 +295,9 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Iframe Url',
       i18nKey: 'route.iframe',
-      order: 2,
+      order: 3,
       hideInMenu: true,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -328,10 +308,9 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'Login',
       i18nKey: 'route.login',
-      order: 2,
+      order: 3,
       hideInMenu: true,
       isKeepAlive: true,
-      isAuth: false,
     },
   },
   {
@@ -342,7 +321,7 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: 'User Center',
       i18nKey: 'route.user-center',
-      order: 2,
+      order: 3,
       hideInMenu: true,
       isKeepAlive: true,
       isAuth: true,
