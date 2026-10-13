@@ -43,7 +43,11 @@ const latestBuildTime = BUILD_TIME
 <template>
   <div class="flex-col gap-16px">
     <!-- Page Header -->
-    <PageHeader icon="ph:info-duotone" :title="$t('page.about.title')" :description="$t('page.about.introduction')" />
+    <PageHeader
+      icon="ph:info-duotone"
+      :title="$t('page.about.title')"
+      :description="$t('page.about.introduction')"
+    />
 
     <!-- Project Info -->
     <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
@@ -61,13 +65,23 @@ const latestBuildTime = BUILD_TIME
           <NTag type="info" round size="small" class="font-bold">{{ latestBuildTime }}</NTag>
         </NDescriptionsItem>
         <NDescriptionsItem :label="$t('page.about.projectInfo.githubLink')">
-          <a class="flex items-center gap-6px text-primary hover:underline" :href="pkg.homepage" target="_blank" rel="noopener noreferrer">
+          <a
+            class="flex items-center gap-6px text-primary hover:underline"
+            :href="pkg.homepage"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <SvgIcon icon="ph:github-logo-duotone" />
             GitHub
           </a>
         </NDescriptionsItem>
         <NDescriptionsItem :label="$t('page.about.projectInfo.previewLink')">
-          <a class="flex items-center gap-6px text-primary hover:underline" :href="pkg.website" target="_blank" rel="noopener noreferrer">
+          <a
+            class="flex items-center gap-6px text-primary hover:underline"
+            :href="pkg.website"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <SvgIcon icon="ph:browser-duotone" />
             {{ $t('page.about.projectInfo.previewLink') }}
           </a>
@@ -93,11 +107,20 @@ const latestBuildTime = BUILD_TIME
             :key="item.name"
             class="group flex items-center justify-between gap-8px border-b border-layout py-10px transition-colors last:border-none hover:border-primary/30"
           >
-            <span class="flex items-center gap-8px truncate text-14px font-medium text-slate-600 dark:text-slate-400">
-              <SvgIcon icon="ph:cube-duotone" class="shrink-0 text-14px text-primary/50 transition-colors group-hover:text-primary" />
+            <span
+              class="flex items-center gap-8px truncate text-14px font-medium text-slate-600 dark:text-slate-400"
+            >
+              <SvgIcon
+                icon="ph:cube-duotone"
+                class="shrink-0 text-14px text-primary/50 transition-colors group-hover:text-primary"
+              />
               {{ item.name }}
             </span>
-            <NTag :bordered="false" size="small" class="shrink-0 bg-primary/5 font-mono text-primary rd-4px">
+            <NTag
+              :bordered="false"
+              size="small"
+              class="shrink-0 bg-primary/5 font-mono text-primary rd-4px"
+            >
               {{ item.version }}
             </NTag>
           </div>
@@ -120,11 +143,20 @@ const latestBuildTime = BUILD_TIME
             :key="item.name"
             class="group flex items-center justify-between gap-8px border-b border-layout py-10px transition-colors last:border-none hover:border-amber-500/30"
           >
-            <span class="flex items-center gap-8px truncate text-14px font-medium text-slate-600 dark:text-slate-400">
-              <SvgIcon icon="ph:cube-duotone" class="shrink-0 text-14px text-amber-500/50 transition-colors group-hover:text-amber-500" />
+            <span
+              class="flex items-center gap-8px truncate text-14px font-medium text-slate-600 dark:text-slate-400"
+            >
+              <SvgIcon
+                icon="ph:cube-duotone"
+                class="shrink-0 text-14px text-amber-500/50 transition-colors group-hover:text-amber-500"
+              />
               {{ item.name }}
             </span>
-            <NTag :bordered="false" size="small" class="shrink-0 bg-amber-500/5 font-mono text-amber-600 rd-4px">
+            <NTag
+              :bordered="false"
+              size="small"
+              class="shrink-0 bg-amber-500/5 font-mono text-amber-600 rd-4px"
+            >
               {{ item.version }}
             </NTag>
           </div>

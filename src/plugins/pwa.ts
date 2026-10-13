@@ -6,10 +6,10 @@ export function setupPWARegister() {
   registerSW({
     immediate: true,
     onNeedRefresh() {
-      console.log('PWA 需要刷新')
+      console.info('PWA 需要刷新')
     },
     onOfflineReady() {
-      console.log('PWA 离线可用')
+      console.info('PWA 离线可用')
     },
   })
 }

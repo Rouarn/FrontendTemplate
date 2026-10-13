@@ -11,7 +11,10 @@ defineOptions({
 const themeStore = useThemeStore()
 
 const isWatermarkTextVisible = computed(
-  () => themeStore.watermark.visible && !themeStore.watermark.enableUserName && !themeStore.watermark.enableTime,
+  () =>
+    themeStore.watermark.visible &&
+    !themeStore.watermark.enableUserName &&
+    !themeStore.watermark.enableTime,
 )
 
 const watermarkTimeFormatOptions = [
@@ -41,11 +44,25 @@ const watermarkTimeFormatOptions = [
         <SettingItem key="1" :label="$t('theme.watermark.visible')">
           <NSwitch v-model:value="themeStore.watermark.visible" />
         </SettingItem>
-        <SettingItem v-if="themeStore.watermark.visible" key="2" :label="$t('theme.watermark.enableUserName')">
-          <NSwitch :value="themeStore.watermark.enableUserName" @update:value="themeStore.setWatermarkEnableUserName" />
+        <SettingItem
+          v-if="themeStore.watermark.visible"
+          key="2"
+          :label="$t('theme.watermark.enableUserName')"
+        >
+          <NSwitch
+            :value="themeStore.watermark.enableUserName"
+            @update:value="themeStore.setWatermarkEnableUserName"
+          />
         </SettingItem>
-        <SettingItem v-if="themeStore.watermark.visible" key="3" :label="$t('theme.watermark.enableTime')">
-          <NSwitch :value="themeStore.watermark.enableTime" @update:value="themeStore.setWatermarkEnableTime" />
+        <SettingItem
+          v-if="themeStore.watermark.visible"
+          key="3"
+          :label="$t('theme.watermark.enableTime')"
+        >
+          <NSwitch
+            :value="themeStore.watermark.enableTime"
+            @update:value="themeStore.setWatermarkEnableTime"
+          />
         </SettingItem>
         <SettingItem
           v-if="themeStore.watermark.visible && themeStore.watermark.enableTime"
@@ -60,7 +77,14 @@ const watermarkTimeFormatOptions = [
           />
         </SettingItem>
         <SettingItem v-if="isWatermarkTextVisible" key="5" :label="$t('theme.watermark.text')">
-          <NInput v-model:value="themeStore.watermark.text" autosize type="text" size="small" class="w-120px" placeholder="SoybeanAdmin" />
+          <NInput
+            v-model:value="themeStore.watermark.text"
+            autosize
+            type="text"
+            size="small"
+            class="w-120px"
+            placeholder="SoybeanAdmin"
+          />
         </SettingItem>
       </TransitionGroup>
     </div>

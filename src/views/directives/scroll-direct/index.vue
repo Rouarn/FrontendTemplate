@@ -59,11 +59,15 @@ const handleScroll = ({ position, percentage, direction, velocity }) => {
     <!-- Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16px">
       <NCard :bordered="false" class="card-wrapper text-center">
-        <div class="text-32px font-bold text-primary tabular-nums">{{ Math.round(scrollStats.position) }}px</div>
+        <div class="text-32px font-bold text-primary tabular-nums">
+          {{ Math.round(scrollStats.position) }}px
+        </div>
         <div class="text-14px text-slate-500 font-medium">当前滚动距离</div>
       </NCard>
       <NCard :bordered="false" class="card-wrapper text-center">
-        <div class="text-32px font-bold text-blue-500 tabular-nums">{{ Math.round(scrollStats.percentage) }}%</div>
+        <div class="text-32px font-bold text-blue-500 tabular-nums">
+          {{ Math.round(scrollStats.percentage) }}%
+        </div>
         <div class="text-14px text-slate-500 font-medium">已滚动百分比</div>
       </NCard>
       <NCard :bordered="false" class="card-wrapper text-center">
@@ -77,12 +81,20 @@ const handleScroll = ({ position, percentage, direction, velocity }) => {
                   : 'ph:minus-bold'
             "
           />
-          {{ scrollStats.direction === 'none' ? '静止' : scrollStats.direction === 'down' ? '向下' : '向上' }}
+          {{
+            scrollStats.direction === 'none'
+              ? '静止'
+              : scrollStats.direction === 'down'
+                ? '向下'
+                : '向上'
+          }}
         </div>
         <div class="text-14px text-slate-500 font-medium">滚动方向</div>
       </NCard>
       <NCard :bordered="false" class="card-wrapper text-center">
-        <div class="text-32px font-bold text-purple-500 tabular-nums">{{ Math.round(scrollStats.velocity) }}</div>
+        <div class="text-32px font-bold text-purple-500 tabular-nums">
+          {{ Math.round(scrollStats.velocity) }}
+        </div>
         <div class="text-14px text-slate-500 font-medium">滚动即时速度</div>
       </NCard>
     </div>
@@ -117,7 +129,9 @@ const handleScroll = ({ position, percentage, direction, velocity }) => {
               >
                 <div class="flex justify-between items-center mb-8px">
                   <span class="text-16px font-bold text-base-text">列表项 #{{ i }}</span>
-                  <NTag :type="i % 2 === 0 ? 'primary' : 'success'" size="small" round>Category</NTag>
+                  <NTag :type="i % 2 === 0 ? 'primary' : 'success'" size="small" round
+                    >Category</NTag
+                  >
                 </div>
                 <p class="text-14px text-slate-500">
                   这是一段用于模拟滚动内容的占位文本，你可以通过鼠标滚轮或拖动滚动条来查看滚动指令的实时反馈。
@@ -127,7 +141,10 @@ const handleScroll = ({ position, percentage, direction, velocity }) => {
           </div>
           <!-- Progress Bar Overlay -->
           <div class="absolute top-0 left-0 w-full h-4px bg-primary/5">
-            <div class="h-full bg-primary transition-all duration-150" :style="{ width: `${scrollStats.percentage}%` }" />
+            <div
+              class="h-full bg-primary transition-all duration-150"
+              :style="{ width: `${scrollStats.percentage}%` }"
+            />
           </div>
         </div>
 
@@ -157,7 +174,8 @@ const handleScroll = ({ position, percentage, direction, velocity }) => {
           <div class="p-20px rd-16px bg-amber-500/5 border border-amber-500/10">
             <h4 class="text-16px font-bold text-amber-600 mb-8px">使用说明</h4>
             <p class="text-13px text-amber-700/80 leading-relaxed">
-              `v-scroll` 指令接收一个回调函数，每当容器发生滚动时，它会提供包含位置、百分比、方向和速度的实时数据对象。
+              `v-scroll`
+              指令接收一个回调函数，每当容器发生滚动时，它会提供包含位置、百分比、方向和速度的实时数据对象。
             </p>
           </div>
         </div>

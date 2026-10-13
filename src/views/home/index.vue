@@ -52,15 +52,51 @@ interface TechItem {
 }
 
 const techStack = computed<TechItem[]>(() => [
-  { name: 'Vue 3', version: '3.5+', icon: 'logos:vue', description: $t('page.home.progressiveFramework') },
-  { name: 'Vite 8', version: '8.x', icon: 'logos:vitejs', description: $t('page.home.nextGenBuildTool') },
-  { name: 'TypeScript', version: '5.x', icon: 'logos:typescript-icon', description: $t('page.home.typeSafe') },
-  { name: 'Naive UI', version: '2.x', icon: 'logos:naiveui', description: $t('page.home.highQualityComponentLib') },
-  { name: 'UnoCSS', version: '0.x', icon: 'logos:unocss', description: $t('page.home.atomicEngine') },
-  { name: 'Pinia', version: '2.x', icon: 'logos:pinia', description: $t('page.home.stateManagement') },
+  {
+    name: 'Vue 3',
+    version: '3.5+',
+    icon: 'logos:vue',
+    description: $t('page.home.progressiveFramework'),
+  },
+  {
+    name: 'Vite 8',
+    version: '8.x',
+    icon: 'logos:vitejs',
+    description: $t('page.home.nextGenBuildTool'),
+  },
+  {
+    name: 'TypeScript',
+    version: '5.x',
+    icon: 'logos:typescript-icon',
+    description: $t('page.home.typeSafe'),
+  },
+  {
+    name: 'Naive UI',
+    version: '2.x',
+    icon: 'logos:naiveui',
+    description: $t('page.home.highQualityComponentLib'),
+  },
+  {
+    name: 'UnoCSS',
+    version: '0.x',
+    icon: 'logos:unocss',
+    description: $t('page.home.atomicEngine'),
+  },
+  {
+    name: 'Pinia',
+    version: '2.x',
+    icon: 'logos:pinia',
+    description: $t('page.home.stateManagement'),
+  },
 ])
 
-const heroLogos = ['logos:vue', 'logos:vitejs', 'logos:typescript-icon', 'logos:pinia', 'logos:unocss']
+const heroLogos = [
+  'logos:vue',
+  'logos:vitejs',
+  'logos:typescript-icon',
+  'logos:pinia',
+  'logos:unocss',
+]
 
 /** 当前浏览器地址（模拟浏览器地址栏，展示主机名与端口） */
 const currentHost = window.location.host
@@ -169,21 +205,35 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
     <!-- ============ Hero ============ -->
     <section class="relative">
       <div class="hero-grid" />
-      <div class="pointer-events-none absolute -right-200px -top-200px size-480px rd-full bg-primary/10 blur-[100px]" />
-      <div class="pointer-events-none absolute -bottom-220px -left-200px size-480px rd-full bg-blue-500/10 blur-[100px]" />
+      <div
+        class="pointer-events-none absolute -right-200px -top-200px size-480px rd-full bg-primary/10 blur-[100px]"
+      />
+      <div
+        class="pointer-events-none absolute -bottom-220px -left-200px size-480px rd-full bg-blue-500/10 blur-[100px]"
+      />
 
-      <div class="relative mx-auto grid max-w-1200px grid-cols-1 items-center gap-56px px-24px pt-72px pb-88px lg:grid-cols-2">
+      <div
+        class="relative mx-auto grid max-w-1200px grid-cols-1 items-center gap-56px px-24px pt-72px pb-88px lg:grid-cols-2"
+      >
         <!-- 左侧文案 -->
         <div v-reveal>
-          <div class="inline-flex h-34px items-center gap-10px rd-full border border-primary/15 bg-container px-16px shadow-low">
+          <div
+            class="inline-flex h-34px items-center gap-10px rd-full border border-primary/15 bg-container px-16px shadow-low"
+          >
             <span class="relative flex size-7px">
-              <span class="absolute inline-flex h-full w-full animate-ping rd-full bg-primary opacity-60" />
+              <span
+                class="absolute inline-flex h-full w-full animate-ping rd-full bg-primary opacity-60"
+              />
               <span class="relative inline-flex size-7px rd-full bg-primary" />
             </span>
-            <span class="text-12px font-medium text-base-text"> {{ $t('page.home.heroBadge') }} · v{{ pkg.version }} </span>
+            <span class="text-12px font-medium text-base-text">
+              {{ $t('page.home.heroBadge') }} · v{{ pkg.version }}
+            </span>
           </div>
 
-          <h1 class="mt-28px text-52px leading-[1.15] font-bold tracking-tight text-base-text sm:text-64px">
+          <h1
+            class="mt-28px text-52px leading-[1.15] font-bold tracking-tight text-base-text sm:text-64px"
+          >
             <span class="text-primary">Fresh</span> &amp; Elegant
           </h1>
           <p class="mt-20px max-w-560px text-17px leading-relaxed text-slate-500">
@@ -229,13 +279,17 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
         <div v-reveal="150" class="relative mx-auto w-full max-w-520px">
           <div class="absolute inset-0 -z-1 scale-[0.92] rd-full bg-primary/12 blur-[80px]" />
 
-          <div class="mock-window overflow-hidden rd-22px border border-base-text/8 bg-container shadow-high">
+          <div
+            class="mock-window overflow-hidden rd-22px border border-base-text/8 bg-container shadow-high"
+          >
             <!-- 窗口标题栏 -->
             <div class="flex items-center gap-12px border-b border-base-text/6 px-20px py-14px">
               <span class="size-11px rd-full bg-[#ff5f57]" />
               <span class="size-11px rd-full bg-[#febc2e]" />
               <span class="size-11px rd-full bg-[#28c840]" />
-              <div class="ml-8px flex h-26px flex-1 items-center gap-6px rd-8px bg-layout px-10px text-11px text-slate-400">
+              <div
+                class="ml-8px flex h-26px flex-1 items-center gap-6px rd-8px bg-layout px-10px text-11px text-slate-400"
+              >
                 <SvgIcon icon="ph:lock-simple-fill" class="text-10px" />
                 {{ currentHost }}
               </div>
@@ -243,19 +297,27 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
             <!-- 终端内容 -->
             <div class="p-24px font-mono text-13px leading-7">
               <p><span class="term-dim">$</span> pnpm dev</p>
-              <p><span class="term-primary">✓</span> VITE v8 ready in <span class="term-amber">312</span> ms</p>
               <p>
-                <span class="term-dim">➜</span> Local: <span class="term-sky">{{ currentOrigin }}/</span>
+                <span class="term-primary">✓</span> VITE v8 ready in
+                <span class="term-amber">312</span> ms
               </p>
-              <p><span class="term-dim">➜</span> press <span class="term-green">h</span> to show help</p>
+              <p>
+                <span class="term-dim">➜</span> Local:
+                <span class="term-sky">{{ currentOrigin }}/</span>
+              </p>
+              <p>
+                <span class="term-dim">➜</span> press <span class="term-green">h</span> to show help
+              </p>
               <div class="my-14px h-px bg-base-text/8" />
               <p>
                 <span class="term-purple">const</span> <span class="term-sky">fresh</span> =
                 <span class="term-green">'elegant'</span>
               </p>
               <p>
-                <span class="term-purple">const</span> <span class="term-sky">stack</span> = [<span class="term-green">'vue3'</span>,
-                <span class="term-green">'vite8'</span>]
+                <span class="term-purple">const</span> <span class="term-sky">stack</span> = [<span
+                  class="term-green"
+                  >'vue3'</span
+                >, <span class="term-green">'vite8'</span>]
               </p>
               <p class="term-dim">// HMR updated in 12ms</p>
             </div>
@@ -265,21 +327,33 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
           <div
             class="chip-float absolute -top-16px -right-10px hidden items-center gap-8px rd-14px border border-base-text/8 bg-container/85 px-14px py-10px shadow-high backdrop-blur sm:flex"
           >
-            <SvgIcon :icon="features[0].icon" class="text-20px" :style="{ color: features[0].color }" />
+            <SvgIcon
+              :icon="features[0].icon"
+              class="text-20px"
+              :style="{ color: features[0].color }"
+            />
             <span class="text-12px font-medium text-base-text">{{ features[0].title }}</span>
           </div>
           <div
             class="chip-float absolute -left-14px bottom-72px hidden items-center gap-8px rd-14px border border-base-text/8 bg-container/85 px-14px py-10px shadow-high backdrop-blur sm:flex"
             style="animation-delay: -2s"
           >
-            <SvgIcon :icon="features[2].icon" class="text-20px" :style="{ color: features[2].color }" />
+            <SvgIcon
+              :icon="features[2].icon"
+              class="text-20px"
+              :style="{ color: features[2].color }"
+            />
             <span class="text-12px font-medium text-base-text">{{ features[2].title }}</span>
           </div>
           <div
             class="chip-float absolute -bottom-16px -right-16px hidden items-center gap-8px rd-14px border border-base-text/8 bg-container/85 px-14px py-10px shadow-high backdrop-blur sm:flex"
             style="animation-delay: -4s"
           >
-            <SvgIcon :icon="features[1].icon" class="text-20px" :style="{ color: features[1].color }" />
+            <SvgIcon
+              :icon="features[1].icon"
+              class="text-20px"
+              :style="{ color: features[1].color }"
+            />
             <span class="text-12px font-medium text-base-text">{{ features[1].title }}</span>
           </div>
         </div>
@@ -298,7 +372,9 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
           <div
             class="flex-center size-54px shrink-0 rd-16px transition-transform duration-300 group-hover:scale-110"
             :class="stat.tone === 'primary' ? 'bg-primary/10 text-primary' : ''"
-            :style="stat.tone === 'primary' ? {} : { color: stat.tone, backgroundColor: `${stat.tone}14` }"
+            :style="
+              stat.tone === 'primary' ? {} : { color: stat.tone, backgroundColor: `${stat.tone}14` }
+            "
           >
             <SvgIcon :icon="stat.icon" class="text-26px" />
           </div>
@@ -329,7 +405,9 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
         <div
           v-reveal
           class="relative overflow-hidden rd-24px border border-base-text/8 p-36px shadow-low transition-all duration-300 hover:-translate-y-4px hover:shadow-high lg:col-span-2"
-          :style="{ background: `linear-gradient(135deg, ${primaryFeature.color}1a, transparent 62%)` }"
+          :style="{
+            background: `linear-gradient(135deg, ${primaryFeature.color}1a, transparent 62%)`,
+          }"
         >
           <SvgIcon
             :icon="primaryFeature.icon"
@@ -359,7 +437,9 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
           v-reveal="(index + 1) * 100"
           class="group relative overflow-hidden rd-24px border border-base-text/6 bg-container p-28px shadow-low transition-all duration-300 hover:-translate-y-4px hover:border-primary/25 hover:shadow-high"
         >
-          <span class="absolute top-20px right-22px text-13px font-bold text-slate-300">0{{ index + 2 }}</span>
+          <span class="absolute top-20px right-22px text-13px font-bold text-slate-300"
+            >0{{ index + 2 }}</span
+          >
           <div
             class="flex-center size-50px rd-16px transition-transform duration-300 group-hover:scale-110"
             :style="{ backgroundColor: `${feature.color}15`, color: feature.color }"
@@ -384,9 +464,14 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
             </div>
             <h3 class="mt-22px text-20px font-bold text-white">Fresh &amp; Elegant</h3>
           </div>
-          <span class="relative mt-20px inline-flex items-center gap-6px text-13px font-bold text-white/90">
+          <span
+            class="relative mt-20px inline-flex items-center gap-6px text-13px font-bold text-white/90"
+          >
             {{ $t('page.home.getStarted') }}
-            <SvgIcon icon="ph:arrow-right-bold" class="text-12px transition-transform duration-300 group-hover:translate-x-4px" />
+            <SvgIcon
+              icon="ph:arrow-right-bold"
+              class="text-12px transition-transform duration-300 group-hover:translate-x-4px"
+            />
           </span>
         </button>
       </div>
@@ -416,7 +501,9 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
               <div class="min-w-0 flex-1">
                 <div class="flex items-center gap-8px">
                   <h3 class="text-17px font-bold text-base-text">{{ tech.name }}</h3>
-                  <span class="rd-4px bg-primary/10 px-6px py-2px text-12px font-medium text-primary">
+                  <span
+                    class="rd-4px bg-primary/10 px-6px py-2px text-12px font-medium text-primary"
+                  >
                     {{ tech.version }}
                   </span>
                 </div>
@@ -442,10 +529,14 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
           v-reveal="index * 120"
           class="group relative overflow-hidden rd-24px border border-base-text/6 bg-container p-32px shadow-low transition-all duration-300 hover:-translate-y-4px hover:border-primary/25 hover:shadow-high"
         >
-          <span class="absolute top-16px right-24px text-46px leading-none font-black text-primary/10">
+          <span
+            class="absolute top-16px right-24px text-46px leading-none font-black text-primary/10"
+          >
             {{ item.number }}
           </span>
-          <div class="flex-center size-48px rd-14px bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110">
+          <div
+            class="flex-center size-48px rd-14px bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110"
+          >
             <SvgIcon :icon="item.icon" class="text-24px" />
           </div>
           <h3 class="mt-20px text-18px font-bold text-base-text">{{ item.title }}</h3>
@@ -456,7 +547,10 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
 
     <!-- ============ CTA ============ -->
     <section class="mx-auto max-w-1200px px-24px pb-104px">
-      <div v-reveal class="group relative overflow-hidden rd-32px bg-primary p-64px text-center shadow-high">
+      <div
+        v-reveal
+        class="group relative overflow-hidden rd-32px bg-primary p-64px text-center shadow-high"
+      >
         <div class="cta-grid" />
         <div
           class="absolute top-0 right-0 size-300px -mr-150px -mt-150px rd-full bg-white/10 blur-3xl transition-transform duration-700 group-hover:scale-125"
@@ -465,7 +559,9 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
           class="absolute bottom-0 left-0 size-300px -mb-150px -ml-150px rd-full bg-white/10 blur-3xl transition-transform duration-700 group-hover:scale-125"
         />
 
-        <h2 class="relative z-1 text-36px font-bold text-white">{{ $t('page.home.readyToStart') }}</h2>
+        <h2 class="relative z-1 text-36px font-bold text-white">
+          {{ $t('page.home.readyToStart') }}
+        </h2>
         <p class="relative z-1 mx-auto mt-16px max-w-600px text-18px text-white/80">
           {{ $t('page.home.readyToStartDesc') }}
         </p>

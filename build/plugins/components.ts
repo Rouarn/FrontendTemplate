@@ -7,6 +7,9 @@ export function setupComponentsPlugin(iconPrefix: string, collectionName: string
   return Components({
     dts: 'src/typings/components.d.ts',
     types: [{ from: 'vue-router', names: ['RouterLink', 'RouterView'] }],
-    resolvers: [NaiveUiResolver(), IconsResolver({ customCollections: [collectionName], componentPrefix: iconPrefix })],
+    resolvers: [
+      NaiveUiResolver(),
+      IconsResolver({ customCollections: [collectionName], componentPrefix: iconPrefix }),
+    ],
   })
 }

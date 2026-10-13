@@ -36,7 +36,8 @@ const local: App.I18n.Schema = {
     colourWeakness: '色弱模式',
     recommendColor: '应用推荐算法的颜色',
     recommendColorDesc: '推荐颜色的算法参照',
-    recommendColorEffectTip: '此设置在下次通过取色器选色时生效：开启后将自动归一化为标准 500 色阶，单独拨动不会立即改变界面',
+    recommendColorEffectTip:
+      '此设置在下次通过取色器选色时生效：开启后将自动归一化为标准 500 色阶，单独拨动不会立即改变界面',
     themeColor: {
       title: '主题颜色',
       primary: '主色',
@@ -186,7 +187,8 @@ const local: App.I18n.Schema = {
       philosophyTitle: '设计理念',
       philosophyDesc: '好的模板隐于幕后，让你的创意成为主角',
       philosophy1Title: '开箱即用',
-      philosophy1Desc: '无需繁琐配置，克隆安装即刻启动；内置登录鉴权、请求封装、主题系统与国际化，开箱即是最佳起点。',
+      philosophy1Desc:
+        '无需繁琐配置，克隆安装即刻启动；内置登录鉴权、请求封装、主题系统与国际化，开箱即是最佳起点。',
       philosophy2Title: '约定优于配置',
       philosophy2Desc: '统一的目录结构、命名规范与提交约束，让团队协作无缝衔接，新人也能快速融入。',
       philosophy3Title: '清新而克制',

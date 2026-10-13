@@ -14,7 +14,11 @@ const appStore = useAppStore()
 </script>
 
 <template>
-  <NDrawer v-model:show="appStore.themeDrawerVisible" display-directive="show" :width="appStore.isMobile ? '100%' : 360">
+  <NDrawer
+    v-model:show="appStore.themeDrawerVisible"
+    display-directive="show"
+    :width="appStore.isMobile ? '100%' : 360"
+  >
     <NDrawerContent :native-scrollbar="false" closable>
       <template #header>
         <div class="flex items-center gap-12px">

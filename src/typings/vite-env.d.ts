@@ -1,4 +1,17 @@
 /**
+ * .vue 单文件组件模块声明
+ *
+ * Oxlint 的类型检查器（tsgolint）不像 vue-tsc 那样原生解析 .vue 文件，
+ * 因此在 .ts 文件中导入 .vue 时需要该 ambient 声明兜底。
+ * .vue 文件内部的 .vue 导入仍由 Oxlint 的 vue 解析器精确解析，不受影响。
+ */
+declare module '*.vue' {
+  import type { DefineComponent } from 'vue'
+  const component: DefineComponent<Record<string, unknown>, Record<string, unknown>, unknown>
+  export default component
+}
+
+/**
  * Env 命名空间
  *
  * 用于声明 import.meta 对象的类型

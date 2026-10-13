@@ -88,7 +88,13 @@ function onCropError(msg: string) {
       <SvgIcon icon="ph:camera-duotone" class="text-24px text-white" />
     </div>
 
-    <input ref="fileInputRef" type="file" accept="image/*" class="hidden" @change="onAvatarFileChange" />
+    <input
+      ref="fileInputRef"
+      type="file"
+      accept="image/*"
+      class="hidden"
+      @change="onAvatarFileChange"
+    />
     <CroppingImage
       ref="cutterRef"
       :cropper-title="$t('userCenter.croppingTitle')"

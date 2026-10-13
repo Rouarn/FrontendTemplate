@@ -2,7 +2,8 @@ const local: App.I18n.Schema = {
   system: {
     title: 'Frontend Template',
     updateTitle: 'System Version Update Notification',
-    updateContent: 'A new version of the system has been detected. Do you want to refresh the page immediately?',
+    updateContent:
+      'A new version of the system has been detected. Do you want to refresh the page immediately?',
     updateConfirm: 'Refresh immediately',
     updateCancel: 'Later',
   },
@@ -58,7 +59,8 @@ const local: App.I18n.Schema = {
     },
     configOperation: {
       copyConfig: 'Copy Config',
-      copySuccessMsg: 'Copy Success, Please replace the variable "themeSettings" in "src/theme/settings.ts"',
+      copySuccessMsg:
+        'Copy Success, Please replace the variable "themeSettings" in "src/theme/settings.ts"',
       resetConfig: 'Reset Config',
       resetSuccessMsg: 'Reset Success',
     },
@@ -155,7 +157,8 @@ const local: App.I18n.Schema = {
   page: {
     home: {
       heroBadge: 'Latest release',
-      heroDescription: 'A fresh and elegant frontend template built with Vue3, Vite8, TypeScript, NaiveUI and UnoCSS.',
+      heroDescription:
+        'A fresh and elegant frontend template built with Vue3, Vite8, TypeScript, NaiveUI and UnoCSS.',
       getStarted: 'Get Started',
       viewSource: 'View Source',
       coreFeatures: 'Core Features',
@@ -180,7 +183,8 @@ const local: App.I18n.Schema = {
       coreDependencies: 'Core Dependencies',
       openSourceLicense: 'Open Source License',
       readyToStart: 'Ready to Start?',
-      readyToStartDesc: 'Download the template now, enjoy the purest Vue 3 development fun, and build your fresh and elegant work.',
+      readyToStartDesc:
+        'Download the template now, enjoy the purest Vue 3 development fun, and build your fresh and elegant work.',
       downloadNow: 'Download Now',
       readDocs: 'Read Docs',
       philosophyTitle: 'Design Philosophy',
@@ -189,9 +193,11 @@ const local: App.I18n.Schema = {
       philosophy1Desc:
         'No tedious configuration — clone, install and run. Login auth, request wrappers, theming and i18n are built in from day one.',
       philosophy2Title: 'Convention over Configuration',
-      philosophy2Desc: 'Unified directory structure, naming rules and commit conventions keep teams in sync and newcomers productive.',
+      philosophy2Desc:
+        'Unified directory structure, naming rules and commit conventions keep teams in sync and newcomers productive.',
       philosophy3Title: 'Fresh and Restrained',
-      philosophy3Desc: 'Whitespace, hierarchy and just-right micro-interactions create elegance without bloat or over-engineering.',
+      philosophy3Desc:
+        'Whitespace, hierarchy and just-right micro-interactions create elegance without bloat or over-engineering.',
     },
     about: {
       title: 'About',

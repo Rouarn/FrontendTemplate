@@ -13,7 +13,11 @@ export const useAppStore = defineStore(SETUP_STORE_ID.App, () => {
   const scope = effectScope()
   const breakpoints = useBreakpoints(breakpointsTailwind)
   const { bool: reloadFlag, setBool: setReloadFlag } = useBoolean(true)
-  const { bool: themeDrawerVisible, setTrue: openThemeDrawer, setFalse: closeThemeDrawer } = useBoolean()
+  const {
+    bool: themeDrawerVisible,
+    setTrue: openThemeDrawer,
+    setFalse: closeThemeDrawer,
+  } = useBoolean()
   const { bool: contentXScrollable, setBool: setContentXScrollable } = useBoolean()
   const { bool: hideHeader, setBool: setHideHeader } = useBoolean(false)
 
@@ -61,7 +65,7 @@ export const useAppStore = defineStore(SETUP_STORE_ID.App, () => {
     })
 
     setReloadFlag(true)
-    routeStore.resetRouteCache()
+    await routeStore.resetRouteCache()
   }
 
   function init() {

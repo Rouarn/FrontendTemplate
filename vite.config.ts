@@ -1,7 +1,7 @@
 import { setupVitePlugins } from './build/plugins/index.ts'
 import { createViteProxy, getBuildTime } from './build/config/index.ts'
 import { fileURLToPath, URL } from 'node:url'
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig, loadEnv } from 'vite-plus'
 
 // https://vite.dev/config/
 export default defineConfig((configEnv) => {
@@ -50,7 +50,7 @@ export default defineConfig((configEnv) => {
       reportCompressedSize: false,
       // 规定触发警告的 chunk 大小
       chunkSizeWarningLimit: 1000,
-      // 静态资源分类与打包
+      // 静态资产分类与打包
       rollupOptions: {
         output: {
           chunkFileNames: 'assets/js/[name]-[hash].js',
@@ -62,6 +62,42 @@ export default defineConfig((configEnv) => {
       cssCodeSplit: true,
       // 模块预加载
       modulePreload: true,
+    },
+    // Oxfmt 格式化配置（替代 Prettier）
+    fmt: {
+      ignorePatterns: [
+        'dist/**',
+        'src/typings/auto-imports.d.ts',
+        'src/typings/components.d.ts',
+        'src/router/_generated/**',
+      ],
+      singleQuote: true,
+      semi: false,
+      sortPackageJson: true,
+    },
+    // Oxlint 检查配置（替代 ESLint，含类型检查，替代 vue-tsc）
+    lint: {
+      ignorePatterns: [
+        'dist/**',
+        'src/typings/auto-imports.d.ts',
+        'src/typings/components.d.ts',
+        'src/router/_generated/**',
+      ],
+      options: {
+        typeAware: true,
+        typeCheck: true,
+      },
+      rules: {
+        'no-unused-vars': [
+          'error',
+          { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
+        ],
+        'no-console': ['warn', { allow: ['error', 'warn', 'info'] }],
+      },
+    },
+    // 暂存区检查（替代 lint-staged）
+    staged: {
+      '*': 'vp check --fix',
     },
   }
 })

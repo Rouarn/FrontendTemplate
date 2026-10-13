@@ -53,7 +53,7 @@ const focus: Directive = {
     // 如果没有传值或传值为true，则聚焦
     if (binding.value === undefined || binding.value) {
       // 使用nextTick确保DOM完全渲染后再聚焦
-      nextTick(() => {
+      void nextTick(() => {
         // 延迟一小段时间，确保组件完全渲染
         setTimeout(() => {
           doFocus(el)
@@ -65,7 +65,7 @@ const focus: Directive = {
   updated(el: HTMLElement, binding: DirectiveBinding) {
     // 当绑定值发生变化时，重新判断是否需要聚焦
     if (binding.value && !binding.oldValue) {
-      nextTick(() => {
+      void nextTick(() => {
         setTimeout(() => {
           doFocus(el)
         }, 100)

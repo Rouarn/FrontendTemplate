@@ -22,7 +22,8 @@ interface HTMLEL extends HTMLElement {
 
 const directive: Directive<HTMLEL, LongPressHandler | LongPressOptions> = {
   mounted(el: HTMLEL, binding: DirectiveBinding<LongPressHandler | LongPressOptions>) {
-    const options: LongPressOptions = typeof binding.value === 'function' ? { fn: binding.value } : binding.value
+    const options: LongPressOptions =
+      typeof binding.value === 'function' ? { fn: binding.value } : binding.value
 
     if (typeof options.fn !== 'function') {
       console.error('[v-longpress] callback must be a function')
@@ -78,7 +79,8 @@ const directive: Directive<HTMLEL, LongPressHandler | LongPressOptions> = {
   },
 
   updated(el: HTMLEL, binding: DirectiveBinding<LongPressHandler | LongPressOptions>) {
-    const options: LongPressOptions = typeof binding.value === 'function' ? { fn: binding.value } : binding.value
+    const options: LongPressOptions =
+      typeof binding.value === 'function' ? { fn: binding.value } : binding.value
     if (typeof options.fn === 'function') {
       el.__longPressFn__ = options.fn
     }

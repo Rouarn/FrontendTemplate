@@ -34,7 +34,8 @@ const config = defineConfig<PresetUnoTheme>({
   shortcuts: {
     'card-wrapper': 'rd-8px shadow-low transition-shadow duration-300 ease-out hover:shadow-high',
     card: 'h-82vh flex flex-col items-center bg-container p-24px rd-12px shadow-low',
-    'btn-primary': 'bg-primary text-white rd-8px px-16px py-8px transition-colors duration-200 ease-out hover:bg-primary-600',
+    'btn-primary':
+      'bg-primary text-white rd-8px px-16px py-8px transition-colors duration-200 ease-out hover:bg-primary-600',
   },
   transformers: [transformerDirectives(), transformerVariantGroup()],
   presets: [

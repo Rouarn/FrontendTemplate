@@ -1,5 +1,11 @@
 import { stopAutoScroll } from './auto-scroll'
-import type { ExtendedCSSStyleDeclaration, ScrollBindingValue, ScrollData, ScrollOptions, ScrollState } from './types'
+import type {
+  ExtendedCSSStyleDeclaration,
+  ScrollBindingValue,
+  ScrollData,
+  ScrollOptions,
+  ScrollState,
+} from './types'
 
 // 计算滚动百分比
 export function calculatePercentage(element: HTMLElement, direction: string): number {
@@ -13,7 +19,13 @@ export function calculatePercentage(element: HTMLElement, direction: string): nu
 }
 
 // 计算滚动方向
-export function calculateDirection(currentTop: number, currentLeft: number, lastTop: number, lastLeft: number, direction: string): string {
+export function calculateDirection(
+  currentTop: number,
+  currentLeft: number,
+  lastTop: number,
+  lastLeft: number,
+  direction: string,
+): string {
   if (direction === 'horizontal') {
     if (currentLeft > lastLeft) return 'right'
     if (currentLeft < lastLeft) return 'left'
@@ -49,7 +61,13 @@ export function handleScroll(element: HTMLElement, options: ScrollOptions, state
   }
 
   // 计算滚动方向
-  const direction = calculateDirection(currentTop, currentLeft, state.lastScrollTop, state.lastScrollLeft, options.direction || 'vertical')
+  const direction = calculateDirection(
+    currentTop,
+    currentLeft,
+    state.lastScrollTop,
+    state.lastScrollLeft,
+    options.direction || 'vertical',
+  )
 
   // 计算滚动百分比
   const percentage = calculatePercentage(element, options.direction || 'vertical')

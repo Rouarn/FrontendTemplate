@@ -53,7 +53,12 @@ function createTooltip(content: string, options: TooltipOptions): HTMLElement {
 }
 
 // 计算提示框位置
-function calculatePosition(el: HTMLElement, tooltip: HTMLElement, placement: string, offset: number) {
+function calculatePosition(
+  el: HTMLElement,
+  tooltip: HTMLElement,
+  placement: string,
+  offset: number,
+) {
   const elRect = el.getBoundingClientRect()
   const tooltipRect = tooltip.getBoundingClientRect()
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop
@@ -100,7 +105,8 @@ function showTooltip(el: HTMLElement, binding: DirectiveBinding<TooltipOptions |
   const tooltipData = (el as HTMLElement & { __tooltipData?: TooltipData }).__tooltipData
   if (!tooltipData || tooltipData.isVisible) return
 
-  const options = typeof binding.value === 'string' ? { content: binding.value } : binding.value || {}
+  const options =
+    typeof binding.value === 'string' ? { content: binding.value } : binding.value || {}
 
   if (options.disabled || !options.content) return
 
@@ -166,7 +172,9 @@ function hideTooltip(el: HTMLElement) {
 // 事件处理函数
 function handleMouseEnter(event: Event) {
   const el = event.currentTarget as HTMLElement
-  const binding = (el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string> }).__tooltipBinding
+  const binding = (
+    el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string> }
+  ).__tooltipBinding
   if (!binding) return
   const options = typeof binding.value === 'string' ? {} : binding.value || {}
 
@@ -177,7 +185,9 @@ function handleMouseEnter(event: Event) {
 
 function handleMouseLeave(event: Event) {
   const el = event.currentTarget as HTMLElement
-  const binding = (el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string> }).__tooltipBinding
+  const binding = (
+    el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string> }
+  ).__tooltipBinding
   if (!binding) return
   const options = typeof binding.value === 'string' ? {} : binding.value || {}
 
@@ -188,7 +198,9 @@ function handleMouseLeave(event: Event) {
 
 function handleClick(event: Event) {
   const el = event.currentTarget as HTMLElement
-  const binding = (el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string> }).__tooltipBinding
+  const binding = (
+    el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string> }
+  ).__tooltipBinding
   if (!binding) return
   const options = typeof binding.value === 'string' ? {} : binding.value || {}
 
@@ -204,7 +216,9 @@ function handleClick(event: Event) {
 
 function handleFocus(event: Event) {
   const el = event.currentTarget as HTMLElement
-  const binding = (el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string> }).__tooltipBinding
+  const binding = (
+    el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string> }
+  ).__tooltipBinding
   if (!binding) return
   const options = typeof binding.value === 'string' ? {} : binding.value || {}
 
@@ -215,7 +229,9 @@ function handleFocus(event: Event) {
 
 function handleBlur(event: Event) {
   const el = event.currentTarget as HTMLElement
-  const binding = (el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string> }).__tooltipBinding
+  const binding = (
+    el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string> }
+  ).__tooltipBinding
   if (!binding) return
   const options = typeof binding.value === 'string' ? {} : binding.value || {}
 
@@ -227,9 +243,18 @@ function handleBlur(event: Event) {
 // 绑定事件
 function bindTooltip(el: HTMLElement, binding: DirectiveBinding<TooltipOptions | string>) {
   // 存储数据
-  ;(el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string>; __tooltipData?: TooltipData }).__tooltipBinding =
-    binding
-  ;(el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string>; __tooltipData?: TooltipData }).__tooltipData = {}
+  ;(
+    el as HTMLElement & {
+      __tooltipBinding?: DirectiveBinding<TooltipOptions | string>
+      __tooltipData?: TooltipData
+    }
+  ).__tooltipBinding = binding
+  ;(
+    el as HTMLElement & {
+      __tooltipBinding?: DirectiveBinding<TooltipOptions | string>
+      __tooltipData?: TooltipData
+    }
+  ).__tooltipData = {}
 
   // 添加事件监听
   el.addEventListener('mouseenter', handleMouseEnter)
@@ -252,14 +277,25 @@ function unbindTooltip(el: HTMLElement) {
   el.removeEventListener('blur', handleBlur)
 
   // 清理数据
-  delete (el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string>; __tooltipData?: TooltipData })
-    .__tooltipBinding
-  delete (el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string>; __tooltipData?: TooltipData }).__tooltipData
+  delete (
+    el as HTMLElement & {
+      __tooltipBinding?: DirectiveBinding<TooltipOptions | string>
+      __tooltipData?: TooltipData
+    }
+  ).__tooltipBinding
+  delete (
+    el as HTMLElement & {
+      __tooltipBinding?: DirectiveBinding<TooltipOptions | string>
+      __tooltipData?: TooltipData
+    }
+  ).__tooltipData
 }
 
 // 更新配置
 function updateTooltip(el: HTMLElement, binding: DirectiveBinding<TooltipOptions | string>) {
-  ;(el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string> }).__tooltipBinding = binding
+  ;(
+    el as HTMLElement & { __tooltipBinding?: DirectiveBinding<TooltipOptions | string> }
+  ).__tooltipBinding = binding
 }
 
 // 提示框指令

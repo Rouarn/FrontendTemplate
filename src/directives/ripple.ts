@@ -89,7 +89,9 @@ function handleClick(event: MouseEvent) {
 
   if (!rippleData || !el) return
 
-  const binding = (el as HTMLElement & { __rippleBinding?: DirectiveBinding<RippleOptions | boolean> }).__rippleBinding
+  const binding = (
+    el as HTMLElement & { __rippleBinding?: DirectiveBinding<RippleOptions | boolean> }
+  ).__rippleBinding
   if (!binding) return
 
   const options = getOptions(binding)
@@ -111,9 +113,18 @@ function bindRipple(el: HTMLElement, binding: DirectiveBinding<RippleOptions | b
   el.style.overflow = 'hidden'
 
   // 存储绑定信息
-  ;(el as HTMLElement & { __rippleBinding?: DirectiveBinding<RippleOptions | boolean>; __rippleData?: RippleData }).__rippleBinding =
-    binding
-  ;(el as HTMLElement & { __rippleBinding?: DirectiveBinding<RippleOptions | boolean>; __rippleData?: RippleData }).__rippleData = {}
+  ;(
+    el as HTMLElement & {
+      __rippleBinding?: DirectiveBinding<RippleOptions | boolean>
+      __rippleData?: RippleData
+    }
+  ).__rippleBinding = binding
+  ;(
+    el as HTMLElement & {
+      __rippleBinding?: DirectiveBinding<RippleOptions | boolean>
+      __rippleData?: RippleData
+    }
+  ).__rippleData = {}
 
   // 添加事件监听
   el.addEventListener('click', handleClick)
@@ -122,13 +133,25 @@ function bindRipple(el: HTMLElement, binding: DirectiveBinding<RippleOptions | b
 // 解绑事件
 function unbindRipple(el: HTMLElement) {
   el.removeEventListener('click', handleClick)
-  delete (el as HTMLElement & { __rippleBinding?: DirectiveBinding<RippleOptions | boolean>; __rippleData?: RippleData }).__rippleBinding
-  delete (el as HTMLElement & { __rippleBinding?: DirectiveBinding<RippleOptions | boolean>; __rippleData?: RippleData }).__rippleData
+  delete (
+    el as HTMLElement & {
+      __rippleBinding?: DirectiveBinding<RippleOptions | boolean>
+      __rippleData?: RippleData
+    }
+  ).__rippleBinding
+  delete (
+    el as HTMLElement & {
+      __rippleBinding?: DirectiveBinding<RippleOptions | boolean>
+      __rippleData?: RippleData
+    }
+  ).__rippleData
 }
 
 // 更新配置
 function updateRipple(el: HTMLElement, binding: DirectiveBinding<RippleOptions | boolean>) {
-  ;(el as HTMLElement & { __rippleBinding?: DirectiveBinding<RippleOptions | boolean> }).__rippleBinding = binding
+  ;(
+    el as HTMLElement & { __rippleBinding?: DirectiveBinding<RippleOptions | boolean> }
+  ).__rippleBinding = binding
 }
 
 // 波纹指令

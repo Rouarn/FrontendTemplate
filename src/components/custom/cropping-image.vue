@@ -73,12 +73,25 @@
       <div class="toolbar flex items-center flex-wrap gap-8px">
         <!-- 文件选择（兼容外部上传组件，可隐藏） -->
         <div v-if="showFileInput" class="upload-btn">
-          <input ref="fileInputRef" type="file" :accept="accept" class="hidden" @change="onFileChange" />
+          <input
+            ref="fileInputRef"
+            type="file"
+            :accept="accept"
+            class="hidden"
+            @change="onFileChange"
+          />
           <NButton size="small" secondary @click="triggerFileInput"> 选择图片 </NButton>
         </div>
 
         <!-- 比例选择 -->
-        <NSelect v-model:value="aspect" :options="aspectOptions" size="small" class="w-120px" :to="'body'" @update:value="onAspectChange" />
+        <NSelect
+          v-model:value="aspect"
+          :options="aspectOptions"
+          size="small"
+          class="w-120px"
+          :to="'body'"
+          @update:value="onAspectChange"
+        />
 
         <!-- 旋转/缩放操作 -->
         <div class="flex items-center gap-6px">
@@ -90,7 +103,9 @@
         </div>
 
         <div class="ml-auto flex items-center gap-6px">
-          <NButton size="small" type="primary" :disabled="!hasImage" @click="confirmCrop">确认裁剪</NButton>
+          <NButton size="small" type="primary" :disabled="!hasImage" @click="confirmCrop"
+            >确认裁剪</NButton
+          >
           <NButton size="small" :disabled="!hasImage" @click="clearImage">清空</NButton>
         </div>
       </div>
@@ -312,8 +327,16 @@ const updatePreviewDebounced = useDebounceFn(() => {
     if (state.previewUrl) URL.revokeObjectURL(state.previewUrl)
     state.previewUrl = url
     // 获取裁剪尺寸
-    state.previewMeta = { width: cropperRef.value?.cropW || 0, height: cropperRef.value?.cropH || 0 }
-    emit('preview', { blob, fileName: guessFileName(), width: state.previewMeta.width, height: state.previewMeta.height })
+    state.previewMeta = {
+      width: cropperRef.value?.cropW || 0,
+      height: cropperRef.value?.cropH || 0,
+    }
+    emit('preview', {
+      blob,
+      fileName: guessFileName(),
+      width: state.previewMeta.width,
+      height: state.previewMeta.height,
+    })
   })
 }, 200)
 
@@ -322,7 +345,12 @@ const updatePreviewDebounced = useDebounceFn(() => {
  * - 超过 maxMB 时按比例缩放到约 90% 目标大小
  * - 维持导出类型与质量设置
  */
-async function ensureCompressed(file: File, maxMB: number, quality: number, type: OutputType): Promise<File> {
+async function ensureCompressed(
+  file: File,
+  maxMB: number,
+  quality: number,
+  type: OutputType,
+): Promise<File> {
   const bytesLimit = maxMB * 1024 * 1024
   if (file.size <= bytesLimit) return file
 
@@ -334,8 +362,12 @@ async function ensureCompressed(file: File, maxMB: number, quality: number, type
   canvas.width = Math.max(1, Math.floor(bitmap.width * scale))
   canvas.height = Math.max(1, Math.floor(bitmap.height * scale))
   ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height)
-  const blob: Blob = await new Promise((resolve) => canvas.toBlob((b) => resolve(b as Blob), `image/${type}`, quality))
-  const compressed = new File([blob], file.name.replace(/\.(\w+)$/, `.${type}`), { type: blob.type })
+  const blob: Blob = await new Promise((resolve) =>
+    canvas.toBlob((b) => resolve(b as Blob), `image/${type}`, quality),
+  )
+  const compressed = new File([blob], file.name.replace(/\.(\w+)$/, `.${type}`), {
+    type: blob.type,
+  })
   return compressed.size < file.size ? compressed : file
 }
 
@@ -375,7 +407,12 @@ async function onFileChange(e: Event) {
   }
 
   // 文件尺寸校验与压缩
-  const fileToUse = await ensureCompressed(file, props.maxSizeMB, props.outputQuality, props.outputType)
+  const fileToUse = await ensureCompressed(
+    file,
+    props.maxSizeMB,
+    props.outputQuality,
+    props.outputType,
+  )
   const url = URL.createObjectURL(fileToUse)
 
   // 释放旧 URL

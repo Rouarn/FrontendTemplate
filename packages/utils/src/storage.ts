@@ -53,9 +53,16 @@ export function createStorage<T extends object>(type: StorageType, storagePrefix
 }
 
 type LocalForage<T extends object> = Omit<typeof lf, 'getItem' | 'setItem' | 'removeItem'> & {
-  getItem<K extends keyof T>(key: K, callback?: (err: any, value: T[K] | null) => void): Promise<T[K] | null>
+  getItem<K extends keyof T>(
+    key: K,
+    callback?: (err: any, value: T[K] | null) => void,
+  ): Promise<T[K] | null>
 
-  setItem<K extends keyof T>(key: K, value: T[K], callback?: (err: any, value: T[K]) => void): Promise<T[K]>
+  setItem<K extends keyof T>(
+    key: K,
+    value: T[K],
+    callback?: (err: any, value: T[K]) => void,
+  ): Promise<T[K]>
 
   removeItem(key: keyof T, callback?: (err: any) => void): Promise<void>
 }

@@ -134,9 +134,20 @@ async function handleRegister() {
 </script>
 
 <template>
-  <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false" @keyup.enter="handleRegister">
+  <NForm
+    ref="formRef"
+    :model="model"
+    :rules="rules"
+    size="large"
+    :show-label="false"
+    @keyup.enter="handleRegister"
+  >
     <NFormItem path="username">
-      <NInput v-model:value="model.username" :placeholder="$t('page.login.common.username')" class="rd-8px">
+      <NInput
+        v-model:value="model.username"
+        :placeholder="$t('page.login.common.username')"
+        class="rd-8px"
+      >
         <template #prefix>
           <div class="i-ph:user-duotone text-20px text-primary/60" />
         </template>
@@ -169,21 +180,33 @@ async function handleRegister() {
       </NInput>
     </NFormItem>
     <NFormItem path="nickname">
-      <NInput v-model:value="model.nickname" :placeholder="$t('page.login.common.nickname')" class="rd-8px">
+      <NInput
+        v-model:value="model.nickname"
+        :placeholder="$t('page.login.common.nickname')"
+        class="rd-8px"
+      >
         <template #prefix>
           <div class="i-ph:identification-card-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="email">
-      <NInput v-model:value="model.email" :placeholder="$t('page.login.common.email')" class="rd-8px">
+      <NInput
+        v-model:value="model.email"
+        :placeholder="$t('page.login.common.email')"
+        class="rd-8px"
+      >
         <template #prefix>
           <div class="i-ph:envelope-simple-duotone text-20px text-primary/60" />
         </template>
       </NInput>
     </NFormItem>
     <NFormItem path="mobile">
-      <NInput v-model:value="model.mobile" :placeholder="$t('page.login.common.mobile')" class="rd-8px">
+      <NInput
+        v-model:value="model.mobile"
+        :placeholder="$t('page.login.common.mobile')"
+        class="rd-8px"
+      >
         <template #prefix>
           <div class="i-ph:phone-duotone text-20px text-primary/60" />
         </template>
@@ -194,7 +217,12 @@ async function handleRegister() {
         <span class="shrink-0 text-14px text-slate-500">{{ $t('page.login.common.gender') }}</span>
         <NRadioGroup v-model:value="model.gender">
           <NSpace :size="24">
-            <NRadio v-for="option in genderOptions" :key="option.value" :value="option.value" class="font-medium">
+            <NRadio
+              v-for="option in genderOptions"
+              :key="option.value"
+              :value="option.value"
+              class="font-medium"
+            >
               {{ option.label }}
             </NRadio>
           </NSpace>
@@ -203,7 +231,11 @@ async function handleRegister() {
     </NFormItem>
     <NFormItem path="captcha">
       <div class="flex w-full gap-12px items-center">
-        <NInput v-model:value="model.captcha" :placeholder="$t('page.login.common.captcha')" class="flex-1 rd-8px">
+        <NInput
+          v-model:value="model.captcha"
+          :placeholder="$t('page.login.common.captcha')"
+          class="flex-1 rd-8px"
+        >
           <template #prefix>
             <div class="i-ph:shield-check-duotone text-20px text-primary/60" />
           </template>
@@ -212,8 +244,15 @@ async function handleRegister() {
           class="h-42px cursor-pointer overflow-hidden rd-8px border border-primary/10 bg-primary/5 transition-all duration-300 hover:border-primary/30"
           @click="resetCaptcha"
         >
-          <img v-if="captchaCode" :src="captchaCode" alt="验证码" class="h-full w-100px object-cover" />
-          <div v-else class="flex-center h-full w-100px text-12px text-slate-400">{{ $t('page.login.common.loading') }}</div>
+          <img
+            v-if="captchaCode"
+            :src="captchaCode"
+            alt="验证码"
+            class="h-full w-100px object-cover"
+          />
+          <div v-else class="flex-center h-full w-100px text-12px text-slate-400">
+            {{ $t('page.login.common.loading') }}
+          </div>
         </div>
       </div>
     </NFormItem>
@@ -228,7 +267,9 @@ async function handleRegister() {
       >
         {{ $t('page.login.common.register') }}
       </NButton>
-      <NButton block ghost class="rd-8px" @click="emit('switchToLogin')"> {{ $t('page.login.common.backToLogin') }} </NButton>
+      <NButton block ghost class="rd-8px" @click="emit('switchToLogin')">
+        {{ $t('page.login.common.backToLogin') }}
+      </NButton>
     </div>
   </NForm>
 </template>

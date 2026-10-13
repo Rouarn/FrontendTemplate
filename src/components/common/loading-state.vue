@@ -12,7 +12,10 @@ withDefaults(defineProps<Props>(), {
 
 <template>
   <div class="relative">
-    <div v-if="spinning" class="absolute inset-0 z-10 flex-col-center gap-12px bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
+    <div
+      v-if="spinning"
+      class="absolute inset-0 z-10 flex-col-center gap-12px bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm"
+    >
       <NSpin :size="32" />
       <p class="text-14px text-slate-500">{{ text }}</p>
     </div>

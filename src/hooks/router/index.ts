@@ -6,9 +6,9 @@ export function useRouterPush(inSetup = true) {
   const router = inSetup ? useRouter() : globalRouter
   const route = globalRouter.currentRoute
 
-  const routerPush = router.push
+  const routerPush = (...args: Parameters<typeof router.push>) => router.push(...args)
 
-  const routerBack = router.back
+  const routerBack = (...args: Parameters<typeof router.back>) => router.back(...args)
 
   async function routerPushByKey(key: App.Global.RouteKey, options?: App.Global.RouterPushOptions) {
     const { query, params } = options || {}

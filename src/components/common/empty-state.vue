@@ -18,7 +18,11 @@ const iconSize = computed(() => `${props.imageSize}px`)
 
 <template>
   <div class="flex-col-center gap-16px py-40px">
-    <SvgIcon :icon="icon" :style="{ width: iconSize, height: iconSize }" class="text-slate-300 dark:text-slate-600" />
+    <SvgIcon
+      :icon="icon"
+      :style="{ width: iconSize, height: iconSize }"
+      class="text-slate-300 dark:text-slate-600"
+    />
     <p class="text-14px text-slate-400 dark:text-slate-500">{{ description }}</p>
     <slot />
   </div>

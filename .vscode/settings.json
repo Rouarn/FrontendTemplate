@@ -3,16 +3,16 @@
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
     "tsconfig.json": "tsconfig.*.json, env.d.ts",
-    "vite.config.*": "jsconfig*, vitest.config.*, cypress.config.*, playwright.config.*,uno.config.ts",
-    "package.json": "package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .oxlint*, oxlint*, .prettier*, prettier*, .editorconfig, lint-staged.config.json,commitlint.config.ts",
+    "vite.config.*": "jsconfig*, vitest.config.*, cypress.config.*, playwright.config.*, uno.config.ts",
+    "package.json": "package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .oxlint*, oxlint*, .prettier*, prettier*, .editorconfig, lint-staged.config.json, commitlint.config.ts",
     ".env": ".env, .env.production, .env.development"
   },
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
-  },
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "eslint.validate": ["html", "css", "scss", "json", "jsonc"],
+  "editor.defaultFormatter": "oxc.oxlint-vscode",
+  "[vue]": {
+    "editor.defaultFormatter": "oxc.oxlint-vscode"
+  },
+  "oxlint.run": "onSave",
   "typescript.preferences.includePackageJsonAutoImports": "on",
   "typescript.suggest.autoImports": true,
   "i18n-ally.displayLanguage": "zh-cn",
@@ -25,8 +25,5 @@
     "moduleResolution": "node",
     "ignoreDeprecations": "6.0",
     "rootDir": "."
-  },
-  "[vue]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

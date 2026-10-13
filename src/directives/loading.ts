@@ -18,10 +18,11 @@ function showLoading(el: LoadingElement, options: unknown) {
   }
 
   // 获取配置选项
-  const config = typeof options === 'object' && options !== null ? (options as Record<string, unknown>) : {}
+  const config =
+    typeof options === 'object' && options !== null ? (options as Record<string, unknown>) : {}
   const text = config.text || '加载中...'
-  const background = config.background || 'rgba(255, 255, 255, 0.9)'
-  const color = config.color || '#409eff'
+  const background = (config.background as string) || 'rgba(255, 255, 255, 0.9)'
+  const color = (config.color as string) || '#409eff'
 
   // 创建loading遮罩层
   const loadingEl = document.createElement('div')

@@ -32,7 +32,9 @@ function handleSwitchToLogin() {
 </script>
 
 <template>
-  <div class="auth-page relative flex min-h-screen flex-col items-center justify-center overflow-x-hidden bg-layout px-16px py-48px">
+  <div
+    class="auth-page relative flex min-h-screen flex-col items-center justify-center overflow-x-hidden bg-layout px-16px py-48px"
+  >
     <!-- 固定渐变背景层（不随内容滚动，页面任何位置都铺满） -->
     <div class="auth-bg pointer-events-none fixed inset-0 overflow-hidden">
       <div class="blob blob-1" />
@@ -53,10 +55,18 @@ function handleSwitchToLogin() {
     <div class="glass-card relative w-full max-w-420px p-32px sm:p-40px">
       <div class="mb-28px">
         <h2 class="text-24px font-bold text-base-text">
-          {{ loginMode === 'register' ? $t('page.login.common.createAccount') : $t('page.login.common.welcomeBack') }}
+          {{
+            loginMode === 'register'
+              ? $t('page.login.common.createAccount')
+              : $t('page.login.common.welcomeBack')
+          }}
         </h2>
         <p class="mt-8px text-14px text-slate-500 dark:text-slate-400">
-          {{ loginMode === 'register' ? $t('page.login.common.fillRegisterInfo') : $t('page.login.common.enterCredentials') }}
+          {{
+            loginMode === 'register'
+              ? $t('page.login.common.fillRegisterInfo')
+              : $t('page.login.common.enterCredentials')
+          }}
         </p>
       </div>
 
@@ -64,7 +74,9 @@ function handleSwitchToLogin() {
         <div v-if="loginMode === 'pwd'" key="pwd">
           <PwdLogin @login-success="handleLoginSuccess" />
           <div class="mt-24px flex items-center justify-center gap-8px text-14px">
-            <span class="text-slate-500 dark:text-slate-400">{{ $t('page.login.common.noAccount') }}</span>
+            <span class="text-slate-500 dark:text-slate-400">{{
+              $t('page.login.common.noAccount')
+            }}</span>
             <NButton text type="primary" class="font-medium" @click="switchMode('register')">
               {{ $t('page.login.common.registerNow') }}
             </NButton>
@@ -72,7 +84,10 @@ function handleSwitchToLogin() {
         </div>
 
         <div v-else key="register">
-          <UserRegister @register-success="handleRegisterSuccess" @switch-to-login="handleSwitchToLogin" />
+          <UserRegister
+            @register-success="handleRegisterSuccess"
+            @switch-to-login="handleSwitchToLogin"
+          />
         </div>
       </Transition>
     </div>

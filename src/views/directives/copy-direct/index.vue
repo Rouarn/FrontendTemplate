@@ -43,7 +43,12 @@ const usageCode = `<!-- 基础用法 -->
       </template>
       <div class="max-w-600px mx-auto py-32px">
         <div class="flex gap-12px">
-          <NInput v-model:value="data" size="large" placeholder="输入要复制的文本" class="rd-12px flex-1" />
+          <NInput
+            v-model:value="data"
+            size="large"
+            placeholder="输入要复制的文本"
+            class="rd-12px flex-1"
+          />
           <NButton
             v-copy="data"
             type="primary"
@@ -59,11 +64,14 @@ const usageCode = `<!-- 基础用法 -->
           </NButton>
         </div>
 
-        <div class="mt-24px p-16px rd-12px bg-primary/5 border border-primary/10 flex items-start gap-12px">
+        <div
+          class="mt-24px p-16px rd-12px bg-primary/5 border border-primary/10 flex items-start gap-12px"
+        >
           <SvgIcon icon="ph:info-duotone" class="text-20px text-primary mt-2px" />
           <p class="text-14px text-slate-600 leading-relaxed">
             <span class="font-bold text-primary">提示：</span>
-            在任意 HTML 元素或组件上添加 <code>v-copy="content"</code> 指令即可实现复制功能。支持响应式数据，当 content
+            在任意 HTML 元素或组件上添加
+            <code>v-copy="content"</code> 指令即可实现复制功能。支持响应式数据，当 content
             改变时，复制的内容也会同步更新。
           </p>
         </div>

@@ -23,7 +23,12 @@ interface LazyOptions {
 /**
  * 创建占位符 Data URL
  */
-function createPlaceholderDataURL(width: number, height: number, backgroundColor: string, text: string): string {
+function createPlaceholderDataURL(
+  width: number,
+  height: number,
+  backgroundColor: string,
+  text: string,
+): string {
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')!
 

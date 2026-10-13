@@ -65,7 +65,9 @@ const usageCode = `// 基础用法
         <div class="text-14px text-slate-500 font-medium">动画触发次数</div>
       </NCard>
       <NCard :bordered="false" class="card-wrapper text-center">
-        <div class="text-20px font-bold text-amber-500 truncate px-8px">{{ selectedAnimation }}</div>
+        <div class="text-20px font-bold text-amber-500 truncate px-8px">
+          {{ selectedAnimation }}
+        </div>
         <div class="text-14px text-slate-500 font-medium">当前选中效果</div>
       </NCard>
     </div>
@@ -87,7 +89,9 @@ const usageCode = `// 基础用法
           @click="triggerAnimation(item.value)"
           @animationstart="handleAnimationStart"
         >
-          <div class="size-48px flex-center bg-container rd-12px shadow-low group-hover:shadow-high transition-shadow">
+          <div
+            class="size-48px flex-center bg-container rd-12px shadow-low group-hover:shadow-high transition-shadow"
+          >
             <SvgIcon :icon="item.icon" class="text-24px text-primary" />
           </div>
           <span class="text-14px font-bold text-base-text">{{ item.label }}</span>

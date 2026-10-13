@@ -3,7 +3,11 @@ import { presetIcons } from 'unocss'
 import UnoCSS from 'unocss/vite'
 import type { PluginOption } from 'vite'
 
-export function setupUnocssPlugin(iconPrefix: string, localIconPath: string, collectionName: string): PluginOption {
+export function setupUnocssPlugin(
+  iconPrefix: string,
+  localIconPath: string,
+  collectionName: string,
+): PluginOption {
   return UnoCSS({
     presets: [
       () =>
@@ -14,7 +18,9 @@ export function setupUnocssPlugin(iconPrefix: string, localIconPath: string, col
             display: 'inline-block',
           },
           collections: {
-            [collectionName]: FileSystemIconLoader(localIconPath, (svg) => svg.replace(/^<svg\s/, '<svg width="1em" height="1em" ')),
+            [collectionName]: FileSystemIconLoader(localIconPath, (svg) =>
+              svg.replace(/^<svg\s/, '<svg width="1em" height="1em" '),
+            ),
           },
           warn: true,
         }),

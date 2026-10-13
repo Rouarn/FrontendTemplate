@@ -2,7 +2,13 @@ import { computed, effectScope, onScopeDispose, ref, toRefs, watch } from 'vue'
 import { toggleHtmlClass } from '@/utils/common'
 import { localStg } from '@/utils/storage'
 import { useUserStore } from '../auth/user'
-import { addThemeVarsToGlobal, createThemeToken, getNaiveTheme, initThemeSettings, toggleAuxiliaryColorModes } from './shared'
+import {
+  addThemeVarsToGlobal,
+  createThemeToken,
+  getNaiveTheme,
+  initThemeSettings,
+  toggleAuxiliaryColorModes,
+} from './shared'
 import { SETUP_STORE_ID } from '@/constants/store'
 import { getPaletteColorByNumber } from '@sa/color'
 import { useDateFormat, useNow, usePreferredColorScheme } from '@vueuse/core'
@@ -17,7 +23,11 @@ export const useThemeStore = defineStore(SETUP_STORE_ID.Theme, () => {
   /** 主题设置 */
   const settings: Ref<App.Theme.ThemeSetting> = ref(initThemeSettings())
 
-  const { now: watermarkTime, pause: pauseWatermarkTime, resume: resumeWatermarkTime } = useNow({ controls: true })
+  const {
+    now: watermarkTime,
+    pause: pauseWatermarkTime,
+    resume: resumeWatermarkTime,
+  } = useNow({ controls: true })
 
   /** 深色模式 */
   const darkMode = computed(() => {
@@ -166,7 +176,10 @@ export const useThemeStore = defineStore(SETUP_STORE_ID.Theme, () => {
 
   /** 注入主题变量到全局 */
   function setupThemeVarsToGlobal() {
-    const { themeTokens, darkThemeTokens } = createThemeToken(themeColors.value, settings.value.tokens)
+    const { themeTokens, darkThemeTokens } = createThemeToken(
+      themeColors.value,
+      settings.value.tokens,
+    )
     addThemeVarsToGlobal(themeTokens, darkThemeTokens)
   }
 

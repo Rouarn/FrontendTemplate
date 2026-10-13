@@ -10,7 +10,11 @@ const appStore = useAppStore()
 </script>
 
 <template>
-  <ButtonIcon icon="majesticons:color-swatch-line" :tooltip-content="$t('icon.themeConfig')" @click="appStore.openThemeDrawer" />
+  <ButtonIcon
+    icon="majesticons:color-swatch-line"
+    :tooltip-content="$t('icon.themeConfig')"
+    @click="appStore.openThemeDrawer"
+  />
 </template>
 
 <style scoped></style>

@@ -31,7 +31,13 @@ const iconMap: Record<ExceptionType, string> = {
 const icon = computed(() => iconMap[props.type])
 
 const description = computed(() =>
-  $t(props.type === '403' ? 'common.noPermission' : props.type === '404' ? 'common.notFound' : 'common.serviceError'),
+  $t(
+    props.type === '403'
+      ? 'common.noPermission'
+      : props.type === '404'
+        ? 'common.notFound'
+        : 'common.serviceError',
+  ),
 )
 </script>
 
@@ -39,13 +45,19 @@ const description = computed(() =>
   <div class="exception relative flex-col-center min-h-560px overflow-hidden bg-layout p-24px">
     <!-- 背景装饰 -->
     <div class="exception-grid" />
-    <div class="pointer-events-none absolute -top-160px -left-160px size-400px rd-full bg-primary/8 blur-[90px]" />
-    <div class="pointer-events-none absolute -bottom-180px -right-160px size-400px rd-full bg-blue-500/8 blur-[90px]" />
+    <div
+      class="pointer-events-none absolute -top-160px -left-160px size-400px rd-full bg-primary/8 blur-[90px]"
+    />
+    <div
+      class="pointer-events-none absolute -bottom-180px -right-160px size-400px rd-full bg-blue-500/8 blur-[90px]"
+    />
 
     <!-- 图标 -->
     <div class="relative">
       <div class="absolute inset-0 -z-1 scale-90 rd-full bg-primary/10 blur-3xl" />
-      <div class="exception-icon flex-center size-300px text-primary transition-transform duration-500 hover:scale-105">
+      <div
+        class="exception-icon flex-center size-300px text-primary transition-transform duration-500 hover:scale-105"
+      >
         <SvgIcon :local-icon="icon" />
       </div>
     </div>

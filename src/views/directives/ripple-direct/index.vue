@@ -46,8 +46,13 @@ const usageCode = `<!-- 基础用法 -->
       </NCard>
       <NCard :bordered="false" class="card-wrapper text-center">
         <div class="flex-center gap-12px">
-          <div class="size-12px rd-full animate-pulse" :class="rippleDisabled ? 'bg-slate-300' : 'bg-success'" />
-          <div class="text-32px font-bold text-blue-500 tabular-nums">{{ rippleDisabled ? '已禁用' : '运行中' }}</div>
+          <div
+            class="size-12px rd-full animate-pulse"
+            :class="rippleDisabled ? 'bg-slate-300' : 'bg-success'"
+          />
+          <div class="text-32px font-bold text-blue-500 tabular-nums">
+            {{ rippleDisabled ? '已禁用' : '运行中' }}
+          </div>
         </div>
         <div class="text-14px text-slate-500 font-medium">波纹指令状态</div>
       </NCard>
@@ -68,7 +73,8 @@ const usageCode = `<!-- 基础用法 -->
             <NSwitch v-model:value="rippleDisabled" size="small" />
           </div>
           <NButton quaternary @click="resetCounter">
-            <template #icon><SvgIcon icon="ph:arrow-counter-clockwise-duotone" /></template>重置统计数据
+            <template #icon><SvgIcon icon="ph:arrow-counter-clockwise-duotone" /></template
+            >重置统计数据
           </NButton>
         </NSpace>
       </template>
@@ -81,7 +87,13 @@ const usageCode = `<!-- 基础用法 -->
             按钮交互
           </h4>
           <div class="flex flex-wrap gap-16px">
-            <NButton v-ripple="!rippleDisabled" type="primary" size="large" class="rd-12px px-24px font-bold" @click="handleRippleClick">
+            <NButton
+              v-ripple="!rippleDisabled"
+              type="primary"
+              size="large"
+              class="rd-12px px-24px font-bold"
+              @click="handleRippleClick"
+            >
               默认主色波纹
             </NButton>
             <NButton

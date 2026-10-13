@@ -44,7 +44,7 @@ export const request = createClient({
       const authStore = useAuthStore()
       authStore.setToken('')
       authStore.setRefreshToken('')
-      router.replace('/login')
+      void router.replace('/login')
     },
   },
 

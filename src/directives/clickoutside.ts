@@ -29,7 +29,8 @@ function resolveExcludeElements(exclude?: string[]): HTMLElement[] {
 
 function readCallback(value: DirectiveBinding['value']): ((event: Event) => void) | undefined {
   if (typeof value === 'function') return value
-  if (value && typeof value === 'object' && typeof value.handler === 'function') return value.handler
+  if (value && typeof value === 'object' && typeof value.handler === 'function')
+    return value.handler
   return undefined
 }
 

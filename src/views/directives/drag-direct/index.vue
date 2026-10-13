@@ -48,8 +48,13 @@ const usageCode = `<!-- 基础拖拽 -->
       </NCard>
       <NCard :bordered="false" class="card-wrapper text-center">
         <div class="flex-center gap-12px">
-          <div class="size-12px rd-full animate-pulse" :class="isDragging ? 'bg-success' : 'bg-slate-300'" />
-          <div class="text-32px font-bold text-blue-500 tabular-nums">{{ isDragging ? '进行中' : '已停止' }}</div>
+          <div
+            class="size-12px rd-full animate-pulse"
+            :class="isDragging ? 'bg-success' : 'bg-slate-300'"
+          />
+          <div class="text-32px font-bold text-blue-500 tabular-nums">
+            {{ isDragging ? '进行中' : '已停止' }}
+          </div>
         </div>
         <div class="text-14px text-slate-500 font-medium">当前拖拽状态</div>
       </NCard>
@@ -70,7 +75,9 @@ const usageCode = `<!-- 基础拖拽 -->
         </NButton>
       </template>
 
-      <div class="relative h-500px rd-24px bg-layout/50 border-2 border-dashed border-primary/10 overflow-hidden">
+      <div
+        class="relative h-500px rd-24px bg-layout/50 border-2 border-dashed border-primary/10 overflow-hidden"
+      >
         <!-- Draggable Box -->
         <div
           v-draggable
@@ -85,14 +92,19 @@ const usageCode = `<!-- 基础拖拽 -->
               <SvgIcon icon="ph:hand-grabbing-duotone" class="text-24px" />
             </div>
             <span class="text-14px font-bold text-base-text">拖动我</span>
-            <div class="px-8px py-2px rd-4px bg-primary/5 text-11px text-primary font-mono">v-draggable</div>
+            <div class="px-8px py-2px rd-4px bg-primary/5 text-11px text-primary font-mono">
+              v-draggable
+            </div>
           </div>
         </div>
 
         <!-- Target Zone Decor -->
         <div class="absolute inset-0 flex-center pointer-events-none opacity-20">
           <div class="text-center">
-            <SvgIcon icon="ph:arrows-out-cardinal-duotone" class="text-120px text-primary mb-16px" />
+            <SvgIcon
+              icon="ph:arrows-out-cardinal-duotone"
+              class="text-120px text-primary mb-16px"
+            />
             <p class="text-18px font-bold text-primary">自由拖拽空间</p>
           </div>
         </div>

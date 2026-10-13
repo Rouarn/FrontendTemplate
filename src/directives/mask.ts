@@ -48,7 +48,14 @@ function showMask(el: MaskElement, options: MaskOptions) {
   }
 
   // 获取配置选项
-  const { background = 'rgba(0, 0, 0, 0.5)', opacity = 1, zIndex = 9999, clickToClose = false, content = '', contentStyle = {} } = options
+  const {
+    background = 'rgba(0, 0, 0, 0.5)',
+    opacity = 1,
+    zIndex = 9999,
+    clickToClose = false,
+    content = '',
+    contentStyle = {},
+  } = options
 
   // 确保父元素有相对定位
   if (getComputedStyle(el).position === 'static') {

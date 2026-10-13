@@ -43,7 +43,9 @@ const usageCode = `<!-- 基础用法 -->
     <!-- Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-16px">
       <NCard :bordered="false" class="card-wrapper text-center">
-        <div class="text-32px font-bold text-primary tabular-nums">{{ loadedCount }} / {{ imageList.length }}</div>
+        <div class="text-32px font-bold text-primary tabular-nums">
+          {{ loadedCount }} / {{ imageList.length }}
+        </div>
         <div class="text-14px text-slate-500 font-medium">已加载图片统计</div>
       </NCard>
       <NCard :bordered="false" class="card-wrapper flex-center">
@@ -111,7 +113,9 @@ const usageCode = `<!-- 基础用法 -->
           </div>
           <div>
             <h4 class="text-16px font-bold text-base-text">高性能</h4>
-            <p class="text-13px text-slate-500 mt-4px">基于原生 IntersectionObserver API，极低系统开销</p>
+            <p class="text-13px text-slate-500 mt-4px">
+              基于原生 IntersectionObserver API，极低系统开销
+            </p>
           </div>
         </div>
         <div class="flex items-start gap-16px">

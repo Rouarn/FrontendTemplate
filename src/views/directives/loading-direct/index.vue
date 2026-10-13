@@ -67,14 +67,25 @@ const usageCode = `<!-- 基础用法 -->
           </span>
         </template>
         <div class="flex-col gap-16px">
-          <div v-loading="isLoading" class="relative h-240px rd-16px bg-layout border border-primary/5 flex-center overflow-hidden">
+          <div
+            v-loading="isLoading"
+            class="relative h-240px rd-16px bg-layout border border-primary/5 flex-center overflow-hidden"
+          >
             <div class="text-center p-24px">
               <SvgIcon icon="ph:files-duotone" class="text-48px text-primary/20 mb-12px mx-auto" />
               <h3 class="text-18px font-bold text-base-text mb-8px">数据展示区域</h3>
               <p class="text-14px text-slate-400">点击下方按钮模拟数据请求过程中的加载状态</p>
             </div>
           </div>
-          <NButton @click="toggleLoading" type="primary" block secondary strong size="large" class="rd-10px">
+          <NButton
+            @click="toggleLoading"
+            type="primary"
+            block
+            secondary
+            strong
+            size="large"
+            class="rd-10px"
+          >
             {{ isLoading ? '正在加载数据...' : '触发局部加载' }}
           </NButton>
         </div>
@@ -90,12 +101,24 @@ const usageCode = `<!-- 基础用法 -->
         </template>
         <div class="flex-col gap-16px">
           <div
-            v-loading="{ loading: isTableLoading, text: '同步中...', background: 'rgba(255,255,255,0.8)' }"
+            v-loading="{
+              loading: isTableLoading,
+              text: '同步中...',
+              background: 'rgba(255,255,255,0.8)',
+            }"
             class="rd-16px border border-layout overflow-hidden"
           >
             <NDataTable :columns="tableColumns" :data="tableData" :bordered="false" />
           </div>
-          <NButton @click="toggleTableLoading" type="success" block secondary strong size="large" class="rd-10px">
+          <NButton
+            @click="toggleTableLoading"
+            type="success"
+            block
+            secondary
+            strong
+            size="large"
+            class="rd-10px"
+          >
             {{ isTableLoading ? '刷新中...' : '刷新表格数据' }}
           </NButton>
         </div>
@@ -117,7 +140,9 @@ const usageCode = `<!-- 基础用法 -->
           </div>
           <div>
             <h4 class="text-16px font-bold text-base-text">容器自适应</h4>
-            <p class="text-13px text-slate-500 mt-4px">自动识别父容器尺寸，实现精准的全覆盖遮罩效果</p>
+            <p class="text-13px text-slate-500 mt-4px">
+              自动识别父容器尺寸，实现精准的全覆盖遮罩效果
+            </p>
           </div>
         </div>
         <div class="flex items-start gap-16px">
@@ -126,7 +151,9 @@ const usageCode = `<!-- 基础用法 -->
           </div>
           <div>
             <h4 class="text-16px font-bold text-base-text">样式定制</h4>
-            <p class="text-13px text-slate-500 mt-4px">支持自定义遮罩背景色、加载文字以及图标样式</p>
+            <p class="text-13px text-slate-500 mt-4px">
+              支持自定义遮罩背景色、加载文字以及图标样式
+            </p>
           </div>
         </div>
         <div class="flex items-start gap-16px">
@@ -135,7 +162,9 @@ const usageCode = `<!-- 基础用法 -->
           </div>
           <div>
             <h4 class="text-16px font-bold text-base-text">智能防闪烁</h4>
-            <p class="text-13px text-slate-500 mt-4px">内置最小显示时长控制，避免极快请求导致的界面闪烁</p>
+            <p class="text-13px text-slate-500 mt-4px">
+              内置最小显示时长控制，避免极快请求导致的界面闪烁
+            </p>
           </div>
         </div>
       </div>

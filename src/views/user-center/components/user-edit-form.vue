@@ -80,7 +80,9 @@ async function handleSave() {
     // 处理生日数据
     const saveData = {
       ...form.value,
-      birthday: form.value.birthday ? new Date(form.value.birthday).toISOString().split('T')[0] : '',
+      birthday: form.value.birthday
+        ? new Date(form.value.birthday).toISOString().split('T')[0]
+        : '',
       gender: Number(form.value.gender) as 0 | 1 | 2,
     }
 
@@ -113,13 +115,28 @@ async function handleSave() {
         <h2 class="text-18px font-bold text-base-text">{{ $t('userCenter.basicInfo') }}</h2>
       </div>
       <div class="flex gap-12px">
-        <NButton v-if="!editable" type="primary" secondary strong class="rd-8px" @click="handleEdit">
+        <NButton
+          v-if="!editable"
+          type="primary"
+          secondary
+          strong
+          class="rd-8px"
+          @click="handleEdit"
+        >
           <template #icon><SvgIcon icon="ph:pencil-simple-line-duotone" /></template>
           {{ $t('userCenter.editProfile') }}
         </NButton>
         <template v-else>
-          <NButton class="rd-8px" @click="handleCancel" :disabled="saving">{{ $t('userCenter.cancel') }}</NButton>
-          <NButton type="primary" strong class="rd-8px shadow-low" @click="handleSave" :loading="saving">
+          <NButton class="rd-8px" @click="handleCancel" :disabled="saving">{{
+            $t('userCenter.cancel')
+          }}</NButton>
+          <NButton
+            type="primary"
+            strong
+            class="rd-8px shadow-low"
+            @click="handleSave"
+            :loading="saving"
+          >
             <template #icon><SvgIcon icon="ph:check-circle-duotone" /></template>
             {{ $t('userCenter.saveChanges') }}
           </NButton>
@@ -136,13 +153,22 @@ async function handleSave() {
       class="grid grid-cols-1 md:grid-cols-2 gap-x-32px gap-y-8px"
     >
       <NFormItem :label="$t('userCenter.nickname')" path="nickname">
-        <NInput v-model:value="form.nickname" :placeholder="$t('userCenter.nicknamePlaceholder')" class="rd-8px" />
+        <NInput
+          v-model:value="form.nickname"
+          :placeholder="$t('userCenter.nicknamePlaceholder')"
+          class="rd-8px"
+        />
       </NFormItem>
 
       <NFormItem :label="$t('userCenter.gender')" path="gender">
         <NRadioGroup v-model:value="form.gender" class="flex items-center">
           <NSpace :size="24">
-            <NRadio v-for="option in genderOptions" :key="option.value" :value="option.value" class="font-medium">
+            <NRadio
+              v-for="option in genderOptions"
+              :key="option.value"
+              :value="option.value"
+              class="font-medium"
+            >
               {{ option.label }}
             </NRadio>
           </NSpace>
@@ -150,11 +176,19 @@ async function handleSave() {
       </NFormItem>
 
       <NFormItem :label="$t('userCenter.mobile')" path="mobile">
-        <NInput v-model:value="form.mobile" :placeholder="$t('userCenter.mobilePlaceholder')" class="rd-8px" />
+        <NInput
+          v-model:value="form.mobile"
+          :placeholder="$t('userCenter.mobilePlaceholder')"
+          class="rd-8px"
+        />
       </NFormItem>
 
       <NFormItem :label="$t('userCenter.email')" path="email">
-        <NInput v-model:value="form.email" :placeholder="$t('userCenter.emailPlaceholder')" class="rd-8px" />
+        <NInput
+          v-model:value="form.email"
+          :placeholder="$t('userCenter.emailPlaceholder')"
+          class="rd-8px"
+        />
       </NFormItem>
 
       <NFormItem :label="$t('userCenter.birthday')" path="birthday">

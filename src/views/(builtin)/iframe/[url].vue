@@ -26,7 +26,9 @@ function reload() {
 </script>
 
 <template>
-  <div class="flex h-[calc(100vh-128px)] min-h-460px flex-col overflow-hidden rd-18px border border-base-text/10 bg-container shadow-low">
+  <div
+    class="flex h-[calc(100vh-128px)] min-h-460px flex-col overflow-hidden rd-18px border border-base-text/10 bg-container shadow-low"
+  >
     <!-- 工具栏 -->
     <div class="flex items-center gap-12px border-b border-base-text/8 px-16px py-11px">
       <span class="size-11px rd-full bg-[#ff5f57]" />

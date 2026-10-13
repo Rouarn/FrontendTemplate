@@ -50,7 +50,13 @@ function onAvatarUploaded(url: string) {
       <!-- 右栏：主要内容（资料编辑 / 修改密码） -->
       <div class="lg:col-span-3">
         <NCard :bordered="false" class="card-wrapper min-h-600px">
-          <NTabs v-model:value="activeTab" type="line" animated justify-content="start" class="user-tabs">
+          <NTabs
+            v-model:value="activeTab"
+            type="line"
+            animated
+            justify-content="start"
+            class="user-tabs"
+          >
             <NTabPane name="profile" :tab="$t('userCenter.profile')">
               <UserEditForm v-model:form="userForm" v-model:editable="isEditing" />
             </NTabPane>

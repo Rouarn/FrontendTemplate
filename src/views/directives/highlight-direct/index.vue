@@ -43,7 +43,11 @@ const usageCode = `<!-- 基础用法 -->
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-16px">
       <!-- Controls -->
-      <NCard :bordered="false" class="card-wrapper lg:col-span-1" header-style="font-bold text-18px">
+      <NCard
+        :bordered="false"
+        class="card-wrapper lg:col-span-1"
+        header-style="font-bold text-18px"
+      >
         <template #header>
           <span class="flex items-center gap-10px">
             <SvgIcon icon="ph:sliders-horizontal-duotone" class="text-21px text-primary" />
@@ -53,7 +57,12 @@ const usageCode = `<!-- 基础用法 -->
         <div class="flex-col gap-24px">
           <div class="space-y-8px">
             <label class="text-14px font-bold text-base-text">搜索关键词</label>
-            <NInput v-model:value="searchText" placeholder="输入要高亮的文字..." class="rd-12px" clearable />
+            <NInput
+              v-model:value="searchText"
+              placeholder="输入要高亮的文字..."
+              class="rd-12px"
+              clearable
+            />
           </div>
 
           <div class="space-y-12px">
@@ -63,13 +72,25 @@ const usageCode = `<!-- 基础用法 -->
                 v-for="color in presetColors"
                 :key="color.value"
                 class="size-32px rd-full cursor-pointer transition-all duration-300 border-2 flex-center"
-                :style="{ backgroundColor: color.value, borderColor: highlightColor === color.value ? 'rgba(0,0,0,0.1)' : 'transparent' }"
+                :style="{
+                  backgroundColor: color.value,
+                  borderColor: highlightColor === color.value ? 'rgba(0,0,0,0.1)' : 'transparent',
+                }"
                 :title="color.name"
                 @click="highlightColor = color.value"
               >
-                <SvgIcon v-if="highlightColor === color.value" icon="ph:check-bold" class="text-white text-14px" />
+                <SvgIcon
+                  v-if="highlightColor === color.value"
+                  icon="ph:check-bold"
+                  class="text-white text-14px"
+                />
               </div>
-              <NColorPicker v-model:value="highlightColor" :show-alpha="false" size="small" class="w-100px rd-8px" />
+              <NColorPicker
+                v-model:value="highlightColor"
+                :show-alpha="false"
+                size="small"
+                class="w-100px rd-8px"
+              />
             </div>
           </div>
 
@@ -86,7 +107,11 @@ const usageCode = `<!-- 基础用法 -->
       </NCard>
 
       <!-- Preview Area -->
-      <NCard :bordered="false" class="card-wrapper lg:col-span-2" header-style="font-bold text-18px">
+      <NCard
+        :bordered="false"
+        class="card-wrapper lg:col-span-2"
+        header-style="font-bold text-18px"
+      >
         <template #header>
           <span class="flex items-center gap-10px">
             <SvgIcon icon="ph:eye-duotone" class="text-21px text-primary" />
@@ -108,14 +133,19 @@ const usageCode = `<!-- 基础用法 -->
               <div class="size-6px rd-full bg-primary" />
               默认高亮 (Vue)
             </h5>
-            <div v-highlight="'Vue'" class="text-13px text-slate-500">Vue 让前端开发变得前所未有的简单与高效。</div>
+            <div v-highlight="'Vue'" class="text-13px text-slate-500">
+              Vue 让前端开发变得前所未有的简单与高效。
+            </div>
           </div>
           <div class="p-16px rd-16px bg-container border border-layout shadow-low">
             <h5 class="text-14px font-bold text-base-text mb-12px flex items-center gap-8px">
               <div class="size-6px rd-full bg-amber-500" />
               边框样式 (框架)
             </h5>
-            <div v-highlight="{ keywords: '框架', style: 'border', colors: '#f59e0b' }" class="text-13px text-slate-500">
+            <div
+              v-highlight="{ keywords: '框架', style: 'border', colors: '#f59e0b' }"
+              class="text-13px text-slate-500"
+            >
               在众多前端框架中，Vue 凭借其优雅的 API 脱颖而出。
             </div>
           </div>

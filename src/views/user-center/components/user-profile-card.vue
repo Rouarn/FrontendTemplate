@@ -69,20 +69,29 @@ function handleUploaded(url: string) {
         />
         <div class="space-y-4px">
           <h3 class="text-20px font-bold text-base-text">{{ nickname }}</h3>
-          <p class="text-14px text-slate-500 font-medium">@{{ authStore.userInfo.auth.username }}</p>
-          <NTag :type="statusType" size="small" round class="mt-4px font-bold px-12px">{{ statusText }}</NTag>
+          <p class="text-14px text-slate-500 font-medium">
+            @{{ authStore.userInfo.auth.username }}
+          </p>
+          <NTag :type="statusType" size="small" round class="mt-4px font-bold px-12px">{{
+            statusText
+          }}</NTag>
         </div>
       </div>
     </div>
 
     <div class="border-t border-layout pt-24px space-y-16px text-left">
       <div class="flex justify-between items-center">
-        <span class="text-14px text-slate-500 font-medium">{{ $t('userCenter.rolePermission') }}</span>
+        <span class="text-14px text-slate-500 font-medium">{{
+          $t('userCenter.rolePermission')
+        }}</span>
         <NTag type="primary" size="small" round class="font-bold">{{ userRoleName }}</NTag>
       </div>
       <div class="flex justify-between items-center">
         <span class="text-14px text-slate-500 font-medium">{{ $t('userCenter.userId') }}</span>
-        <span class="text-12px text-slate-400 font-mono bg-layout px-8px py-2px rd-4px truncate max-w-120px" :title="authStore.userInfo.id">
+        <span
+          class="text-12px text-slate-400 font-mono bg-layout px-8px py-2px rd-4px truncate max-w-120px"
+          :title="authStore.userInfo.id"
+        >
           {{ authStore.userInfo.id }}
         </span>
       </div>
@@ -124,7 +133,11 @@ function handleUploaded(url: string) {
 <style lang="scss" scoped>
 .profile-banner {
   overflow: hidden;
-  background: linear-gradient(135deg, rgb(var(--primary-color) / 0.2), rgb(var(--primary-color) / 0.02));
+  background: linear-gradient(
+    135deg,
+    rgb(var(--primary-color) / 0.2),
+    rgb(var(--primary-color) / 0.02)
+  );
 }
 
 .profile-banner::after {

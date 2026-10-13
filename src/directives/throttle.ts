@@ -46,7 +46,10 @@ const throttle: Directive<ElType, (() => void) | ThrottleOptions> = {
 
   updated(el, binding) {
     const options = getOptions(binding)
-    const oldOptions = typeof binding.oldValue === 'function' ? { fn: binding.oldValue } : (binding.oldValue as ThrottleOptions)
+    const oldOptions =
+      typeof binding.oldValue === 'function'
+        ? { fn: binding.oldValue }
+        : (binding.oldValue as ThrottleOptions)
 
     const event = options.event || 'click'
     const oldEvent = oldOptions?.event || 'click'

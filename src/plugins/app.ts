@@ -33,7 +33,9 @@ export function setupAppVersionNotification() {
   // Update check interval in milliseconds
   const UPDATE_CHECK_INTERVAL = 3 * 60 * 1000
 
-  const canAutoUpdateApp = import.meta.env.VITE_AUTOMATICALLY_DETECT_UPDATE === 'Y' && import.meta.env.VITE_USER_NODE_ENV === 'production'
+  const canAutoUpdateApp =
+    import.meta.env.VITE_AUTOMATICALLY_DETECT_UPDATE === 'Y' &&
+    import.meta.env.VITE_USER_NODE_ENV === 'production'
   if (!canAutoUpdateApp) return
 
   let isShow = false
@@ -56,28 +58,32 @@ export function setupAppVersionNotification() {
       title: $t('system.updateTitle'),
       content: $t('system.updateContent'),
       action() {
-        return h('div', { style: { display: 'flex', justifyContent: 'end', gap: '12px', width: '325px' } }, [
-          h(
-            NButton,
-            {
-              onClick() {
-                n?.destroy()
-                isShow = false
+        return h(
+          'div',
+          { style: { display: 'flex', justifyContent: 'end', gap: '12px', width: '325px' } },
+          [
+            h(
+              NButton,
+              {
+                onClick() {
+                  n?.destroy()
+                  isShow = false
+                },
               },
-            },
-            () => $t('system.updateCancel'),
-          ),
-          h(
-            NButton,
-            {
-              type: 'primary',
-              onClick() {
-                location.reload()
+              () => $t('system.updateCancel'),
+            ),
+            h(
+              NButton,
+              {
+                type: 'primary',
+                onClick() {
+                  location.reload()
+                },
               },
-            },
-            () => $t('system.updateConfirm'),
-          ),
-        ])
+              () => $t('system.updateConfirm'),
+            ),
+          ],
+        )
       },
       onClose() {
         isShow = false
@@ -97,7 +103,7 @@ export function setupAppVersionNotification() {
     // Check for updates when the document is visible
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
-        checkForUpdates()
+        void checkForUpdates()
         startUpdateInterval()
       }
     })

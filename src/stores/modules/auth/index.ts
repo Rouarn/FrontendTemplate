@@ -89,9 +89,20 @@ export const useAuthStore = defineStore(SETUP_STORE_ID.Auth, () => {
    * @param captchaToken 验证码令牌
    * @param [redirect=true] 登录后是否重定向，默认 true
    */
-  async function login(username: string, password: string, captchaCode: string, captchaToken: string, redirect = true) {
+  async function login(
+    username: string,
+    password: string,
+    captchaCode: string,
+    captchaToken: string,
+    redirect = true,
+  ) {
     try {
-      const data = await fetchLogin({ username: username.trim(), password: password.trim(), captchaCode, captchaToken })
+      const data = await fetchLogin({
+        username: username.trim(),
+        password: password.trim(),
+        captchaCode,
+        captchaToken,
+      })
       tokenStore.setToken(data.accessToken)
       tokenStore.setTokenType(data.tokenType)
       tokenStore.setRefreshToken(data.refreshToken ?? '')

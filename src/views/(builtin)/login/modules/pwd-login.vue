@@ -93,9 +93,20 @@ async function handleLogin() {
 </script>
 
 <template>
-  <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false" @keyup.enter="handleLogin">
+  <NForm
+    ref="formRef"
+    :model="model"
+    :rules="rules"
+    size="large"
+    :show-label="false"
+    @keyup.enter="handleLogin"
+  >
     <NFormItem path="userName">
-      <NInput v-model:value="model.userName" :placeholder="$t('page.login.common.username')" class="rd-8px">
+      <NInput
+        v-model:value="model.userName"
+        :placeholder="$t('page.login.common.username')"
+        class="rd-8px"
+      >
         <template #prefix>
           <div class="i-ph:user-duotone text-20px text-primary/60" />
         </template>
@@ -116,7 +127,11 @@ async function handleLogin() {
     </NFormItem>
     <NFormItem path="captcha">
       <div class="flex w-full gap-12px items-center">
-        <NInput v-model:value="model.captcha" :placeholder="$t('page.login.common.captcha')" class="flex-1 rd-8px">
+        <NInput
+          v-model:value="model.captcha"
+          :placeholder="$t('page.login.common.captcha')"
+          class="flex-1 rd-8px"
+        >
           <template #prefix>
             <div class="i-ph:shield-check-duotone text-20px text-primary/60" />
           </template>
@@ -125,8 +140,15 @@ async function handleLogin() {
           class="h-42px cursor-pointer overflow-hidden rd-8px border border-primary/10 bg-primary/5 transition-all duration-300 hover:border-primary/30"
           @click="resetCaptcha"
         >
-          <img v-if="captchaCode" :src="captchaCode" alt="验证码" class="h-full w-100px object-cover" />
-          <div v-else class="flex-center h-full w-100px text-12px text-slate-400">{{ $t('page.login.common.loading') }}</div>
+          <img
+            v-if="captchaCode"
+            :src="captchaCode"
+            alt="验证码"
+            class="h-full w-100px object-cover"
+          />
+          <div v-else class="flex-center h-full w-100px text-12px text-slate-400">
+            {{ $t('page.login.common.loading') }}
+          </div>
         </div>
       </div>
     </NFormItem>

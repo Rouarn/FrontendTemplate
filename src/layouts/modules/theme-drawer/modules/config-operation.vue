@@ -47,7 +47,11 @@ onMounted(() => {
 
 <template>
   <div class="flex w-full gap-12px">
-    <textarea id="themeConfigCopyTarget" v-model="dataClipboardText" class="pointer-events-none absolute opacity-0 -z-1" />
+    <textarea
+      id="themeConfigCopyTarget"
+      v-model="dataClipboardText"
+      class="pointer-events-none absolute opacity-0 -z-1"
+    />
     <NButton class="m-0 flex-1 rd-10px" type="error" ghost @click="handleReset">
       <template #icon><SvgIcon icon="ph:arrow-counter-clockwise-duotone" /></template>
       {{ $t('theme.configOperation.resetConfig') }}

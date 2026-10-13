@@ -16,7 +16,8 @@ const maskWithContent = reactive({
 
 const clickableMask = reactive({
   visible: false,
-  content: '<div class="px-24px py-16px bg-container rd-12px shadow-high text-base-text font-bold">点击背景区域即可关闭</div>',
+  content:
+    '<div class="px-24px py-16px bg-container rd-12px shadow-high text-base-text font-bold">点击背景区域即可关闭</div>',
   clickToClose: true,
   background: 'rgba(0, 0, 0, 0.6)',
 })
@@ -58,13 +59,24 @@ const usageCode = `<!-- 基础用法 -->
           </span>
         </template>
         <div class="flex-col gap-16px">
-          <div v-mask="showBasicMask" class="relative h-200px rd-16px bg-layout border border-primary/5 flex-center overflow-hidden">
+          <div
+            v-mask="showBasicMask"
+            class="relative h-200px rd-16px bg-layout border border-primary/5 flex-center overflow-hidden"
+          >
             <div class="text-center p-20px">
               <h3 class="text-18px font-bold text-base-text mb-8px">受保护的内容区</h3>
               <p class="text-14px text-slate-400">点击下方按钮启用基础遮罩覆盖此区域</p>
             </div>
           </div>
-          <NButton @click="showBasicMask = !showBasicMask" type="primary" block secondary strong size="large" class="rd-10px">
+          <NButton
+            @click="showBasicMask = !showBasicMask"
+            type="primary"
+            block
+            secondary
+            strong
+            size="large"
+            class="rd-10px"
+          >
             {{ showBasicMask ? '隐藏遮罩' : '显示基础遮罩' }}
           </NButton>
         </div>
@@ -79,7 +91,10 @@ const usageCode = `<!-- 基础用法 -->
           </span>
         </template>
         <div class="flex-col gap-16px">
-          <div v-mask="maskWithContent" class="relative h-200px rd-16px bg-layout border border-primary/5 flex-center overflow-hidden">
+          <div
+            v-mask="maskWithContent"
+            class="relative h-200px rd-16px bg-layout border border-primary/5 flex-center overflow-hidden"
+          >
             <div class="text-center p-20px">
               <h3 class="text-18px font-bold text-base-text mb-8px">异步加载模拟</h3>
               <p class="text-14px text-slate-400">支持在遮罩中插入自定义 HTML 与图标动效</p>
@@ -118,7 +133,15 @@ const usageCode = `<!-- 基础用法 -->
               <p class="text-14px text-slate-400">启用 `clickToClose` 配置，方便用户快速退出</p>
             </div>
           </div>
-          <NButton @click="clickableMask.visible = true" type="success" block secondary strong size="large" class="rd-10px">
+          <NButton
+            @click="clickableMask.visible = true"
+            type="success"
+            block
+            secondary
+            strong
+            size="large"
+            class="rd-10px"
+          >
             触发交互遮罩
           </NButton>
         </div>

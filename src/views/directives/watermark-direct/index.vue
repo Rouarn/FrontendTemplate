@@ -83,7 +83,11 @@ const usageCode = `<!-- 基础用法 -->
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-16px">
       <!-- Controls -->
-      <NCard :bordered="false" class="card-wrapper lg:col-span-1" header-style="font-bold text-18px">
+      <NCard
+        :bordered="false"
+        class="card-wrapper lg:col-span-1"
+        header-style="font-bold text-18px"
+      >
         <template #header>
           <span class="flex items-center gap-10px">
             <SvgIcon icon="ph:sliders-horizontal-duotone" class="text-21px text-primary" />
@@ -100,9 +104,22 @@ const usageCode = `<!-- 基础用法 -->
         <div class="flex-col gap-20px">
           <div class="space-y-8px">
             <label class="text-14px font-bold text-base-text">水印文本</label>
-            <NInput v-model:value="watermarkText" placeholder="输入水印内容" @input="updateWatermark" class="rd-8px" />
+            <NInput
+              v-model:value="watermarkText"
+              placeholder="输入水印内容"
+              @input="updateWatermark"
+              class="rd-8px"
+            />
             <div class="flex flex-wrap gap-8px mt-12px">
-              <NButton v-for="text in presetTexts" :key="text" size="tiny" secondary strong @click="setPresetText(text)" class="rd-4px">
+              <NButton
+                v-for="text in presetTexts"
+                :key="text"
+                size="tiny"
+                secondary
+                strong
+                @click="setPresetText(text)"
+                class="rd-4px"
+              >
                 {{ text }}
               </NButton>
             </div>
@@ -127,7 +144,13 @@ const usageCode = `<!-- 基础用法 -->
               <label class="text-14px font-bold text-base-text">透明度</label>
               <span class="text-12px font-mono text-primary">{{ watermarkOpacity }}</span>
             </div>
-            <NSlider v-model:value="watermarkOpacity" :step="0.01" :min="0.05" :max="0.5" @update:value="updateWatermark" />
+            <NSlider
+              v-model:value="watermarkOpacity"
+              :step="0.01"
+              :min="0.05"
+              :max="0.5"
+              @update:value="updateWatermark"
+            />
           </div>
 
           <div class="space-y-8px">
@@ -135,13 +158,22 @@ const usageCode = `<!-- 基础用法 -->
               <label class="text-14px font-bold text-base-text">旋转角度</label>
               <span class="text-12px font-mono text-primary">{{ watermarkAngle }}°</span>
             </div>
-            <NSlider v-model:value="watermarkAngle" :min="-90" :max="90" @update:value="updateWatermark" />
+            <NSlider
+              v-model:value="watermarkAngle"
+              :min="-90"
+              :max="90"
+              @update:value="updateWatermark"
+            />
           </div>
         </div>
       </NCard>
 
       <!-- Preview Area -->
-      <NCard :bordered="false" class="card-wrapper lg:col-span-2" header-style="font-bold text-18px">
+      <NCard
+        :bordered="false"
+        class="card-wrapper lg:col-span-2"
+        header-style="font-bold text-18px"
+      >
         <template #header>
           <span class="flex items-center gap-10px">
             <SvgIcon icon="ph:eye-duotone" class="text-21px text-primary" />

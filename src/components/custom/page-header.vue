@@ -35,7 +35,10 @@ const iconStyle = computed(() => {
         class="pointer-events-none absolute -right-8px -top-22px size-120px"
         :style="{ color: color || 'rgb(var(--primary-color))', opacity: 0.07 }"
       />
-      <div class="header-icon flex-center size-72px shrink-0 rd-20px bg-primary/10 text-primary shadow-low" :style="iconStyle">
+      <div
+        class="header-icon flex-center size-72px shrink-0 rd-20px bg-primary/10 text-primary shadow-low"
+        :style="iconStyle"
+      >
         <SvgIcon :icon="icon" class="text-36px" />
       </div>
       <div class="relative min-w-0 flex-1">

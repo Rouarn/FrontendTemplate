@@ -1,7 +1,12 @@
 import { request } from '../request'
 
 /** 用户登录（验证码校验由登录接口一并完成） */
-export function fetchLogin(body: { username: string; password: string; captchaCode: string; captchaToken: string }) {
+export function fetchLogin(body: {
+  username: string
+  password: string
+  captchaCode: string
+  captchaToken: string
+}) {
   return request.post<Api.Auth.LoginToken>('/api/auth/login', body, { skipAuthRetry: true })
 }
 
@@ -26,6 +31,10 @@ export function fetchLogout() {
 }
 
 /** 修改密码 */
-export function changePassword(body: { oldPassword: string; newPassword: string; confirmPassword: string }) {
+export function changePassword(body: {
+  oldPassword: string
+  newPassword: string
+  confirmPassword: string
+}) {
   return request.put<{ message: string }>('/api/auth/change-password', body)
 }

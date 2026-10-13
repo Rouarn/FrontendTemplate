@@ -29,7 +29,10 @@ export function createRouteGuard(router: Router) {
     if (authStore.isLogin) {
       await routeStore.initPermissions()
 
-      if (to.meta.isAuth === true && !routeStore.permissions.includes(to.name as App.Global.RouteKey)) {
+      if (
+        to.meta.isAuth === true &&
+        !routeStore.permissions.includes(to.name as App.Global.RouteKey)
+      ) {
         return { name: '403', replace: true }
       }
     }
@@ -46,11 +49,11 @@ export function createRouteGuard(router: Router) {
 
   router.afterEach((to) => {
     // 可在此添加埋点或统计
-    console.log('[router.afterEach]: ', to)
+    console.info('[router.afterEach]: ', to)
   })
 
   router.onError((error) => {
     // 统一路由错误处理入口（可结合上报系统）
-    console.log('[router.onError]: ', error)
+    console.info('[router.onError]: ', error)
   })
 }

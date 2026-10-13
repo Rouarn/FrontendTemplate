@@ -118,7 +118,11 @@ const animations = {
   },
   // 脉冲
   pulse: {
-    keyframes: [{ transform: 'scale3d(1, 1, 1)' }, { transform: 'scale3d(1.05, 1.05, 1.05)' }, { transform: 'scale3d(1, 1, 1)' }],
+    keyframes: [
+      { transform: 'scale3d(1, 1, 1)' },
+      { transform: 'scale3d(1.05, 1.05, 1.05)' },
+      { transform: 'scale3d(1, 1, 1)' },
+    ],
     options: { duration: 1000, fill: 'forwards' },
   },
   // X轴翻转
@@ -177,7 +181,8 @@ function playAnimation(el: HTMLElement, binding: DirectiveBinding<AnimateOptions
   const animationOptions: KeyframeAnimationOptions = {
     duration,
     delay,
-    iterations: typeof iteration === 'number' ? iteration : iteration === 'infinite' ? Infinity : undefined,
+    iterations:
+      typeof iteration === 'number' ? iteration : iteration === 'infinite' ? Infinity : undefined,
     direction,
     fill: fillMode as FillMode,
     easing: timingFunction,
@@ -187,18 +192,25 @@ function playAnimation(el: HTMLElement, binding: DirectiveBinding<AnimateOptions
   animateData.animation = el.animate(animation.keyframes, animationOptions)
 
   // 分发动画开始事件
-  el.dispatchEvent(new CustomEvent('animationstart', { detail: { name, options }, bubbles: true, composed: true }))
+  el.dispatchEvent(
+    new CustomEvent('animationstart', { detail: { name, options }, bubbles: true, composed: true }),
+  )
 
   // 动画完成后重置状态
   animateData.animation.addEventListener('finish', () => {
     animateData.animation = undefined
     // 分发动画结束事件
-    el.dispatchEvent(new CustomEvent('animationend', { detail: { name, options }, bubbles: true, composed: true }))
+    el.dispatchEvent(
+      new CustomEvent('animationend', { detail: { name, options }, bubbles: true, composed: true }),
+    )
   })
 }
 
 // 处理可见性触发
-function handleVisibilityTrigger(el: HTMLElement, binding: DirectiveBinding<AnimateOptions | string>) {
+function handleVisibilityTrigger(
+  el: HTMLElement,
+  binding: DirectiveBinding<AnimateOptions | string>,
+) {
   const animateData = (el as HTMLElement & { __animateData?: AnimateData }).__animateData
   if (!animateData) return
 
@@ -227,14 +239,18 @@ function handleVisibilityTrigger(el: HTMLElement, binding: DirectiveBinding<Anim
 // 处理悬停触发
 function handleMouseEnter(event: Event) {
   const el = event.currentTarget as HTMLElement
-  const binding = (el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string> }).__animateBinding
+  const binding = (
+    el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string> }
+  ).__animateBinding
   if (binding) playAnimation(el, binding)
 }
 
 // 处理点击触发
 function handleClick(event: Event) {
   const el = event.currentTarget as HTMLElement
-  const binding = (el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string> }).__animateBinding
+  const binding = (
+    el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string> }
+  ).__animateBinding
   if (binding) playAnimation(el, binding)
 }
 
@@ -243,9 +259,18 @@ function bindAnimate(el: HTMLElement, binding: DirectiveBinding<AnimateOptions |
   const options = typeof binding.value === 'string' ? { name: binding.value } : binding.value || {}
 
   // 存储数据
-  ;(el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string>; __animateData?: AnimateData }).__animateBinding =
-    binding
-  ;(el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string>; __animateData?: AnimateData }).__animateData = {
+  ;(
+    el as HTMLElement & {
+      __animateBinding?: DirectiveBinding<AnimateOptions | string>
+      __animateData?: AnimateData
+    }
+  ).__animateBinding = binding
+  ;(
+    el as HTMLElement & {
+      __animateBinding?: DirectiveBinding<AnimateOptions | string>
+      __animateData?: AnimateData
+    }
+  ).__animateData = {
     originalTransform: el.style.transform,
     originalTransition: el.style.transition,
   }
@@ -294,9 +319,18 @@ function unbindAnimate(el: HTMLElement) {
   }
 
   // 清理数据
-  delete (el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string>; __animateData?: AnimateData })
-    .__animateBinding
-  delete (el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string>; __animateData?: AnimateData }).__animateData
+  delete (
+    el as HTMLElement & {
+      __animateBinding?: DirectiveBinding<AnimateOptions | string>
+      __animateData?: AnimateData
+    }
+  ).__animateBinding
+  delete (
+    el as HTMLElement & {
+      __animateBinding?: DirectiveBinding<AnimateOptions | string>
+      __animateData?: AnimateData
+    }
+  ).__animateData
 }
 
 // 更新动画
@@ -309,13 +343,17 @@ const animate: Directive<HTMLElement, AnimateOptions | string> = {
 
   updated(el, binding) {
     // 如果配置发生变化，重新绑定
-    const oldBinding = (el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string> }).__animateBinding
+    const oldBinding = (
+      el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string> }
+    ).__animateBinding
     if (JSON.stringify(oldBinding?.value) !== JSON.stringify(binding.value)) {
       unbindAnimate(el)
       bindAnimate(el, binding)
     } else {
       // 即使配置没有变化，也要更新 binding，以便 oldBinding 在下一次更新时是正确的
-      ;(el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string> }).__animateBinding = binding
+      ;(
+        el as HTMLElement & { __animateBinding?: DirectiveBinding<AnimateOptions | string> }
+      ).__animateBinding = binding
     }
   },
 

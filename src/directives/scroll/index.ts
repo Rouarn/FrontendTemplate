@@ -1,6 +1,12 @@
 import { startAutoScroll, stopAutoScroll } from './auto-scroll'
 import { setupResponsive } from './device-detect'
-import { cleanup, handleScroll, handleWheel, normalizeOptions, setScrollbarStyle } from './scroll-utils'
+import {
+  cleanup,
+  handleScroll,
+  handleWheel,
+  normalizeOptions,
+  setScrollbarStyle,
+} from './scroll-utils'
 import type { ElType, ScrollBindingValue, ScrollState } from './types'
 import type { Directive, DirectiveBinding } from 'vue'
 
@@ -44,7 +50,10 @@ const scroll: Directive<HTMLElement, ScrollBindingValue> = {
     }
 
     // 存储事件处理器以便清理
-    const elWithHandlers = el as HTMLElement & { __scrollHandler?: () => void; __wheelHandler?: (event: WheelEvent) => void }
+    const elWithHandlers = el as HTMLElement & {
+      __scrollHandler?: () => void
+      __wheelHandler?: (event: WheelEvent) => void
+    }
     elWithHandlers.__scrollHandler = scrollHandler
     elWithHandlers.__wheelHandler = wheelHandler
 
@@ -56,7 +65,10 @@ const scroll: Directive<HTMLElement, ScrollBindingValue> = {
 
   updated(el: HTMLElement, binding: DirectiveBinding<ScrollBindingValue>) {
     const options = normalizeOptions(binding.value)
-    const elementWithState = el as HTMLElement & { __scrollState?: ScrollState; __scrollHandler?: () => void }
+    const elementWithState = el as HTMLElement & {
+      __scrollState?: ScrollState
+      __scrollHandler?: () => void
+    }
     const state = elementWithState.__scrollState
 
     if (!state) return

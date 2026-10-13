@@ -70,9 +70,11 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
       <NCard :bordered="false" class="card-wrapper flex-center">
         <div class="flex items-center gap-8px">
           <div v-if="isPressing" class="size-10px rd-full bg-success animate-ping" />
-          <span class="text-16px font-bold" :class="isPressing ? 'text-success' : 'text-slate-400'">{{
-            isPressing ? '按压中...' : '待机'
-          }}</span>
+          <span
+            class="text-16px font-bold"
+            :class="isPressing ? 'text-success' : 'text-slate-400'"
+            >{{ isPressing ? '按压中...' : '待机' }}</span
+          >
         </div>
       </NCard>
     </div>
@@ -92,7 +94,9 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
         </NButton>
       </template>
 
-      <div class="flex-col-center py-48px bg-layout/50 rd-24px border-2 border-dashed border-primary/10">
+      <div
+        class="flex-col-center py-48px bg-layout/50 rd-24px border-2 border-dashed border-primary/10"
+      >
         <div class="relative flex-col-center gap-24px">
           <NButton
             v-longpress="onLongpress"
@@ -112,7 +116,14 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
 
           <!-- Progress Ring/Bar -->
           <div class="w-240px">
-            <NProgress type="line" :percentage="progress" :show-indicator="false" status="success" :height="8" class="rd-full" />
+            <NProgress
+              type="line"
+              :percentage="progress"
+              :show-indicator="false"
+              status="success"
+              :height="8"
+              class="rd-full"
+            />
             <p class="mt-12px text-center text-13px text-slate-400">
               {{ isPressing ? '继续保持，不要松手...' : '松手即刻重置进度' }}
             </p>
@@ -120,13 +131,21 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
         </div>
 
         <div class="mt-48px grid grid-cols-1 md:grid-cols-2 gap-16px w-full max-w-600px px-24px">
-          <div class="p-16px rd-16px bg-primary/5 border border-primary/10 flex items-start gap-12px">
+          <div
+            class="p-16px rd-16px bg-primary/5 border border-primary/10 flex items-start gap-12px"
+          >
             <SvgIcon icon="ph:shield-check-duotone" class="text-20px text-primary mt-2px" />
-            <p class="text-13px text-slate-600 leading-relaxed">防止误操作，常用于删除、重置等敏感功能的二次确认。</p>
+            <p class="text-13px text-slate-600 leading-relaxed">
+              防止误操作，常用于删除、重置等敏感功能的二次确认。
+            </p>
           </div>
-          <div class="p-16px rd-16px bg-amber-500/5 border border-amber-500/10 flex items-start gap-12px">
+          <div
+            class="p-16px rd-16px bg-amber-500/5 border border-amber-500/10 flex items-start gap-12px"
+          >
             <SvgIcon icon="ph:device-mobile-duotone" class="text-20px text-amber-600 mt-2px" />
-            <p class="text-13px text-slate-600 leading-relaxed">移动端友好，支持触屏长按事件监听。</p>
+            <p class="text-13px text-slate-600 leading-relaxed">
+              移动端友好，支持触屏长按事件监听。
+            </p>
           </div>
         </div>
       </div>

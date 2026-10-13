@@ -81,7 +81,9 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
           </span>
         </template>
         <div class="flex-col gap-20px py-12px h-full">
-          <p class="text-14px text-slate-500">疯狂点击下方按钮，每 1000ms 才会执行一次逻辑，防止重复提交。</p>
+          <p class="text-14px text-slate-500">
+            疯狂点击下方按钮，每 1000ms 才会执行一次逻辑，防止重复提交。
+          </p>
           <div class="flex-center flex-1">
             <NButton
               v-throttle="{ fn: handleBtnClick, delay: 1000 }"
@@ -113,14 +115,20 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
           </span>
         </template>
         <div class="flex-col gap-20px py-12px">
-          <p class="text-14px text-slate-500">在下方区域滚动，通过节流将高频滚动事件降低到 200ms 执行一次。</p>
+          <p class="text-14px text-slate-500">
+            在下方区域滚动，通过节流将高频滚动事件降低到 200ms 执行一次。
+          </p>
           <div
             class="h-200px overflow-y-auto rd-12px bg-layout border border-primary/10 p-16px"
             v-throttle="{ fn: handleScroll, delay: 200, event: 'scroll' }"
             @scroll="handleScrollTrigger"
           >
             <div class="space-y-12px">
-              <div v-for="i in 20" :key="i" class="h-40px bg-primary/5 rd-8px flex-y-center px-16px text-14px text-slate-400">
+              <div
+                v-for="i in 20"
+                :key="i"
+                class="h-40px bg-primary/5 rd-8px flex-y-center px-16px text-14px text-slate-400"
+              >
                 滚动内容项 {{ i }}
               </div>
             </div>

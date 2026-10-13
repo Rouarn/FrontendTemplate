@@ -34,9 +34,17 @@ const { isFullscreen, toggle } = useFullscreen()
         <!-- 全屏切换 -->
         <FullScreen v-if="!appStore.isMobile" :full="isFullscreen" @click="toggle" />
         <!-- 语言切换 -->
-        <LangSwitch :lang="appStore.locale" :lang-options="appStore.localeOptions" @change-lang="appStore.changeLocale" />
+        <LangSwitch
+          :lang="appStore.locale"
+          :lang-options="appStore.localeOptions"
+          @change-lang="appStore.changeLocale"
+        />
         <!-- 主题切换 -->
-        <ThemeSchemaSwitch :theme-schema="themeStore.themeScheme" :is-dark="themeStore.darkMode" @switch="themeStore.toggleThemeScheme" />
+        <ThemeSchemaSwitch
+          :theme-schema="themeStore.themeScheme"
+          :is-dark="themeStore.darkMode"
+          @switch="themeStore.toggleThemeScheme"
+        />
         <!-- 主题配置按钮 -->
         <ThemeButton />
         <!-- 用户头像 -->

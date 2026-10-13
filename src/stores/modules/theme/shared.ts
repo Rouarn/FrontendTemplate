@@ -141,7 +141,11 @@ function createThemePaletteColors(colors: App.Theme.ThemeColor, recommended = fa
  * @param tokens 主题设置的 tokens
  * @param [recommended=false] 是否使用推荐色，默认 `false`
  */
-export function createThemeToken(colors: App.Theme.ThemeColor, tokens?: App.Theme.ThemeSetting['tokens'], recommended = false) {
+export function createThemeToken(
+  colors: App.Theme.ThemeColor,
+  tokens?: App.Theme.ThemeSetting['tokens'],
+  recommended = false,
+) {
   const paletteColors = createThemePaletteColors(colors, recommended)
 
   const { light, dark } = tokens || themeSettings.tokens
@@ -249,5 +253,10 @@ export function addThemeVarsToGlobal(tokens: App.Theme.BaseToken, darkTokens: Ap
  */
 export function toggleAuxiliaryColorModes(grayscaleMode = false, colourWeakness = false) {
   const htmlElement = document.documentElement
-  htmlElement.style.filter = [grayscaleMode ? 'grayscale(100%)' : '', colourWeakness ? 'invert(80%)' : ''].filter(Boolean).join(' ')
+  htmlElement.style.filter = [
+    grayscaleMode ? 'grayscale(100%)' : '',
+    colourWeakness ? 'invert(80%)' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
 }

@@ -6,7 +6,9 @@ export function setupIconsPlugin(localIconPath: string, collectionName: string):
   return Icons({
     compiler: 'vue3',
     customCollections: {
-      [collectionName]: FileSystemIconLoader(localIconPath, (svg) => svg.replace(/^<svg\s/, '<svg width="1em" height="1em" ')),
+      [collectionName]: FileSystemIconLoader(localIconPath, (svg) =>
+        svg.replace(/^<svg\s/, '<svg width="1em" height="1em" '),
+      ),
     },
     scale: 1,
     defaultClass: 'inline-block',

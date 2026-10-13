@@ -17,7 +17,11 @@ const handleSearch = () => {
     return
   }
   // 模拟搜索建议
-  searchResult.value = [`结果: ${searchText.value} 1`, `结果: ${searchText.value} 2`, `结果: ${searchText.value} 3`]
+  searchResult.value = [
+    `结果: ${searchText.value} 1`,
+    `结果: ${searchText.value} 2`,
+    `结果: ${searchText.value} 3`,
+  ]
   window.$message?.info(`搜索请求已发送: ${searchText.value}`)
 }
 
@@ -69,7 +73,9 @@ const usageCode = `<!-- 基础用法 (默认 500ms 延迟) -->
         <div class="text-14px text-slate-500 font-medium">实际执行次数</div>
       </NCard>
       <NCard :bordered="false" class="card-wrapper text-center">
-        <div class="text-32px font-bold text-amber-500 tabular-nums">{{ Math.max(0, clickCount - executeCount) }}</div>
+        <div class="text-32px font-bold text-amber-500 tabular-nums">
+          {{ Math.max(0, clickCount - executeCount) }}
+        </div>
         <div class="text-14px text-slate-500 font-medium">节省执行次数</div>
       </NCard>
     </div>
@@ -84,7 +90,9 @@ const usageCode = `<!-- 基础用法 (默认 500ms 延迟) -->
           </span>
         </template>
         <div class="flex-col gap-20px py-12px">
-          <p class="text-14px text-slate-500">停止输入 500ms 后才触发搜索请求，避免每输入一个字符都发请求。</p>
+          <p class="text-14px text-slate-500">
+            停止输入 500ms 后才触发搜索请求，避免每输入一个字符都发请求。
+          </p>
           <NInput
             v-model:value="searchText"
             v-debounce="{ fn: handleSearch, delay: 500, event: 'input' }"
@@ -97,8 +105,15 @@ const usageCode = `<!-- 基础用法 (默认 500ms 延迟) -->
               <SvgIcon icon="ph:magnifying-glass-duotone" class="text-20px text-primary/40" />
             </template>
           </NInput>
-          <div v-if="searchResult.length > 0" class="p-12px bg-layout rd-12px border border-primary/10">
-            <div v-for="res in searchResult" :key="res" class="py-4px text-14px text-slate-600 border-b border-layout last:border-none">
+          <div
+            v-if="searchResult.length > 0"
+            class="p-12px bg-layout rd-12px border border-primary/10"
+          >
+            <div
+              v-for="res in searchResult"
+              :key="res"
+              class="py-4px text-14px text-slate-600 border-b border-layout last:border-none"
+            >
               {{ res }}
             </div>
           </div>
@@ -114,7 +129,9 @@ const usageCode = `<!-- 基础用法 (默认 500ms 延迟) -->
           </span>
         </template>
         <div class="flex-col gap-20px py-12px h-full">
-          <p class="text-14px text-slate-500">点击后立即响应，但 1000ms 内重复点击无效。保证首发响应，后续拦截。</p>
+          <p class="text-14px text-slate-500">
+            点击后立即响应，但 1000ms 内重复点击无效。保证首发响应，后续拦截。
+          </p>
           <div class="flex-center flex-1">
             <NButton
               v-debounce="{ fn: handleBtnClick, delay: 1000, immediate: true }"

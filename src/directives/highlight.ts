@@ -57,7 +57,9 @@ function createHighlightTag(options: HighlightOptions): { start: string; end: st
 
   // 处理自定义样式
   if (options.style) {
-    const customStyles = Object.entries(options.style).map(([key, value]) => `${kebabCase(key)}: ${sanitizeStyleValue(value)}`)
+    const customStyles = Object.entries(options.style).map(
+      ([key, value]) => `${kebabCase(key)}: ${sanitizeStyleValue(value)}`,
+    )
     styles.push(...customStyles)
   }
 
@@ -106,7 +108,9 @@ function highlightText(html: string, options: HighlightOptions): string {
   for (let i = 0; i < segments.length; i += 2) {
     segments[i] = segments[i].replace(regex, (match) => {
       // 找到匹配的关键词（大小写敏感时精确匹配，否则忽略大小写）
-      const matchedKeyword = validKeywords.find((k) => (options.caseSensitive ? k === match : k.toLowerCase() === match.toLowerCase()))
+      const matchedKeyword = validKeywords.find((k) =>
+        options.caseSensitive ? k === match : k.toLowerCase() === match.toLowerCase(),
+      )
       if (!matchedKeyword) return match
       const tag = tagCache.get(matchedKeyword)!
       return `${tag.start}${match}${tag.end}`
@@ -265,7 +269,11 @@ export const HighlightHelper = {
   /**
    * 手动高亮文本
    */
-  highlightText(text: string, keywords: string | string[], options: Partial<HighlightOptions> = {}): string {
+  highlightText(
+    text: string,
+    keywords: string | string[],
+    options: Partial<HighlightOptions> = {},
+  ): string {
     const fullOptions: HighlightOptions = {
       keywords,
       className: 'highlight',

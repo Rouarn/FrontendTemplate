@@ -27,7 +27,9 @@ withDefaults(defineProps<Props>(), {
       </div>
     </div>
     <!-- 代码内容 -->
-    <pre class="overflow-x-auto p-20px text-13px leading-7 font-mono text-base-text/85"><code>{{ code }}<slot v-if="!code" /></code></pre>
+    <pre
+      class="overflow-x-auto p-20px text-13px leading-7 font-mono text-base-text/85"
+    ><code>{{ code }}<slot v-if="!code" /></code></pre>
   </div>
 </template>
 

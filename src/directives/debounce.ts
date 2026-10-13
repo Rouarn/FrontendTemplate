@@ -58,7 +58,10 @@ const debounce: Directive<ElType, (() => void) | DebounceOptions> = {
 
   updated(el, binding) {
     const options = getOptions(binding)
-    const oldOptions = typeof binding.oldValue === 'function' ? { fn: binding.oldValue } : (binding.oldValue as DebounceOptions)
+    const oldOptions =
+      typeof binding.oldValue === 'function'
+        ? { fn: binding.oldValue }
+        : (binding.oldValue as DebounceOptions)
 
     const event = options.event || 'click'
     const oldEvent = oldOptions?.event || 'click'

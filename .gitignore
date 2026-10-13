@@ -29,3 +29,6 @@ coverage
 *.tsbuildinfo
 
 .temp
+
+# Vite+ 生成的 Git hook dispatcher（由 vp config / vp hooks enable 重建）
+.vite-hooks/_

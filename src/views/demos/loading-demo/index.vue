@@ -128,8 +128,15 @@ function checkLoadingStatus() {
           </span>
         </template>
         <div class="flex-col gap-16px">
-          <p class="text-14px text-slate-500">实时获取当前 Loading 服务的运行状态，辅助业务逻辑判断</p>
-          <NButton @click="checkLoadingStatus" quaternary size="large" class="rd-8px font-bold transition-all duration-300 active:scale-95">
+          <p class="text-14px text-slate-500">
+            实时获取当前 Loading 服务的运行状态，辅助业务逻辑判断
+          </p>
+          <NButton
+            @click="checkLoadingStatus"
+            quaternary
+            size="large"
+            class="rd-8px font-bold transition-all duration-300 active:scale-95"
+          >
             <template #icon><SvgIcon icon="ph:magnifying-glass-duotone" /></template>
             检查当前状态
           </NButton>
@@ -145,7 +152,9 @@ function checkLoadingStatus() {
           </span>
         </template>
         <div class="flex-col gap-16px">
-          <p class="text-14px text-slate-500">模拟并发场景，确保 Loading 正确管理计数，所有请求结束后再隐藏</p>
+          <p class="text-14px text-slate-500">
+            模拟并发场景，确保 Loading 正确管理计数，所有请求结束后再隐藏
+          </p>
           <NButton
             @click="handleMultipleLoading"
             type="warning"
@@ -161,7 +170,11 @@ function checkLoadingStatus() {
       </NCard>
 
       <!-- HTTP 请求模拟 -->
-      <NCard :bordered="false" class="card-wrapper md:col-span-2" header-style="font-bold text-18px">
+      <NCard
+        :bordered="false"
+        class="card-wrapper md:col-span-2"
+        header-style="font-bold text-18px"
+      >
         <template #header>
           <span class="flex items-center gap-10px">
             <SvgIcon icon="ph:globe-duotone" class="text-21px text-success" />
@@ -169,7 +182,9 @@ function checkLoadingStatus() {
           </span>
         </template>
         <div class="flex-col gap-16px">
-          <p class="text-14px text-slate-500">模拟真实的 HTTP 请求场景，展示在请求期间的局部加载效果</p>
+          <p class="text-14px text-slate-500">
+            模拟真实的 HTTP 请求场景，展示在请求期间的局部加载效果
+          </p>
           <NButton
             @click="handleRequestLoading"
             type="success"

@@ -56,7 +56,12 @@ const usageCode = `<!-- 简易用法 -->
         <div class="text-14px text-slate-500 font-medium">当前选中弹出位置</div>
       </NCard>
       <NCard :bordered="false" class="card-wrapper flex-center">
-        <NSelect v-model:value="tooltipPosition" :options="positions" size="small" class="w-140px rd-8px" />
+        <NSelect
+          v-model:value="tooltipPosition"
+          :options="positions"
+          size="small"
+          class="w-140px rd-8px"
+        />
       </NCard>
     </div>
 
@@ -68,7 +73,9 @@ const usageCode = `<!-- 简易用法 -->
           交互演示
         </span>
       </template>
-      <div class="flex-col-center py-64px bg-layout/50 rd-24px border-2 border-dashed border-primary/10">
+      <div
+        class="flex-col-center py-64px bg-layout/50 rd-24px border-2 border-dashed border-primary/10"
+      >
         <div class="relative">
           <NButton
             v-tooltip="{

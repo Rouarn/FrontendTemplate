@@ -12,7 +12,10 @@ function isSingleViewRoute(route: AutoRouterRoute): route is AutoRouterSingleVie
  * - 排除重定向路由与 hideInMenu 路由
  * - 显式声明 isAuth 的路由按权限码过滤
  */
-function isVisibleMenuRoute(route: AutoRouterRoute, permissions: App.Global.RouteKey[]): route is AutoRouterSingleView {
+function isVisibleMenuRoute(
+  route: AutoRouterRoute,
+  permissions: App.Global.RouteKey[],
+): route is AutoRouterSingleView {
   if (!isSingleViewRoute(route)) return false
   if (route.meta?.hideInMenu) return false
   if (route.meta?.isAuth === true && !permissions.includes(route.name)) return false
@@ -33,12 +36,21 @@ export function sortMenusByOrder(menus: App.Global.Menu[]) {
  *
  * 菜单 label 通过 $t 求值，在 computed 中调用时随语言切换自动更新
  */
-export function getGlobalMenus(routes: AutoRouterRoute[], permissions: App.Global.RouteKey[]): App.Global.Menu[] {
+export function getGlobalMenus(
+  routes: AutoRouterRoute[],
+  permissions: App.Global.RouteKey[],
+): App.Global.Menu[] {
   const { SvgIconVNode } = useSvgIcon()
 
   function mapRouteToMenu(route: AutoRouterSingleView): App.Global.Menu {
     const { name, path, meta } = route
-    const { title, i18nKey, icon = import.meta.env.VITE_MENU_ICON, localIcon, iconFontSize } = meta ?? {}
+    const {
+      title,
+      i18nKey,
+      icon = import.meta.env.VITE_MENU_ICON,
+      localIcon,
+      iconFontSize,
+    } = meta ?? {}
 
     const label = i18nKey && $te(i18nKey) ? $t(i18nKey) : title!
 
@@ -105,7 +117,10 @@ export function getCacheRouteNames(routes: AutoRouterRoute[]): App.Global.RouteK
  * @param menus 菜单列表
  * @param treeMap 聚合列表
  */
-export function transformMenuToSearchMenus(menus: App.Global.Menu[], treeMap: App.Global.Menu[] = []) {
+export function transformMenuToSearchMenus(
+  menus: App.Global.Menu[],
+  treeMap: App.Global.Menu[] = [],
+) {
   if (menus && menus.length === 0) return []
   return menus.reduce((acc, cur) => {
     if (!cur.children) {

@@ -20,7 +20,11 @@ const usageCode = `<!-- 基础聚焦 -->
 <template>
   <div v-bind="$attrs" class="flex-col gap-16px">
     <!-- Page Header -->
-    <PageHeader icon="ph:eye-duotone" title="聚焦指令 `v-focus`" description="自动为输入框或特定元素设置焦点，提升表单填写与交互的流畅度" />
+    <PageHeader
+      icon="ph:eye-duotone"
+      title="聚焦指令 `v-focus`"
+      description="自动为输入框或特定元素设置焦点，提升表单填写与交互的流畅度"
+    />
 
     <!-- Playground -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-16px">
@@ -33,7 +37,13 @@ const usageCode = `<!-- 基础聚焦 -->
         </template>
         <div class="flex-col gap-16px">
           <p class="text-14px text-slate-500">页面加载时，自动将焦点锁定到该输入框。</p>
-          <NInput v-focus v-model:value="inputValue" size="large" placeholder="页面加载时我将自动聚焦" class="rd-12px" />
+          <NInput
+            v-focus
+            v-model:value="inputValue"
+            size="large"
+            placeholder="页面加载时我将自动聚焦"
+            class="rd-12px"
+          />
         </div>
       </NCard>
 
@@ -49,7 +59,13 @@ const usageCode = `<!-- 基础聚焦 -->
             <p class="text-14px text-slate-500">通过开关触发聚焦行为。</p>
             <NSwitch v-model:value="focusEnabled" size="small" />
           </div>
-          <NInput v-focus="focusEnabled" size="large" placeholder="根据上方开关决定是否聚焦" class="rd-12px" :key="String(focusEnabled)" />
+          <NInput
+            v-focus="focusEnabled"
+            size="large"
+            placeholder="根据上方开关决定是否聚焦"
+            class="rd-12px"
+            :key="String(focusEnabled)"
+          />
         </div>
       </NCard>
     </div>

@@ -326,5 +326,5 @@ export const routes: AutoRouterRoute[] = [
       isKeepAlive: true,
       isAuth: true,
     },
-  },
+  }
 ]

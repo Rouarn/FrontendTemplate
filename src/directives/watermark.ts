@@ -21,7 +21,15 @@ interface ElType extends HTMLElement {
 }
 
 const addWaterMarker = (el: ElType, options: WatermarkOptions): void => {
-  const { text, font = 'sans-serif', fontSize = 16, color = 'rgba(180, 180, 180, 0.3)', textColor, rotate = -20, opacity = 1 } = options
+  const {
+    text,
+    font = 'sans-serif',
+    fontSize = 16,
+    color = 'rgba(180, 180, 180, 0.3)',
+    textColor,
+    rotate = -20,
+    opacity = 1,
+  } = options
 
   const finalColor = textColor || color
   const finalFont = `${fontSize}px ${font}`

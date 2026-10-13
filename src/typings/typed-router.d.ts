@@ -17,19 +17,36 @@ declare module 'vue-router' {
 }
 
 declare module 'vue-router/auto-routes' {
-  import type { RouteParamsRawGeneric, RouteParamsGeneric, RouteMeta, RouteRecordInfo, ParamValue, ParamValueZeroOrOne } from 'vue-router'
+  import type {
+    RouteParamsRawGeneric,
+    RouteParamsGeneric,
+    RouteMeta,
+    RouteRecordInfo,
+    ParamValue,
+    ParamValueZeroOrOne,
+  } from 'vue-router'
 
   /**
    * route named map
    */
   export interface RouteNamedMap {
     Root: RouteRecordInfo<'Root', '/', Record<never, never>, Record<never, never>>
-    NotFound: RouteRecordInfo<'NotFound', '/:pathMatch(.*)*', Record<never, never>, Record<never, never>>
+    NotFound: RouteRecordInfo<
+      'NotFound',
+      '/:pathMatch(.*)*',
+      Record<never, never>,
+      Record<never, never>
+    >
     '403': RouteRecordInfo<'403', '/403', Record<never, never>, Record<never, never>>
     '404': RouteRecordInfo<'404', '/404', Record<never, never>, Record<never, never>>
     '500': RouteRecordInfo<'500', '/500', Record<never, never>, Record<never, never>>
     About: RouteRecordInfo<'About', '/about', Record<never, never>, Record<never, never>>
-    DemosLoadingDemo: RouteRecordInfo<'DemosLoadingDemo', '/demos/loading-demo', Record<never, never>, Record<never, never>>
+    DemosLoadingDemo: RouteRecordInfo<
+      'DemosLoadingDemo',
+      '/demos/loading-demo',
+      Record<never, never>,
+      Record<never, never>
+    >
     DirectivesAnimateDirect: RouteRecordInfo<
       'DirectivesAnimateDirect',
       '/directives/animate-direct',
@@ -42,22 +59,42 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       Record<never, never>
     >
-    DirectivesCopyDirect: RouteRecordInfo<'DirectivesCopyDirect', '/directives/copy-direct', Record<never, never>, Record<never, never>>
+    DirectivesCopyDirect: RouteRecordInfo<
+      'DirectivesCopyDirect',
+      '/directives/copy-direct',
+      Record<never, never>,
+      Record<never, never>
+    >
     DirectivesDebounceDirect: RouteRecordInfo<
       'DirectivesDebounceDirect',
       '/directives/debounce-direct',
       Record<never, never>,
       Record<never, never>
     >
-    DirectivesDragDirect: RouteRecordInfo<'DirectivesDragDirect', '/directives/drag-direct', Record<never, never>, Record<never, never>>
-    DirectivesFocusDirect: RouteRecordInfo<'DirectivesFocusDirect', '/directives/focus-direct', Record<never, never>, Record<never, never>>
+    DirectivesDragDirect: RouteRecordInfo<
+      'DirectivesDragDirect',
+      '/directives/drag-direct',
+      Record<never, never>,
+      Record<never, never>
+    >
+    DirectivesFocusDirect: RouteRecordInfo<
+      'DirectivesFocusDirect',
+      '/directives/focus-direct',
+      Record<never, never>,
+      Record<never, never>
+    >
     DirectivesHighlightDirect: RouteRecordInfo<
       'DirectivesHighlightDirect',
       '/directives/highlight-direct',
       Record<never, never>,
       Record<never, never>
     >
-    DirectivesLazyDirect: RouteRecordInfo<'DirectivesLazyDirect', '/directives/lazy-direct', Record<never, never>, Record<never, never>>
+    DirectivesLazyDirect: RouteRecordInfo<
+      'DirectivesLazyDirect',
+      '/directives/lazy-direct',
+      Record<never, never>,
+      Record<never, never>
+    >
     DirectivesLoadingDirect: RouteRecordInfo<
       'DirectivesLoadingDirect',
       '/directives/loading-direct',
@@ -70,7 +107,12 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       Record<never, never>
     >
-    DirectivesMaskDirect: RouteRecordInfo<'DirectivesMaskDirect', '/directives/mask-direct', Record<never, never>, Record<never, never>>
+    DirectivesMaskDirect: RouteRecordInfo<
+      'DirectivesMaskDirect',
+      '/directives/mask-direct',
+      Record<never, never>,
+      Record<never, never>
+    >
     DirectivesRippleDirect: RouteRecordInfo<
       'DirectivesRippleDirect',
       '/directives/ripple-direct',
@@ -102,8 +144,18 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>
     >
     Home: RouteRecordInfo<'Home', '/home', Record<never, never>, Record<never, never>>
-    IframeUrl: RouteRecordInfo<'IframeUrl', '/iframe/:url', { url: ParamValue<true> }, { url: ParamValue<false> }>
+    IframeUrl: RouteRecordInfo<
+      'IframeUrl',
+      '/iframe/:url',
+      { url: ParamValue<true> },
+      { url: ParamValue<false> }
+    >
     Login: RouteRecordInfo<'Login', '/login', Record<never, never>, Record<never, never>>
-    UserCenter: RouteRecordInfo<'UserCenter', '/user-center', Record<never, never>, Record<never, never>>
+    UserCenter: RouteRecordInfo<
+      'UserCenter',
+      '/user-center',
+      Record<never, never>,
+      Record<never, never>
+    >
   }
 }
