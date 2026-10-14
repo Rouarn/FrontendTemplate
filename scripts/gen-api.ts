@@ -38,42 +38,58 @@ function resolveRef($ref: string): string {
   return name
 }
 
-/** 将 schema 转换为 TS 类型表达式 */
+/** 将 schema 转换为 TS 类型表达式（nullable 字段追加 `| null`） */
 function toTypeExpression(schema: SchemaObject, indent: string): string {
   if (!schema) return 'unknown'
 
-  if (schema.$ref) return resolveRef(schema.$ref)
+  let base: string
 
-  if (schema.enum)
-    return schema.enum.map((v) => (typeof v === 'string' ? `'${v}'` : String(v))).join(' | ')
-
-  switch (schema.type) {
-    case 'string':
-      return 'string'
-    case 'integer':
-    case 'number':
-      return 'number'
-    case 'boolean':
-      return 'boolean'
-    case 'array':
-      return `Array<${toTypeExpression(schema.items ?? {}, indent)}>`
-    case 'object': {
-      const { properties, required } = schema
-      if (!properties || Object.keys(properties).length === 0) {
-        return schema.additionalProperties ? 'Record<string, unknown>' : 'Record<string, unknown>'
+  if (schema.$ref) {
+    base = resolveRef(schema.$ref)
+  } else if (schema.enum) {
+    base = schema.enum.map((v) => (typeof v === 'string' ? `'${v}'` : String(v))).join(' | ')
+  } else {
+    switch (schema.type) {
+      case 'string': {
+        base = 'string'
+        break
       }
-      const lines = Object.entries(properties).map(([key, prop]) => {
-        const optional = required?.includes(key) ? '' : '?'
-        const desc = prop.description ? ` /** ${prop.description} */\n${indent}  ` : ''
-        const type = toTypeExpression(prop, `${indent}  `)
-        const safeKey = /^[a-zA-Z_$][\w$]*$/.test(key) ? key : `'${key}'`
-        return `${desc}${indent}  ${safeKey}${optional}: ${type}`
-      })
-      return `{\n${lines.join('\n')}\n${indent}}`
+      case 'integer':
+      case 'number': {
+        base = 'number'
+        break
+      }
+      case 'boolean': {
+        base = 'boolean'
+        break
+      }
+      case 'array': {
+        base = `Array<${toTypeExpression(schema.items ?? {}, indent)}>`
+        break
+      }
+      case 'object': {
+        const { properties, required } = schema
+        if (!properties || Object.keys(properties).length === 0) {
+          base = 'Record<string, unknown>'
+          break
+        }
+        const lines = Object.entries(properties).map(([key, prop]) => {
+          const optional = required?.includes(key) ? '' : '?'
+          const desc = prop.description ? ` /** ${prop.description} */\n${indent}  ` : ''
+          const type = toTypeExpression(prop, `${indent}  `)
+          const safeKey = /^[a-zA-Z_$][\w$]*$/.test(key) ? key : `'${key}'`
+          return `${desc}${indent}  ${safeKey}${optional}: ${type}`
+        })
+        base = `{\n${lines.join('\n')}\n${indent}}`
+        break
+      }
+      default: {
+        base = 'unknown'
+      }
     }
-    default:
-      return 'unknown'
   }
+
+  return schema.nullable ? `${base} | null` : base
 }
 
 async function main() {

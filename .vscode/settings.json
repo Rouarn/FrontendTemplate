@@ -15,5 +15,11 @@
   "oxc.lint.run": "onSave",
   "typescript.preferences.includePackageJsonAutoImports": "on",
   "typescript.suggest.autoImports": true,
-  "i18n-ally.localesPaths": ["src/locales", "src/locales/langs"]
+  "i18n-ally.localesPaths": ["src/locales", "src/locales/langs"],
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
 }

@@ -108,15 +108,15 @@ export interface RefreshTokenDto {
 
 export interface User {
     id: string
-    nickname: string
-    avatar: string
-    gender: 0 | 1 | 2
-    mobile: string
-    bio: string
-    email: string
-    birthday: string
-    city: string
-    profession: string
+    nickname: string | null
+    avatar: string | null
+    gender: 0 | 1 | 2 | null
+    mobile: string | null
+    bio: string | null
+    email: string | null
+    birthday: string | null
+    city: string | null
+    profession: string | null
     auth: Auth
     createdAt: string
     updatedAt: string
@@ -127,11 +127,11 @@ export interface Auth {
     username: string
     password: string
     status: 0 | 1
-    lastLoginAt: string
-    lastLoginIp?: string
+    lastLoginAt: string | null
+    lastLoginIp: string | null
     loginAttempts: number
-    lockedAt?: string
-    passwordChangedAt?: string
+    lockedAt: string | null
+    passwordChangedAt: string | null
     user: User
     createdAt: string
     updatedAt: string
