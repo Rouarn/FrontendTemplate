@@ -105,8 +105,10 @@ export default defineConfig((configEnv) => {
       },
     },
     // 暂存区检查（替代 lint-staged）：代码文件跑 lint + 类型卡口，纯文本文件仅格式化
+    // 生成型 d.ts（auto-imports/openapi/elegant-router 等）已在 fmt/lint ignore 中，staged 同步排除避免零目标报错
     staged: {
-      '*.{ts,vue,tsx,jsx}': 'vp check',
+      '*.{vue,tsx,jsx}': 'vp check',
+      '!(*.d).ts': 'vp check',
       '*.{json,md,css,scss,html}': 'vp fmt',
     },
   }

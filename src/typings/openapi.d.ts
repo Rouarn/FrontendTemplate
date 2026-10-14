@@ -147,10 +147,16 @@ export interface ChangePasswordDto {
   }
 
 export interface UserListResponseDto {
- /** 用户列表 */
-        list: Array<User>
- /** 总数量 */
+ /** 分页数据列表 */
+        records: Array<User>
+ /** 总记录数 */
         total: number
+ /** 总页数 */
+        totalPages: number
+ /** 当前页码 */
+        current: number
+ /** 每页数量 */
+        size: number
   }
 
 export interface UpdateUserDto {
