@@ -44,14 +44,14 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:hourglass-medium-duotone"
       title="节流指令 `v-throttle`"
       description="每隔一定时间最多执行一次。无论触发频率多高，都会按固定的时间间隔执行。"
     />
 
-    <!-- Stats -->
+    <!-- 数据统计 -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16px">
       <NCard :bordered="false" class="card-wrapper text-center">
         <div class="text-24px font-bold text-primary tabular-nums">{{ clickCount }}</div>
@@ -72,7 +72,7 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16px">
-      <!-- Button Throttle -->
+      <!-- 按钮节流 -->
       <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
         <template #header>
           <span class="flex items-center gap-10px">
@@ -106,7 +106,7 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
         </div>
       </NCard>
 
-      <!-- Scroll Throttle -->
+      <!-- 滚动节流 -->
       <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
         <template #header>
           <span class="flex items-center gap-10px">
@@ -137,7 +137,7 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
       </NCard>
     </div>
 
-    <!-- Comparison Table -->
+    <!-- 对比表格 -->
     <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
       <template #header>
         <span class="flex items-center gap-10px">
@@ -173,7 +173,7 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
       </NTable>
     </NCard>
 
-    <!-- Guide -->
+    <!-- 使用指南 -->
     <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>

@@ -202,7 +202,7 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
 
 <template>
   <div class="home-page relative min-h-screen overflow-hidden bg-layout">
-    <!-- ============ Hero ============ -->
+    <!-- ============ 主视觉 ============ -->
     <section class="relative">
       <div class="hero-grid" />
       <div
@@ -360,7 +360,7 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
       </div>
     </section>
 
-    <!-- ============ Stats ============ -->
+    <!-- ============ 数据统计 ============ -->
     <section class="mx-auto max-w-1200px px-24px pb-88px">
       <div class="grid grid-cols-1 gap-20px sm:grid-cols-3">
         <div
@@ -392,7 +392,7 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
       </div>
     </section>
 
-    <!-- ============ Core Features ============ -->
+    <!-- ============ 核心特性 ============ -->
     <section class="mx-auto max-w-1200px px-24px py-88px">
       <div v-reveal class="mb-56px text-center">
         <h2 class="text-32px font-bold text-base-text">{{ $t('page.home.coreFeatures') }}</h2>
@@ -477,7 +477,7 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
       </div>
     </section>
 
-    <!-- ============ Tech Stack ============ -->
+    <!-- ============ 技术栈 ============ -->
     <section class="bg-container/50 py-88px">
       <div class="mx-auto max-w-1200px px-24px">
         <div v-reveal class="mb-56px text-center">
@@ -515,7 +515,7 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
       </div>
     </section>
 
-    <!-- ============ Design Philosophy ============ -->
+    <!-- ============ 设计理念 ============ -->
     <section class="mx-auto max-w-1200px px-24px py-88px">
       <div v-reveal class="mb-56px text-center">
         <h2 class="text-32px font-bold text-base-text">{{ $t('page.home.philosophyTitle') }}</h2>
@@ -545,7 +545,7 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
       </div>
     </section>
 
-    <!-- ============ CTA ============ -->
+    <!-- ============ 行动召唤 ============ -->
     <section class="mx-auto max-w-1200px px-24px pb-104px">
       <div
         v-reveal

@@ -4,13 +4,13 @@ import { computed } from 'vue'
 defineOptions({ name: 'PageHeader' })
 
 interface Props {
-  /** Header icon (iconify name) */
+  /** 页头图标（iconify 名称） */
   icon: string
-  /** Page title */
+  /** 页面标题 */
   title: string
-  /** Page description */
+  /** 页面描述 */
   description?: string
-  /** Icon tint color, defaults to theme primary */
+  /** 图标着色，默认主题主色 */
   color?: string
 }
 

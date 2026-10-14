@@ -5,10 +5,10 @@ import { getRecommendedColorPalette } from './recommend'
 import type { AnyColor } from 'colord'
 
 /**
- * get color palette by provided color
+ * 根据提供的颜色获取色板
  *
- * @param color
- * @param recommended whether to get recommended color palette (the provided color may not be the main color)
+ * @param color 颜色
+ * @param recommended 是否获取推荐色板（提供的颜色可能不是主色）
  */
 export function getColorPalette(color: AnyColor, recommended = false) {
   const colorMap = new Map<ColorPaletteNumber, string>()
@@ -34,11 +34,11 @@ export function getColorPalette(color: AnyColor, recommended = false) {
 }
 
 /**
- * get color palette color by number
+ * 按编号获取色板颜色
  *
- * @param color the provided color
- * @param number the color palette number
- * @param recommended whether to get recommended color palette (the provided color may not be the main color)
+ * @param color 提供的颜色
+ * @param number 色板编号
+ * @param recommended 是否获取推荐色板（提供的颜色可能不是主色）
  */
 export function getPaletteColorByNumber(
   color: AnyColor,

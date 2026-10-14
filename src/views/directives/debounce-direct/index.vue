@@ -55,14 +55,14 @@ const usageCode = `<!-- 基础用法 (默认 500ms 延迟) -->
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:timer-duotone"
       title="防抖指令 `v-debounce`"
       description="在事件停止触发后延迟一定时间再执行。如果在延迟时间内再次触发，则重新计时。"
     />
 
-    <!-- Stats -->
+    <!-- 数据统计 -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16px">
       <NCard :bordered="false" class="card-wrapper text-center">
         <div class="text-32px font-bold text-primary tabular-nums">{{ clickCount }}</div>
@@ -81,7 +81,7 @@ const usageCode = `<!-- 基础用法 (默认 500ms 延迟) -->
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16px">
-      <!-- Trailing Debounce (Search) -->
+      <!-- 尾触防抖（搜索） -->
       <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
         <template #header>
           <span class="flex items-center gap-10px">
@@ -120,7 +120,7 @@ const usageCode = `<!-- 基础用法 (默认 500ms 延迟) -->
         </div>
       </NCard>
 
-      <!-- Leading Debounce (Button) -->
+      <!-- 首触防抖（按钮） -->
       <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
         <template #header>
           <span class="flex items-center gap-10px">
@@ -155,7 +155,7 @@ const usageCode = `<!-- 基础用法 (默认 500ms 延迟) -->
       </NCard>
     </div>
 
-    <!-- Guide -->
+    <!-- 使用指南 -->
     <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>

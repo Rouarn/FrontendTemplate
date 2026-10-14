@@ -1,7 +1,7 @@
 import 'nprogress/nprogress.css'
 import NProgress from 'nprogress'
 
-/** Setup plugin NProgress */
+/** 安装 NProgress 插件 */
 export function setupNProgress() {
   NProgress.configure({
     easing: 'ease', // 动画方式
@@ -11,6 +11,6 @@ export function setupNProgress() {
     minimum: 0.3, // 初始化时的最小百分比
   })
 
-  // mount on window
+  // 挂载到 window
   window.NProgress = NProgress
 }

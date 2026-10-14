@@ -35,14 +35,14 @@ const usageCode = `<!-- 简易用法 -->
 
 <template>
   <div v-bind="$attrs" class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:chat-teardrop-dots-duotone"
       title="提示指令 `v-tooltip`"
       description="轻量级的气泡提示解决方案，支持多方位弹出、自定义图标与丰富的视觉主题"
     />
 
-    <!-- Stats -->
+    <!-- 数据统计 -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16px">
       <NCard :bordered="false" class="card-wrapper text-center">
         <div class="text-32px font-bold text-primary tabular-nums">{{ tooltipCount }}</div>
@@ -65,7 +65,7 @@ const usageCode = `<!-- 简易用法 -->
       </NCard>
     </div>
 
-    <!-- Playground -->
+    <!-- 演练区 -->
     <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
       <template #header>
         <span class="flex items-center gap-10px">
@@ -121,7 +121,7 @@ const usageCode = `<!-- 简易用法 -->
       </div>
     </NCard>
 
-    <!-- Guide -->
+    <!-- 使用指南 -->
     <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>

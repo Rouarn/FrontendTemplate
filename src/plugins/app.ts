@@ -53,7 +53,7 @@ async function getHtmlBuildTime(): Promise<string | null> {
 }
 
 export function setupAppVersionNotification() {
-  // Update check interval in milliseconds
+  // 更新检查间隔（毫秒）
   const UPDATE_CHECK_INTERVAL = 3 * 60 * 1000
 
   const canAutoUpdateApp =
@@ -69,14 +69,14 @@ export function setupAppVersionNotification() {
 
     const buildTime = await getHtmlBuildTime()
 
-    // If failed to get build time or build time hasn't changed, no update is needed.
+    // 获取构建时间失败或构建时间未变化时，无需更新
     if (!buildTime || buildTime === BUILD_TIME) {
       return
     }
 
     isShow = true
 
-    // Show update notification
+    // 显示更新通知
     const n = window.$notification?.create({
       title: $t('system.updateTitle'),
       content: $t('system.updateContent'),
@@ -121,9 +121,9 @@ export function setupAppVersionNotification() {
     updateInterval = setInterval(checkForUpdates, UPDATE_CHECK_INTERVAL)
   }
 
-  // If updates should be checked, set up the visibility change listener and start the update interval
+  // 需要检查更新时，注册页面可见性监听并启动定时检查
   if (!isShow && document.visibilityState === 'visible') {
-    // Check for updates when the document is visible
+    // 页面可见时检查更新
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
         void checkForUpdates()
@@ -131,7 +131,7 @@ export function setupAppVersionNotification() {
       }
     })
 
-    // Start the update interval
+    // 启动定时检查
     startUpdateInterval()
   }
 }

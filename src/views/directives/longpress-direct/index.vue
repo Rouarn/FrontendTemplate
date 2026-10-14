@@ -50,14 +50,14 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:fingerprint-simple-duotone"
       title="长按指令 `v-longpress`"
       description="检测并响应长时间按压操作，支持自定义时长，有效防止误触并丰富交互反馈"
     />
 
-    <!-- Stats -->
+    <!-- 数据统计 -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16px">
       <NCard :bordered="false" class="card-wrapper text-center">
         <div class="text-32px font-bold text-primary tabular-nums">{{ longpressCount }}</div>
@@ -79,7 +79,7 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
       </NCard>
     </div>
 
-    <!-- Playground -->
+    <!-- 演练区 -->
     <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
       <template #header>
         <span class="flex items-center gap-10px">
@@ -114,7 +114,7 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
             按住我 1 秒
           </NButton>
 
-          <!-- Progress Ring/Bar -->
+          <!-- 进度环/进度条 -->
           <div class="w-240px">
             <NProgress
               type="line"
@@ -151,7 +151,7 @@ const usageCode = `<!-- 基础用法 (默认 1000ms) -->
       </div>
     </NCard>
 
-    <!-- Guide -->
+    <!-- 使用指南 -->
     <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>

@@ -33,7 +33,7 @@ const statusType = computed(() => {
 })
 
 // 格式化日期
-function formatDate(dateStr?: string | Date) {
+function formatDate(dateStr?: string | Date | null) {
   if (!dateStr) return '-'
   const d = new Date(dateStr)
   if (Number.isNaN(d.getTime())) return '-'
@@ -84,7 +84,7 @@ function handleUploaded(url: string) {
     </div>
   </NCard>
 
-  <!-- Login Stats -->
+  <!-- 登录统计 -->
   <NCard :bordered="false" class="card-wrapper" :title="$t('userCenter.accountActivity')">
     <template #header-extra>
       <SvgIcon icon="ph:chart-line-up-duotone" class="text-18px text-primary" />

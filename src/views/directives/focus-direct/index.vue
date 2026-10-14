@@ -19,14 +19,14 @@ const usageCode = `<!-- 基础聚焦 -->
 
 <template>
   <div v-bind="$attrs" class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:eye-duotone"
       title="聚焦指令 `v-focus`"
       description="自动为输入框或特定元素设置焦点，提升表单填写与交互的流畅度"
     />
 
-    <!-- Playground -->
+    <!-- 演练区 -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-16px">
       <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
         <template #header>
@@ -70,7 +70,7 @@ const usageCode = `<!-- 基础聚焦 -->
       </NCard>
     </div>
 
-    <!-- Features -->
+    <!-- 功能特性 -->
     <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
       <template #header>
         <span class="flex items-center gap-10px">
@@ -109,7 +109,7 @@ const usageCode = `<!-- 基础聚焦 -->
       </div>
     </NCard>
 
-    <!-- Guide -->
+    <!-- 使用指南 -->
     <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>

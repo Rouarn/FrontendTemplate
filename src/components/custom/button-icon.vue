@@ -7,13 +7,13 @@ defineOptions({
 })
 
 interface Props {
-  /** Button class */
+  /** 按钮类名 */
   class?: string
-  /** Iconify icon name */
+  /** Iconify 图标名称 */
   icon?: string
-  /** Tooltip content */
+  /** 提示内容 */
   tooltipContent?: string
-  /** Tooltip placement */
+  /** 提示弹出位置 */
   tooltipPlacement?: PopoverPlacement
   zIndex?: number
 }

@@ -9,11 +9,11 @@ type ExceptionType = '403' | '404' | '500'
 
 interface Props {
   /**
-   * Exception type
+   * 异常类型
    *
-   * - 403: no permission
-   * - 404: not found
-   * - 500: service error
+   * - 403: 无权限
+   * - 404: 页面不存在
+   * - 500: 服务异常
    */
   type: ExceptionType
 }

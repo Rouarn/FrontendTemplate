@@ -42,7 +42,7 @@ const usageCode = `<!-- 基础用法 -->
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:mask-happy-duotone"
       title="遮罩指令 `v-mask`"
@@ -50,7 +50,7 @@ const usageCode = `<!-- 基础用法 -->
     />
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-16px">
-      <!-- Basic Mask -->
+      <!-- 基础遮罩 -->
       <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
         <template #header>
           <span class="flex items-center gap-10px">
@@ -82,7 +82,7 @@ const usageCode = `<!-- 基础用法 -->
         </div>
       </NCard>
 
-      <!-- Content Mask -->
+      <!-- 内容遮罩 -->
       <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
         <template #header>
           <span class="flex items-center gap-10px">
@@ -114,7 +114,7 @@ const usageCode = `<!-- 基础用法 -->
         </div>
       </NCard>
 
-      <!-- Interactive Mask -->
+      <!-- 交互遮罩 -->
       <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
         <template #header>
           <span class="flex items-center gap-10px">
@@ -147,7 +147,7 @@ const usageCode = `<!-- 基础用法 -->
         </div>
       </NCard>
 
-      <!-- Code Example -->
+      <!-- 代码示例 -->
       <CodeBlock title="代码示例" :code="usageCode" />
     </div>
   </div>

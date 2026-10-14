@@ -31,14 +31,14 @@ const usageCode = `<!-- 基础用法 -->
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:waves-duotone"
       title="波纹指令 `v-ripple`"
       description="为元素注入灵动的 Material Design 风格波纹反馈，提升交互的确定感与品质感"
     />
 
-    <!-- Stats -->
+    <!-- 数据统计 -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-16px">
       <NCard :bordered="false" class="card-wrapper text-center">
         <div class="text-32px font-bold text-primary tabular-nums">{{ rippleCount }}</div>
@@ -58,7 +58,7 @@ const usageCode = `<!-- 基础用法 -->
       </NCard>
     </div>
 
-    <!-- Playground -->
+    <!-- 演练区 -->
     <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
       <template #header>
         <span class="flex items-center gap-10px">
@@ -80,7 +80,7 @@ const usageCode = `<!-- 基础用法 -->
       </template>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-32px py-16px">
-        <!-- Buttons Group -->
+        <!-- 按钮组 -->
         <div class="space-y-24px">
           <h4 class="text-16px font-bold text-base-text mb-16px flex items-center gap-8px">
             <div class="w-4px h-16px bg-primary rd-full" />
@@ -118,7 +118,7 @@ const usageCode = `<!-- 基础用法 -->
           </div>
         </div>
 
-        <!-- Shapes Group -->
+        <!-- 形状组 -->
         <div class="space-y-24px">
           <h4 class="text-16px font-bold text-base-text mb-16px flex items-center gap-8px">
             <div class="w-4px h-16px bg-amber-500 rd-full" />
@@ -151,7 +151,7 @@ const usageCode = `<!-- 基础用法 -->
       </div>
     </NCard>
 
-    <!-- Guide -->
+    <!-- 使用指南 -->
     <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>

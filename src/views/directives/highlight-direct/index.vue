@@ -34,7 +34,7 @@ const usageCode = `<!-- 基础用法 -->
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:highlighter-circle-duotone"
       title="高亮指令 `v-highlight`"
@@ -42,7 +42,7 @@ const usageCode = `<!-- 基础用法 -->
     />
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-16px">
-      <!-- Controls -->
+      <!-- 控制区 -->
       <NCard
         :bordered="false"
         class="card-wrapper lg:col-span-1"
@@ -106,7 +106,7 @@ const usageCode = `<!-- 基础用法 -->
         </div>
       </NCard>
 
-      <!-- Preview Area -->
+      <!-- 预览区 -->
       <NCard
         :bordered="false"
         class="card-wrapper lg:col-span-2"
@@ -153,7 +153,7 @@ const usageCode = `<!-- 基础用法 -->
       </NCard>
     </div>
 
-    <!-- Guide -->
+    <!-- 使用指南 -->
     <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>

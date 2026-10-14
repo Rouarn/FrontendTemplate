@@ -42,14 +42,14 @@ const latestBuildTime = BUILD_TIME
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:info-duotone"
       :title="$t('page.about.title')"
       :description="$t('page.about.introduction')"
     />
 
-    <!-- Project Info -->
+    <!-- 项目信息 -->
     <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
       <template #header>
         <span class="flex items-center gap-10px">
@@ -89,7 +89,7 @@ const latestBuildTime = BUILD_TIME
       </NDescriptions>
     </NCard>
 
-    <!-- Dependencies -->
+    <!-- 依赖信息 -->
     <div class="grid grid-cols-1 gap-16px md:grid-cols-2">
       <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
         <template #header>

@@ -2,27 +2,27 @@ import { getHex, getHsv, isValidColor, mixColor } from '../shared'
 import type { ColorIndex } from '../types'
 import type { AnyColor, HsvColor } from 'colord'
 
-/** Hue step */
+/** 色相步长 */
 const hueStep = 2
-/** Saturation step, light color part */
+/** 饱和度步长（浅色部分） */
 const saturationStep = 16
-/** Saturation step, dark color part */
+/** 饱和度步长（深色部分） */
 const saturationStep2 = 5
-/** Brightness step, light color part */
+/** 明度步长（浅色部分） */
 const brightnessStep1 = 5
-/** Brightness step, dark color part */
+/** 明度步长（深色部分） */
 const brightnessStep2 = 15
-/** Light color count, main color up */
+/** 浅色数量（主色向上） */
 const lightColorCount = 5
-/** Dark color count, main color down */
+/** 深色数量（主色向下） */
 const darkColorCount = 4
 
 /**
- * Get hue
+ * 获取色相
  *
- * @param hsv - Hsv format color
- * @param i - The relative distance from 6
- * @param isLight - Is light color
+ * @param hsv - HSV 格式颜色
+ * @param i - 相对主色 6 的距离
+ * @param isLight - 是否浅色
  */
 function getHue(hsv: HsvColor, i: number, isLight: boolean) {
   let hue: number
@@ -47,11 +47,11 @@ function getHue(hsv: HsvColor, i: number, isLight: boolean) {
 }
 
 /**
- * Get saturation
+ * 获取饱和度
  *
- * @param hsv - Hsv format color
- * @param i - The relative distance from 6
- * @param isLight - Is light color
+ * @param hsv - HSV 格式颜色
+ * @param i - 相对主色 6 的距离
+ * @param isLight - 是否浅色
  */
 function getSaturation(hsv: HsvColor, i: number, isLight: boolean) {
   if (hsv.h === 0 && hsv.s === 0) {
@@ -84,11 +84,11 @@ function getSaturation(hsv: HsvColor, i: number, isLight: boolean) {
 }
 
 /**
- * Get value of hsv
+ * 获取 HSV 明度值
  *
- * @param hsv - Hsv format color
- * @param i - The relative distance from 6
- * @param isLight - Is light color
+ * @param hsv - HSV 格式颜色
+ * @param i - 相对主色 6 的距离
+ * @param isLight - 是否浅色
  */
 function getValue(hsv: HsvColor, i: number, isLight: boolean) {
   let value: number
@@ -107,11 +107,11 @@ function getValue(hsv: HsvColor, i: number, isLight: boolean) {
 }
 
 /**
- * Get AntD palette color by index
+ * 按索引获取 AntD 色板颜色
  *
- * @param color - Color
- * @param index - The color index of color palette (the main color index is 6)
- * @returns Hex color
+ * @param color - 颜色
+ * @param index - 色板颜色索引（主色索引为 6）
+ * @returns 十六进制颜色
  */
 export function getAntDPaletteColorByIndex(color: AnyColor, index: ColorIndex): string {
   if (!isValidColor(color)) {
@@ -135,7 +135,7 @@ export function getAntDPaletteColorByIndex(color: AnyColor, index: ColorIndex): 
   return getHex(newHsv)
 }
 
-/** Map of dark color index and opacity */
+/** 深色索引与透明度的映射表 */
 const darkColorMap = [
   { index: 7, opacity: 0.15 },
   { index: 6, opacity: 0.25 },
@@ -151,11 +151,11 @@ const darkColorMap = [
 ]
 
 /**
- * Get AntD color palette
+ * 获取 AntD 色板
  *
- * @param color - Color
- * @param darkTheme - Dark theme
- * @param darkThemeMixColor - Dark theme mix color (default: #141414)
+ * @param color - 颜色
+ * @param darkTheme - 是否深色主题
+ * @param darkThemeMixColor - 深色主题混合色（默认 #141414）
  */
 export function getAntDColorPalette(
   color: AnyColor,

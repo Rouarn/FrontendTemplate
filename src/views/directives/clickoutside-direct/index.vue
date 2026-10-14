@@ -35,14 +35,14 @@ const usageCode = `<!-- 在需要监听外部点击的元素上使用 -->
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:cursor-click-duotone"
       title="点击外部指令 `v-clickoutside`"
       description="检测点击元素外部区域的事件，常用于关闭下拉菜单、模态框或气泡提示"
     />
 
-    <!-- Stats -->
+    <!-- 数据统计 -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-16px">
       <NCard :bordered="false" class="card-wrapper text-center">
         <div class="flex-center gap-12px">
@@ -62,7 +62,7 @@ const usageCode = `<!-- 在需要监听外部点击的元素上使用 -->
       </NCard>
     </div>
 
-    <!-- Playground -->
+    <!-- 演练区 -->
     <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
       <template #header>
         <span class="flex items-center gap-10px">
@@ -90,7 +90,7 @@ const usageCode = `<!-- 在需要监听外部点击的元素上使用 -->
             点击切换菜单
           </NButton>
 
-          <!-- Dropdown Menu -->
+          <!-- 下拉菜单 -->
           <Transition name="fade-scale">
             <div
               v-if="isDropdownOpen"
@@ -133,7 +133,7 @@ const usageCode = `<!-- 在需要监听外部点击的元素上使用 -->
       </div>
     </NCard>
 
-    <!-- Guide -->
+    <!-- 使用指南 -->
     <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>

@@ -9,10 +9,10 @@ import type {
 } from '../types'
 
 /**
- * get nearest color palette family
+ * 获取最接近的色板家族
  *
- * @param color color
- * @param families color palette families
+ * @param color 颜色
+ * @param families 色板家族列表
  */
 function getNearestColorPaletteFamily(color: string, families: ColorPaletteFamily[]) {
   const familyWithConfig = families.map((family) => {
@@ -55,9 +55,9 @@ function getNearestColorPaletteFamily(color: string, families: ColorPaletteFamil
 }
 
 /**
- * get color palette family by provided color and color name
+ * 根据提供的颜色获取对应的色板家族
  *
- * @param color the provided color
+ * @param color 提供的颜色
  */
 export function getRecommendedColorPaletteFamily(color: string) {
   if (!isValidColor(color)) {
@@ -111,9 +111,9 @@ export function getRecommendedColorPaletteFamily(color: string) {
 }
 
 /**
- * get recommended color palette by provided color
+ * 根据提供的颜色获取推荐色板
  *
- * @param color the provided color
+ * @param color 提供的颜色
  */
 export function getRecommendedColorPalette(color: string) {
   const colorPaletteFamily = getRecommendedColorPaletteFamily(color)
@@ -138,10 +138,10 @@ export function getRecommendedColorPalette(color: string) {
 }
 
 /**
- * get recommended palette color by provided color
+ * 根据提供的颜色按编号获取推荐色板颜色
  *
- * @param color the provided color
- * @param number the color palette number
+ * @param color 提供的颜色
+ * @param number 色板编号
  */
 export function getRecommendedPaletteColorByNumber(color: string, number: ColorPaletteNumber) {
   const colorPalette = getRecommendedColorPalette(color)

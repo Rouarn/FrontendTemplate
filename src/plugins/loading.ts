@@ -22,7 +22,7 @@ export interface LoadingOptions {
   background?: string
   /** 主题色 */
   color?: string
-  /** z-index */
+  /** 层级 */
   zIndex?: number
   /** 最小显示时间(ms) */
   minTime?: number

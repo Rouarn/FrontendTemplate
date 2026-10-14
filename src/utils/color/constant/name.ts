@@ -1568,10 +1568,10 @@ export const colorNames: [hex: string, name: string][] = [
 ]
 
 /**
- * Map Of hex color values to color names
+ * 十六进制颜色值到颜色名称的映射
  *
- * - key: hex value
- * - value: color name
+ * - key: 十六进制值
+ * - value: 颜色名称
  */
 export const colorNameMap = colorNames.reduce<Record<string, string>>((acc, [hex, name]) => {
   acc[hex] = name

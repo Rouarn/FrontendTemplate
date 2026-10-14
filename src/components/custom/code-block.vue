@@ -2,9 +2,9 @@
 defineOptions({ name: 'CodeBlock' })
 
 interface Props {
-  /** Code window title */
+  /** 代码窗口标题 */
   title?: string
-  /** Code content (prefer over slot to preserve line breaks) */
+  /** 代码内容（优先于插槽，可保留换行） */
   code?: string
 }
 

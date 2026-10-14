@@ -65,7 +65,7 @@ function checkLoadingStatus() {
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:spinner-gap-duotone"
       title="现代化 Loading 组件"
@@ -201,7 +201,7 @@ function checkLoadingStatus() {
       </NCard>
     </div>
 
-    <!-- Features -->
+    <!-- 功能特性 -->
     <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
       <template #header>
         <span class="flex items-center gap-10px">

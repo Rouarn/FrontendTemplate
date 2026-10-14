@@ -49,14 +49,14 @@ const handleScroll = ({ position, percentage, direction, velocity }) => {
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:mouse-duotone"
       title="滚动指令 `v-scroll`"
       description="实时监听并精准控制容器滚动状态，支持方向识别、百分比计算与平滑定位"
     />
 
-    <!-- Stats -->
+    <!-- 数据统计 -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16px">
       <NCard :bordered="false" class="card-wrapper text-center">
         <div class="text-32px font-bold text-primary tabular-nums">
@@ -99,7 +99,7 @@ const handleScroll = ({ position, percentage, direction, velocity }) => {
       </NCard>
     </div>
 
-    <!-- Playground -->
+    <!-- 演练区 -->
     <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
       <template #header>
         <span class="flex items-center gap-10px">
@@ -115,7 +115,7 @@ const handleScroll = ({ position, percentage, direction, velocity }) => {
       </template>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-24px">
-        <!-- Scroll Container -->
+        <!-- 滚动容器 -->
         <div class="lg:col-span-2 relative">
           <div
             v-scroll="onScrollUpdate"
@@ -139,7 +139,7 @@ const handleScroll = ({ position, percentage, direction, velocity }) => {
               </div>
             </div>
           </div>
-          <!-- Progress Bar Overlay -->
+          <!-- 进度条浮层 -->
           <div class="absolute top-0 left-0 w-full h-4px bg-primary/5">
             <div
               class="h-full bg-primary transition-all duration-150"
@@ -148,7 +148,7 @@ const handleScroll = ({ position, percentage, direction, velocity }) => {
           </div>
         </div>
 
-        <!-- Scroll Info/Tips -->
+        <!-- 滚动信息/提示 -->
         <div class="space-y-16px">
           <div class="p-20px rd-16px bg-primary/5 border border-primary/10">
             <h4 class="text-16px font-bold text-primary mb-12px flex items-center gap-8px">
@@ -182,7 +182,7 @@ const handleScroll = ({ position, percentage, direction, velocity }) => {
       </div>
     </NCard>
 
-    <!-- Guide -->
+    <!-- 使用指南 -->
     <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>

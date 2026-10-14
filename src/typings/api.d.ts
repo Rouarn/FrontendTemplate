@@ -1,24 +1,24 @@
 /**
- * Namespace Api
+ * Api 命名空间
  *
- * All backend api type
+ * 后端接口类型定义
  */
 declare namespace Api {
   namespace Common {
     /**
-     * enable status
+     * 启用状态
      *
-     * - "1": enabled
-     * - "0": disabled
+     * - "1": 启用
+     * - "0": 禁用
      */
     type EnableStatus = 0 | 1
 
     /**
-     * gender
+     * 性别
      *
-     * - "0": male
-     * - "1": female
-     * - "2": unknown
+     * - "0": 男
+     * - "1": 女
+     * - "2": 未知
      */
     type Gender = 0 | 1 | 2
 
@@ -49,9 +49,9 @@ declare namespace Api {
     }
   }
   /**
-   * namespace Auth
+   * Auth 命名空间
    *
-   * backend api module: "auth"
+   * 后端接口模块："auth"
    */
   namespace Auth {
     /**

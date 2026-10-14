@@ -7,11 +7,11 @@ defineOptions({
 })
 
 interface Props {
-  /** Current language */
+  /** 当前语言 */
   lang: App.I18n.LangType
-  /** Language options */
+  /** 语言选项 */
   langOptions: App.I18n.LangOption[]
-  /** Show tooltip */
+  /** 是否显示提示 */
   showTooltip?: boolean
 }
 
@@ -31,7 +31,7 @@ const tooltipContent = computed(() => {
   return $t('icon.lang')
 })
 
-/** Add bottom margin to all options except the last one for proper visual separation */
+/** 除最后一项外均添加底部间距，保证视觉分隔 */
 const dropdownOptions = computed(() => {
   const lastIndex = props.langOptions.length - 1
 

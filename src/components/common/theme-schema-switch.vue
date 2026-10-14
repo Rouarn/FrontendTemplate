@@ -6,11 +6,11 @@ import type { PopoverPlacement } from 'naive-ui'
 defineOptions({ name: 'ThemeSchemaSwitch' })
 
 interface Props {
-  /** Theme schema */
+  /** 主题模式 */
   themeSchema: UnionKey.ThemeScheme
-  /** Show tooltip */
+  /** 是否显示提示 */
   showTooltip?: boolean
-  /** Tooltip placement */
+  /** 提示弹出位置 */
   tooltipPlacement?: PopoverPlacement
 }
 

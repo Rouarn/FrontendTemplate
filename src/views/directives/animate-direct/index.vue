@@ -51,14 +51,14 @@ const usageCode = `// 基础用法
 
 <template>
   <div v-bind="$attrs" class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:magic-wand-duotone"
       title="动画指令 `v-animate`"
       description="通过指令轻松为元素注入生命力，支持多种内置动画效果与自定义配置"
     />
 
-    <!-- Stats -->
+    <!-- 数据统计 -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-16px">
       <NCard :bordered="false" class="card-wrapper text-center">
         <div class="text-32px font-bold text-primary tabular-nums">{{ animationCount }}</div>
@@ -72,7 +72,7 @@ const usageCode = `// 基础用法
       </NCard>
     </div>
 
-    <!-- Animation Playground -->
+    <!-- 动画演练区 -->
     <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
       <template #header>
         <span class="flex items-center gap-10px">
@@ -100,7 +100,7 @@ const usageCode = `// 基础用法
       </div>
     </NCard>
 
-    <!-- Guide -->
+    <!-- 使用指南 -->
     <CodeBlock title="使用指南" :code="usageCode" />
   </div>
 </template>

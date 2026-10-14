@@ -2,9 +2,9 @@ import { colorNames } from '../constant'
 import { getHex, getHsl, getRgb } from './colord'
 
 /**
- * Get color name
+ * 获取颜色名称
  *
- * @param color
+ * @param color 颜色
  */
 export function getColorName(color: string) {
   const hex = getHex(color)

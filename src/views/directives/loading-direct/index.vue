@@ -50,7 +50,7 @@ const usageCode = `<!-- 基础用法 -->
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:spinner-duotone"
       title="加载指令 `v-loading`"
@@ -58,7 +58,7 @@ const usageCode = `<!-- 基础用法 -->
     />
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16px">
-      <!-- Basic Usage -->
+      <!-- 基础用法 -->
       <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
         <template #header>
           <span class="flex items-center gap-10px">
@@ -91,7 +91,7 @@ const usageCode = `<!-- 基础用法 -->
         </div>
       </NCard>
 
-      <!-- Table Loading -->
+      <!-- 表格加载 -->
       <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
         <template #header>
           <span class="flex items-center gap-10px">
@@ -125,7 +125,7 @@ const usageCode = `<!-- 基础用法 -->
       </NCard>
     </div>
 
-    <!-- Features -->
+    <!-- 功能特性 -->
     <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
       <template #header>
         <span class="flex items-center gap-10px">
@@ -170,7 +170,7 @@ const usageCode = `<!-- 基础用法 -->
       </div>
     </NCard>
 
-    <!-- Guide -->
+    <!-- 使用指南 -->
     <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>

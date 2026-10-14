@@ -6,7 +6,7 @@ defineOptions({
 })
 
 interface Props {
-  /** Whether to show the title */
+  /** 是否显示标题 */
   showTitle?: boolean
 }
 

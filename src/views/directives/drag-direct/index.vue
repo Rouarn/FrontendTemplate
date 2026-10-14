@@ -33,14 +33,14 @@ const usageCode = `<!-- 基础拖拽 -->
 
 <template>
   <div class="flex-col gap-16px">
-    <!-- Page Header -->
+    <!-- 页头 -->
     <PageHeader
       icon="ph:hand-grabbing-duotone"
       title="拖拽指令 `v-draggable`"
       description="赋予元素自由拖拽移动的能力，支持自定义边界限制与吸附效果"
     />
 
-    <!-- Stats -->
+    <!-- 数据统计 -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-16px">
       <NCard :bordered="false" class="card-wrapper text-center">
         <div class="text-32px font-bold text-primary tabular-nums">{{ dragCount }}</div>
@@ -60,7 +60,7 @@ const usageCode = `<!-- 基础拖拽 -->
       </NCard>
     </div>
 
-    <!-- Playground -->
+    <!-- 演练区 -->
     <NCard :bordered="false" class="card-wrapper" header-style="font-bold text-18px">
       <template #header>
         <span class="flex items-center gap-10px">
@@ -78,7 +78,7 @@ const usageCode = `<!-- 基础拖拽 -->
       <div
         class="relative h-500px rd-24px bg-layout/50 border-2 border-dashed border-primary/10 overflow-hidden"
       >
-        <!-- Draggable Box -->
+        <!-- 可拖拽盒子 -->
         <div
           v-draggable
           class="absolute top-100px left-100px z-50 cursor-grab active:cursor-grabbing group"
@@ -98,7 +98,7 @@ const usageCode = `<!-- 基础拖拽 -->
           </div>
         </div>
 
-        <!-- Target Zone Decor -->
+        <!-- 目标区装饰 -->
         <div class="absolute inset-0 flex-center pointer-events-none opacity-20">
           <div class="text-center">
             <SvgIcon
@@ -111,7 +111,7 @@ const usageCode = `<!-- 基础拖拽 -->
       </div>
     </NCard>
 
-    <!-- Guide -->
+    <!-- 使用指南 -->
     <CodeBlock title="代码实现" :code="usageCode" />
   </div>
 </template>

@@ -35,32 +35,32 @@ export function transformHslToHex(color: HslColor) {
 }
 
 /**
- * Add color alpha
+ * 添加颜色透明度
  *
- * @param color - Color
- * @param alpha - Alpha (0 - 1)
+ * @param color - 颜色
+ * @param alpha - 透明度（0 - 1）
  */
 export function addColorAlpha(color: AnyColor, alpha: number) {
   return colord(color).alpha(alpha).toHex()
 }
 
 /**
- * Mix color
+ * 混合颜色
  *
- * @param firstColor - First color
- * @param secondColor - Second color
- * @param ratio - The ratio of the second color (0 - 1)
+ * @param firstColor - 第一种颜色
+ * @param secondColor - 第二种颜色
+ * @param ratio - 第二种颜色的占比（0 - 1）
  */
 export function mixColor(firstColor: AnyColor, secondColor: AnyColor, ratio: number) {
   return colord(firstColor).mix(secondColor, ratio).toHex()
 }
 
 /**
- * Transform color with opacity to similar color without opacity
+ * 将带透明度的颜色转换为相近的不透明颜色
  *
- * @param color - Color
- * @param alpha - Alpha (0 - 1)
- * @param bgColor Background color (usually white or black)
+ * @param color - 颜色
+ * @param alpha - 透明度（0 - 1）
+ * @param bgColor 背景色（通常为白色或黑色）
  */
 export function transformColorWithOpacity(color: AnyColor, alpha: number, bgColor = '#ffffff') {
   const originColor = addColorAlpha(color, alpha)
@@ -82,9 +82,9 @@ export function transformColorWithOpacity(color: AnyColor, alpha: number, bgColo
 }
 
 /**
- * Is white color
+ * 是否白色
  *
- * @param color - Color
+ * @param color - 颜色
  */
 export function isWhiteColor(color: AnyColor) {
   return colord(color).isEqual('#ffffff')
