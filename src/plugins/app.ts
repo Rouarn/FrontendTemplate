@@ -1,12 +1,35 @@
 import { h } from 'vue'
 import { NButton } from 'naive-ui'
 import { $t } from '@/locales'
+import { logger } from '@/utils/logger'
 import type { App } from 'vue'
 
+/**
+ * 统一错误上报适配点
+ *
+ * 全局异常（Vue errorHandler / unhandledrejection / window.error）均经过本函数收口；
+ * 接入 Sentry 等监控平台时仅需替换此处实现
+ */
+export function reportError(error: unknown, origin: string) {
+  logger.error(`[${origin}]`, error)
+}
+
 export function setupAppErrorHandle(app: App) {
-  app.config.errorHandler = (err, vm, info) => {
-    console.error(err, vm, info)
+  // Vue 应用级异常（组件渲染、生命周期、事件处理器）
+  app.config.errorHandler = (err, _vm, info) => {
+    reportError(err, `vue:${info}`)
   }
+
+  // 未处理的 Promise 拒绝
+  window.addEventListener('unhandledrejection', (event) => {
+    reportError(event.reason, 'unhandledrejection')
+  })
+
+  // 全局运行时异常（过滤资源加载错误，event.error 仅在脚本异常时有值）
+  window.addEventListener('error', (event) => {
+    if (event.target instanceof HTMLElement) return
+    reportError(event.error ?? event.message, 'window.error')
+  })
 }
 
 async function getHtmlBuildTime(): Promise<string | null> {

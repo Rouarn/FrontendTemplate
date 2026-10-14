@@ -3,6 +3,7 @@ import App from './App.vue'
 import './plugins/assets'
 import { setupI18n } from './locales'
 import {
+  setupAppErrorHandle,
   setupAppVersionNotification,
   setupDayjs,
   setupDirectives,
@@ -32,6 +33,8 @@ async function setupApp(): Promise<void> {
   setupDirectives(app)
 
   setupI18n(app)
+
+  setupAppErrorHandle(app)
 
   setupAppVersionNotification()
 

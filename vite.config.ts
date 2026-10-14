@@ -1,11 +1,14 @@
 import { setupVitePlugins } from './build/plugins/index.ts'
-import { createViteProxy, getBuildTime } from './build/config/index.ts'
+import { createViteProxy, getBuildTime, validateEnv } from './build/config/index.ts'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv } from 'vite-plus'
 
 // https://vite.dev/config/
 export default defineConfig((configEnv) => {
   const viteEnv = loadEnv(configEnv.mode, process.cwd()) as unknown as Env.ImportMeta
+
+  // 启动期校验必填环境变量，缺失即报错
+  validateEnv(viteEnv, configEnv.mode)
 
   const buildTime = getBuildTime()
 
@@ -69,6 +72,8 @@ export default defineConfig((configEnv) => {
         'dist/**',
         'src/typings/auto-imports.d.ts',
         'src/typings/components.d.ts',
+        'src/typings/elegant-router.d.ts',
+        'src/typings/typed-router.d.ts',
         'src/router/_generated/**',
       ],
       singleQuote: true,
@@ -81,6 +86,8 @@ export default defineConfig((configEnv) => {
         'dist/**',
         'src/typings/auto-imports.d.ts',
         'src/typings/components.d.ts',
+        'src/typings/elegant-router.d.ts',
+        'src/typings/typed-router.d.ts',
         'src/router/_generated/**',
       ],
       options: {
@@ -95,9 +102,10 @@ export default defineConfig((configEnv) => {
         'no-console': ['warn', { allow: ['error', 'warn', 'info'] }],
       },
     },
-    // 暂存区检查（替代 lint-staged）
+    // 暂存区检查（替代 lint-staged）：代码文件跑 lint + 类型卡口，纯文本文件仅格式化
     staged: {
-      '*': 'vp check --fix',
+      '*.{ts,vue,tsx,jsx}': 'vp check',
+      '*.{json,md,css,scss,html}': 'vp fmt',
     },
   }
 })

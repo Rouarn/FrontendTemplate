@@ -1,26 +1,30 @@
 # Frontend Template
 
-基于 Vue 3 + Vite 8 + TypeScript 构建的前端开发模板，内置路由自动生成、权限管理、国际化、主题切换等工程化能力。
+基于 Vue 3 + Vite+ + TypeScript 构建的前端开发模板，内置路由自动生成、权限管理、国际化、主题切换等工程化能力。
+
+> **内部项目说明**：本模板依赖团队私有包 `@vakao-ui/axios`，需配置团队 npm 源访问权限后方可安装。仅限团队内部使用，未对外发布许可。
 
 ## 技术栈
 
 | 分类 | 技术                          | 说明                          |
 | ---- | ----------------------------- | ----------------------------- |
-| 框架 | Vue 3.5 + TypeScript 6        | Composition API，完整类型安全 |
-| 构建 | Vite 8                        | 极速 HMR，生产优化            |
+| 框架 | Vue 3.5 + TypeScript 7        | Composition API，完整类型安全 |
+| 构建 | Vite+ 1.1（vp 单工具链）      | 极速 HMR，集成 Oxlint + Oxfmt |
 | UI   | Naive UI 2 + UnoCSS           | 组件库 + 原子化 CSS           |
 | 路由 | Elegant Router + Vue Router 5 | 文件系统路由自动生成          |
 | 状态 | Pinia 4                       | 轻量级状态管理                |
-| HTTP | @vakao-ui/axios               | 团队内部封装的 Axios 客户端   |
+| HTTP | @vakao-ui/axios（团队私有）   | 团队封装的 Axios 客户端       |
 | i18n | Vue I18n 11                   | 多语言支持                    |
 | 工具 | VueUse、Day.js、Iconify       | 常用工具库                    |
-| 规范 | ESLint + Prettier + Husky     | 代码质量与提交规范            |
+| 规范 | vp（Oxlint + Oxfmt + hooks）  | lint / 格式化 / 提交检查一体  |
 
 ## 快速开始
 
 ```bash
 git clone https://github.com/Rouarn/frontend-template.git
 cd frontend-template
+
+# 前提：已配置团队 npm 源（私有依赖 @vakao-ui/axios 需要）
 pnpm install
 pnpm dev
 ```
@@ -29,52 +33,55 @@ pnpm dev
 
 ### 常用命令
 
-| 命令                   | 说明                     |
-| ---------------------- | ------------------------ |
-| `pnpm dev`             | 启动开发服务器           |
-| `pnpm dev:prod`        | 生产模式开发             |
-| `pnpm build`           | 构建生产版本             |
-| `pnpm preview`         | 预览构建结果             |
-| `pnpm typecheck`       | TypeScript 类型检查      |
-| `pnpm lint:eslint`     | ESLint 检查              |
-| `pnpm lint:eslint:fix` | ESLint 检查并自动修复    |
-| `pnpm lint:prettier`   | Prettier 格式化          |
-| `pnpm commit`          | 规范化提交（Commitizen） |
+| 命令             | 说明                                         |
+| ---------------- | -------------------------------------------- |
+| `pnpm dev`       | 启动开发服务器                               |
+| `pnpm dev:prod`  | 生产模式开发                                 |
+| `pnpm build`     | 构建生产版本                                 |
+| `pnpm build:dev` | 构建开发模式版本                             |
+| `pnpm preview`   | 预览构建结果                                 |
+| `pnpm check`     | Oxlint 检查 + 类型检查（lint/类型卡口）      |
+| `pnpm lint`      | Oxlint 检查                                  |
+| `pnpm fmt`       | Oxfmt 格式化                                 |
+| `pnpm new:page`  | 页面脚手架（创建页面 + 语言包键 + 生成路由） |
+| `pnpm commit`    | 规范化提交（Commitizen + cz-git）            |
+
+> 说明：lint、格式化、暂存区检查统一由 Vite+ 的 `vp` 命令承担，配置收拢在 [vite.config.ts](vite.config.ts) 的 `fmt` / `lint` / `staged` 配置块；git hooks 由 `vp config`（`pnpm install` 时自动执行）写入 `.vite-hooks/`。
 
 ## 项目结构
 
 ```
 src/
 ├── components/          # 公共组件（common 通用 / custom 业务）
-├── constants/          # 常量定义（store ID、路由鉴权策略等）
-├── directives/         # 自定义指令（16 个）
-├── hooks/              # 组合式函数（icon / router / state）
-├── layouts/            # 布局组件
-│   ├── base/           # 基础布局（含顶部菜单、侧边栏）
-│   ├── blank/          # 空白布局（登录页、错误页等）
-│   └── modules/        # 布局子模块（header / menu / content / tab）
-├── locales/            # 国际化配置与语言包
-├── plugins/            # 插件配置（Naive UI、指令注册等）
+├── constants/           # 常量定义（store ID、路由鉴权策略等）
+├── directives/          # 自定义指令（16 个）
+├── hooks/               # 组合式函数（icon / router / state）
+├── layouts/             # 布局组件
+│   ├── base/            # 基础布局（含顶部菜单、侧边栏）
+│   ├── blank/           # 空白布局（登录页、错误页等）
+│   └── modules/         # 布局子模块（header / menu / content / tab）
+├── locales/             # 国际化配置与语言包
+├── plugins/             # 插件配置（Naive UI、指令注册等）
 ├── router/
-│   ├── _generated/     # elegant-router 自动生成的路由文件（需提交 git）
-│   └── guard/          # 路由守卫
-├── service/            # API 服务层
-│   ├── api/            # 接口定义
-│   └── request/        # HTTP 客户端封装
-├── stores/             # Pinia 状态管理
-│   ├── modules/        # 业务 store（app / auth / route / theme / token / user）
-│   └── plugins/        # Pinia 插件（setup store 重置）
-├── styles/             # 全局样式
-├── theme/              # 主题配置（Naive UI 主题覆盖）
-├── typings/            # 类型定义
-├── utils/              # 工具函数
-└── views/              # 页面组件
-    ├── (builtin)/      # 内置页面（login / 403 / 404 / 500 / iframe）
-    ├── home/           # 首页
-    ├── about/          # 关于页
-    ├── demos/          # 示例分组
-    ├── directives/     # 指令演示分组（16 个子页面）
-    └── user-center/    # 用户中心
+│   ├── _generated/      # elegant-router 自动生成的路由文件（需提交 git）
+│   └── guard/           # 路由守卫
+├── service/             # API 服务层
+│   ├── api/             # 接口定义
+│   └── request/         # HTTP 客户端封装
+├── stores/              # Pinia 状态管理
+│   ├── modules/         # 业务 store（app / auth / route / theme / token / user）
+│   └── plugins/         # Pinia 插件（setup store 重置）
+├── styles/              # 全局样式
+├── theme/               # 主题配置（Naive UI 主题覆盖）
+├── typings/             # 类型定义
+├── utils/               # 工具函数
+└── views/               # 页面组件
+    ├── (builtin)/       # 内置页面（login / 403 / 404 / 500 / iframe）
+    ├── home/            # 首页
+    ├── about/           # 关于页
+    ├── demos/           # 示例分组
+    ├── directives/      # 指令演示分组（16 个子页面）
+    └── user-center/     # 用户中心
 ```
 
 ## 路由系统
@@ -236,17 +243,20 @@ KeepAlive 的 `include` 按路由名匹配，组件 `defineOptions({ name })` �
 
 需要。`src/router/_generated/` 下的文件包含手改的 meta，必须提交。文件头部已自带 lint ignore。
 
+### 移除某个功能时要注意什么？
+
+功能代码与对应演示页目录需一并删除（包括 `views/` 下的演示目录与语言包文案），避免残留空目录或死键。
+
 ## 参与贡献
 
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/xxx`)
-3. 提交更改（`pnpm commit` 使用规范化提交）
-4. 推送并开启 Pull Request
+1. 创建特性分支 (`git checkout -b feature/xxx`)
+2. 提交更改（`pnpm commit` 使用规范化提交，commit-msg 钩子会校验格式）
+3. 推送并开启 Pull Request
 
-## 许可证
+## 许可
 
-[MIT](LICENSE) © 2024 Rouarn
+仅限团队内部使用（UNLICENSED），未授予外部使用、修改或分发权利。
 
 ## 作者
 
-**Rouarn** — [woyuxiaji@foxmail.com](mailto:woyuxiaji@foxmail.com) · [GitHub](https://github.com/Rouarn) · [shixian.xyz](http://www.shixian.xyz)
+**Rouarn** — <woyuxiaji@foxmail.com> · [GitHub](https://github.com/Rouarn) · [shixian.xyz](http://www.shixian.xyz)

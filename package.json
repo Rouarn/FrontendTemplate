@@ -1,8 +1,8 @@
 {
   "name": "frontend-template",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
-  "description": "一个基于Vue3、Vite8、TypeScript、NaiveUI and UnoCSS的清新优雅前台模版。",
+  "description": "一个基于Vue3、Vite+、TypeScript、NaiveUI and UnoCSS的清新优雅前台模版。",
   "homepage": "https://github.com/Rouarn/frontend-template",
   "license": "UNLICENSED",
   "author": {
@@ -21,6 +21,7 @@
     "check": "vp check",
     "lint": "vp lint",
     "fmt": "vp fmt",
+    "new:page": "jiti scripts/new-page.ts",
     "prepare": "vp config --no-agent",
     "commit": "git-cz"
   },
