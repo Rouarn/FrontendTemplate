@@ -54,30 +54,17 @@ declare namespace Api {
    * backend api module: "auth"
    */
   namespace Auth {
-    interface LoginToken {
-      accessToken: string
-      refreshToken: string
-      accessTokenTtl: number
-      refreshTokenTtl: number
-      tokenType: string
-    }
+    /**
+     * 登录令牌 — 引用 pnpm gen:api 生成的 OpenAPI.TokenResponseDto
+     * 后端契约变更后运行 gen:api 即自动同步
+     */
+    type LoginToken = OpenAPI.TokenResponseDto
 
     interface Captcha {
       image: string
       token: string
       accessTokenTtl: number
       nonce: string
-    }
-
-    type UserRole = 'R_SUPER_ADMIN' | 'R_EDITOR' | 'R_USER'
-
-    interface Role {
-      id: string
-      name: string
-      alias: string
-      description?: string
-      isSystem: boolean
-      tenantId?: string
     }
 
     interface AuthType {
@@ -104,13 +91,12 @@ declare namespace Api {
       birthday?: string
       city?: string
       profession?: string
-      roles?: Role[]
       authId?: string
       status?: Common.EnableStatus
       auth: AuthType
     }
 
-    interface RegisterUser extends Omit<UserInfo, 'id' | 'status' | 'roles' | 'auth'> {
+    interface RegisterUser extends Omit<UserInfo, 'id' | 'status' | 'auth'> {
       username: string
       password: string
       captchaCode: string

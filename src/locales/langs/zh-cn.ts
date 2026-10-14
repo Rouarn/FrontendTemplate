@@ -140,7 +140,6 @@ const local: App.I18n.Schema = {
     confirmChange: '确认修改',
     passwordChangeSuccess: '密码修改成功',
     passwordChangeFailed: '密码修改失败，请检查当前密码是否正确',
-    rolePermission: '角色权限',
     userId: '用户 ID',
     accountActivity: '账号动态',
     lastLoginTime: '最后登录时间',

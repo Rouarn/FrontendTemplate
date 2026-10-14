@@ -16,7 +16,6 @@ export const initialUserInfo: Api.Auth.UserInfo = {
   birthday: '',
   city: '',
   profession: '',
-  roles: [],
   auth: {
     createTime: new Date(),
     updateTime: new Date(),

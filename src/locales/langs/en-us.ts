@@ -141,7 +141,6 @@ const local: App.I18n.Schema = {
     confirmChange: 'Confirm Change',
     passwordChangeSuccess: 'Password changed successfully',
     passwordChangeFailed: 'Password change failed, please check current password',
-    rolePermission: 'Role & Permission',
     userId: 'User ID',
     accountActivity: 'Account Activity',
     lastLoginTime: 'Last Login Time',

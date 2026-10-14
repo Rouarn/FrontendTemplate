@@ -44,6 +44,7 @@ pnpm dev
 | `pnpm lint`      | Oxlint 检查                                  |
 | `pnpm fmt`       | Oxfmt 格式化                                 |
 | `pnpm new:page`  | 页面脚手架（创建页面 + 语言包键 + 生成路由） |
+| `pnpm gen:api`   | 从后端 OpenAPI 文档生成类型（需后端启动）    |
 | `pnpm commit`    | 规范化提交（Commitizen + cz-git）            |
 
 > 说明：lint、格式化、暂存区检查统一由 Vite+ 的 `vp` 命令承担，配置收拢在 [vite.config.ts](vite.config.ts) 的 `fmt` / `lint` / `staged` 配置块；git hooks 由 `vp config`（`pnpm install` 时自动执行）写入 `.vite-hooks/`。

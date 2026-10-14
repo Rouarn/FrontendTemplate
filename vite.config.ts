@@ -74,6 +74,7 @@ export default defineConfig((configEnv) => {
         'src/typings/components.d.ts',
         'src/typings/elegant-router.d.ts',
         'src/typings/typed-router.d.ts',
+        'src/typings/openapi.d.ts',
         'src/router/_generated/**',
       ],
       singleQuote: true,
@@ -88,6 +89,7 @@ export default defineConfig((configEnv) => {
         'src/typings/components.d.ts',
         'src/typings/elegant-router.d.ts',
         'src/typings/typed-router.d.ts',
+        'src/typings/openapi.d.ts',
         'src/router/_generated/**',
       ],
       options: {

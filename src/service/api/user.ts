@@ -10,7 +10,6 @@ export function fetchUserList(
   params?: Api.Common.PageParams & {
     nickname?: string
     email?: string
-    roles?: string
     status?: string
   },
 ) {

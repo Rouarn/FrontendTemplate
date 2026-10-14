@@ -319,7 +319,6 @@ declare namespace App {
         confirmChange: string
         passwordChangeSuccess: string
         passwordChangeFailed: string
-        rolePermission: string
         userId: string
         accountActivity: string
         lastLoginTime: string

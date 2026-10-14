@@ -24,14 +24,6 @@ const emit = defineEmits<{
 
 const authStore = useAuthStore()
 
-const userRoleName = computed(() => {
-  const roles = authStore.userInfo.roles
-  if (Array.isArray(roles) && roles.length > 0) {
-    return roles.map((r) => r.alias).join(' / ')
-  }
-  return $t('userCenter.regularUser')
-})
-
 const statusText = computed(() => {
   return authStore.userInfo.auth.status === 1 ? $t('userCenter.normal') : $t('userCenter.disabled')
 })
@@ -80,12 +72,6 @@ function handleUploaded(url: string) {
     </div>
 
     <div class="border-t border-layout pt-24px space-y-16px text-left">
-      <div class="flex justify-between items-center">
-        <span class="text-14px text-slate-500 font-medium">{{
-          $t('userCenter.rolePermission')
-        }}</span>
-        <NTag type="primary" size="small" round class="font-bold">{{ userRoleName }}</NTag>
-      </div>
       <div class="flex justify-between items-center">
         <span class="text-14px text-slate-500 font-medium">{{ $t('userCenter.userId') }}</span>
         <span

@@ -22,6 +22,7 @@
     "lint": "vp lint",
     "fmt": "vp fmt",
     "new:page": "jiti scripts/new-page.ts",
+    "gen:api": "jiti scripts/gen-api.ts",
     "prepare": "vp config --no-agent",
     "commit": "git-cz"
   },
