@@ -1,7 +1,7 @@
 import { localStg } from '@/utils/storage'
 import { overrideThemeSettings, themeSettings } from '@/theme/settings'
 import { themeVars } from '@/theme/vars'
-import { addColorAlpha, getColorPalette, getPaletteColorByNumber, getRgb } from '@sa/color'
+import { addColorAlpha, getColorPalette, getPaletteColorByNumber, getRgb } from '@/utils/color'
 import { defu } from 'defu'
 import type { GlobalThemeOverrides } from 'naive-ui'
 

@@ -10,7 +10,7 @@ import {
   toggleAuxiliaryColorModes,
 } from './shared'
 import { SETUP_STORE_ID } from '@/constants/store'
-import { getPaletteColorByNumber } from '@sa/color'
+import { getPaletteColorByNumber } from '@/utils/color'
 import { useDateFormat, useNow, usePreferredColorScheme } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import type { Ref } from 'vue'

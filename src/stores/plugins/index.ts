@@ -1,5 +1,5 @@
 import { SETUP_STORE_ID } from '@/constants/store'
-import { jsonClone } from '@sa/utils'
+import { klona as jsonClone } from 'klona/json'
 import type { PiniaPluginContext } from 'pinia'
 
 /**
