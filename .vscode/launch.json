@@ -12,7 +12,7 @@
       "type": "node",
       "request": "launch",
       "name": "TS Debugger",
-      "runtimeExecutable": "tsx",
+      "runtimeExecutable": "jiti",
       "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"],
       "program": "${file}",
       "console": "integratedTerminal",
