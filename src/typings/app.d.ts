@@ -351,8 +351,8 @@ declare namespace App {
       K extends keyof T = keyof T,
     > = K extends string
       ? T[K] extends Record<string, unknown>
-        ? `${K}.${GetI18nKey<T[K]>}`
-        : K
+      ? `${K}.${GetI18nKey<T[K]>}`
+      : K
       : never
 
     type I18nKey = GetI18nKey<Schema>
@@ -398,7 +398,7 @@ declare namespace App {
       /**
        * 菜单键
        *
-       * 叶子菜单等同于路由键；分组父菜单为路径首段
+       * 叶子菜单等同于路由键；分组父菜单为路径前缀（首段起逐级拼接，如 demos 或 demos/forms）
        */
       key: string
       /** 菜单标签 */
