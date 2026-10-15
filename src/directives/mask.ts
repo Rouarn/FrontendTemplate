@@ -7,7 +7,8 @@ interface MaskOptions {
   opacity?: number
   zIndex?: number
   clickToClose?: boolean
-  content?: string
+  /** 字符串按纯文本渲染（防 XSS）；富文本传 HTMLElement，由调用方保证来源可信 */
+  content?: string | HTMLElement
   contentStyle?: Record<string, string>
 }
 
@@ -83,23 +84,30 @@ function showMask(el: MaskElement, options: MaskOptions) {
 
   // 如果有内容，创建内容容器
   if (content) {
+    const isTextContent = typeof content === 'string'
     const contentEl = document.createElement('div')
-    // 使用 textContent 避免 content 注入 HTML 导致 XSS；如需富文本请改用组件
-    contentEl.textContent = content
 
-    // 应用内容样式
-    const defaultContentStyle = {
-      color: 'white',
-      fontSize: '16px',
-      textAlign: 'center',
-      padding: '20px',
-      borderRadius: '4px',
-      background: 'rgba(0, 0, 0, 0.8)',
-      maxWidth: '80%',
-      wordWrap: 'break-word',
+    if (isTextContent) {
+      contentEl.textContent = content
+    } else {
+      contentEl.appendChild(content)
     }
 
-    const finalContentStyle = { ...defaultContentStyle, ...contentStyle }
+    // 纯文本内容应用兜底样式保证可读性；HTMLElement 内容由调用方全权控制样式
+    const baseContentStyle: Record<string, string> = isTextContent
+      ? {
+          color: 'white',
+          fontSize: '16px',
+          textAlign: 'center',
+          padding: '20px',
+          borderRadius: '4px',
+          background: 'rgba(0, 0, 0, 0.8)',
+          maxWidth: '80%',
+          wordWrap: 'break-word',
+        }
+      : {}
+
+    const finalContentStyle = { ...baseContentStyle, ...contentStyle }
 
     Object.entries(finalContentStyle).forEach(([key, value]) => {
       const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase()

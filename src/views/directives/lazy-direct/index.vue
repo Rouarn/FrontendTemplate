@@ -6,12 +6,51 @@ defineOptions({
 })
 
 const imageList = ref([
-  { id: 1, src: 'https://picsum.photos/400/300?random=1', alt: '自然风光 1' },
-  { id: 2, src: 'https://picsum.photos/400/300?random=2', alt: '自然风光 2' },
-  { id: 3, src: 'https://picsum.photos/400/300?random=3', alt: '自然风光 3' },
-  { id: 4, src: 'https://picsum.photos/400/300?random=4', alt: '自然风光 4' },
-  { id: 5, src: 'https://picsum.photos/400/300?random=5', alt: '自然风光 5' },
-  { id: 6, src: 'https://picsum.photos/400/300?random=6', alt: '自然风光 6' },
+  {
+    id: 1,
+    src: 'https://static.shixian.xyz/static/photo?rootId=fulitu&category=heisi',
+    alt: '黑丝 1',
+  },
+  {
+    id: 2,
+    src: 'https://static.shixian.xyz/static/photo?rootId=fulitu&category=heisi',
+    alt: '黑丝 2',
+  },
+  {
+    id: 3,
+    src: 'https://static.shixian.xyz/static/photo?rootId=fulitu&category=heisi',
+    alt: '黑丝 3',
+  },
+  {
+    id: 4,
+    src: 'https://static.shixian.xyz/static/photo?rootId=fulitu&category=heisi',
+    alt: '黑丝 4',
+  },
+  {
+    id: 5,
+    src: 'https://static.shixian.xyz/static/photo?rootId=fulitu&category=heisi',
+    alt: '黑丝 5',
+  },
+  {
+    id: 6,
+    src: 'https://static.shixian.xyz/static/photo?rootId=fulitu&category=heisi',
+    alt: '黑丝 6',
+  },
+  {
+    id: 7,
+    src: 'https://static.shixian.xyz/static/photo?rootId=fulitu&category=heisi',
+    alt: '黑丝 7',
+  },
+  {
+    id: 8,
+    src: 'https://static.shixian.xyz/static/photo?rootId=fulitu&category=heisi',
+    alt: '黑丝 8',
+  },
+  {
+    id: 9,
+    src: 'https://static.shixian.xyz/static/photo?rootId=fulitu&category=heisi',
+    alt: '黑丝 9',
+  },
 ])
 
 const loadedCount = ref(0)
@@ -24,10 +63,10 @@ const usageCode = `<!-- 基础用法 -->
 <img v-lazy="'/path/to/image.jpg'" />
 
 <!-- 高级用法 -->
-<img v-lazy="{ 
-  src: '/real/image.jpg', 
+<img v-lazy="{
+  src: '/real/image.jpg',
   placeholder: '/placeholder.jpg',
-  error: '/error.jpg' 
+  error: '/error.jpg'
 }" />`
 </script>
 
@@ -76,15 +115,16 @@ const usageCode = `<!-- 基础用法 -->
           :key="image.id"
           class="group relative aspect-video rd-20px overflow-hidden bg-layout border border-primary/5 shadow-low hover:shadow-high transition-all duration-500"
         >
+          <!-- 相同 URL 的并发请求会被浏览器合并共用响应，追加唯一参数确保每张图独立随机加载 -->
           <img
             v-lazy="{
-              src: image.src,
+              src: `${image.src}&i=${image.id}`,
               placeholder: 'https://via.placeholder.com/400x300/f8fafc/94a3b8?text=Loading...',
               error: 'https://via.placeholder.com/400x300/fef2f2/ef4444?text=Load+Error',
             }"
             :alt="image.alt"
             class="size-full object-cover transition-transform duration-700 group-hover:scale-110"
-            @load="onImageLoad"
+            @lazy-loaded="onImageLoad"
           />
           <div
             class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-16px"

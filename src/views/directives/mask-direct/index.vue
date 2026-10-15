@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { markRaw, reactive, ref } from 'vue'
 
 defineOptions({
   name: 'DirectivesMaskDirect',
@@ -7,17 +7,37 @@ defineOptions({
 
 const showBasicMask = ref(false)
 
+// 遮罩富文本内容统一用 DOM 节点插入，规避 innerHTML 的 XSS 风险
+// markRaw 防止响应式代理破坏 DOM 节点的品牌检查（appendChild 会报错）
+// 加载动效使用纯 CSS 边框旋转，颜色取主题主色，避免依赖运行时图标请求
+const loadingWrapper = document.createElement('div')
+loadingWrapper.className = 'flex-col-center gap-14px'
+const spinner = document.createElement('div')
+spinner.className =
+  'size-42px rd-full border-3px border-solid border-white/20 border-t-primary animate-spin'
+const loadingText = document.createElement('div')
+loadingText.className = 'text-15px font-bold text-white tracking-2px'
+loadingText.textContent = '加载中...'
+loadingWrapper.append(spinner, loadingText)
+
+const clickableContent = document.createElement('div')
+clickableContent.className =
+  'flex items-center gap-10px px-22px py-14px bg-container rd-12px shadow-high text-14px font-bold text-base-text'
+const clickableDot = document.createElement('div')
+clickableDot.className = 'size-8px rd-full bg-primary flex-shrink-0 animate-pulse'
+const clickableText = document.createElement('span')
+clickableText.textContent = '点击背景区域即可关闭'
+clickableContent.append(clickableDot, clickableText)
+
 const maskWithContent = reactive({
   visible: false,
-  content:
-    '<div class="flex-col-center gap-12px"><div class="i-ph:spinner-gap-duotone text-40px animate-spin text-white"></div><div class="text-white font-bold">加载中...</div></div>',
+  content: markRaw(loadingWrapper),
   background: 'rgba(0, 0, 0, 0.7)',
 })
 
 const clickableMask = reactive({
   visible: false,
-  content:
-    '<div class="px-24px py-16px bg-container rd-12px shadow-high text-base-text font-bold">点击背景区域即可关闭</div>',
+  content: markRaw(clickableContent),
   clickToClose: true,
   background: 'rgba(0, 0, 0, 0.6)',
 })
@@ -32,12 +52,15 @@ const handleMaskClose = (event: CustomEvent) => {
 const usageCode = `<!-- 基础用法 -->
 <div v-mask="isVisible">...</div>
 
-<!-- 高级用法 -->
+<!-- 纯文本内容（按文本渲染，防 XSS） -->
 <div v-mask="{
   visible: true,
-  content: '<span>Loading</span>',
+  content: '加载中...',
   background: 'rgba(0,0,0,0.5)'
-}">...</div>`
+}">...</div>
+
+<!-- 富文本内容：传入 HTMLElement 节点 -->
+<div v-mask="{ visible: true, content: domNode }">...</div>`
 </script>
 
 <template>
@@ -46,7 +69,7 @@ const usageCode = `<!-- 基础用法 -->
     <PageHeader
       icon="ph:mask-happy-duotone"
       title="遮罩指令 `v-mask`"
-      description="为特定容器快速生成覆盖层，支持 HTML 自定义内容、点击外部关闭与精细化样式控制"
+      description="为特定容器快速生成覆盖层，支持自定义 DOM 内容、点击外部关闭与精细化样式控制"
     />
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-16px">
@@ -92,12 +115,12 @@ const usageCode = `<!-- 基础用法 -->
         </template>
         <div class="flex-col gap-16px">
           <div
-            v-mask="maskWithContent"
+            v-mask="{ ...maskWithContent }"
             class="relative h-200px rd-16px bg-layout border border-primary/5 flex-center overflow-hidden"
           >
             <div class="text-center p-20px">
               <h3 class="text-18px font-bold text-base-text mb-8px">异步加载模拟</h3>
-              <p class="text-14px text-slate-400">支持在遮罩中插入自定义 HTML 与图标动效</p>
+              <p class="text-14px text-slate-400">支持在遮罩中插入自定义 DOM 内容与图标动效</p>
             </div>
           </div>
           <NButton
@@ -124,7 +147,7 @@ const usageCode = `<!-- 基础用法 -->
         </template>
         <div class="flex-col gap-16px">
           <div
-            v-mask="clickableMask"
+            v-mask="{ ...clickableMask }"
             @mask-close="handleMaskClose"
             class="relative h-200px rd-16px bg-layout border border-primary/5 flex-center overflow-hidden"
           >
