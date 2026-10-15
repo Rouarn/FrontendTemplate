@@ -169,6 +169,9 @@ importers:
       '@vakao-ui/axios':
         specifier: ^0.0.2
         version: 0.0.2(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))
+      '@vakao-ui/scripts-utils':
+        specifier: ^0.0.2
+        version: 0.0.2
       '@vueuse/core':
         specifier: ^15.0.0
         version: 15.0.0(vue@3.5.43(typescript@7.0.2))
@@ -2117,6 +2120,10 @@ packages:
     resolution: {integrity: sha512-nPs0KZNITawqW1P5WZQwcfXGhGsPBiywpqmBOkMNaC3gR71mv2ogw9p3890ZdwGeenL6Yu9Lz8w3t7tZC3ggLA==, tarball: https://packages.aliyun.com/676d377c721f4dc7be6ca65a/npm/npm-registry/@vakao-ui/axios/-/@vakao-ui/axios-0.0.2.tgz}
     peerDependencies:
       axios: '>=1.0.0'
+
+  '@vakao-ui/scripts-utils@0.0.2':
+    resolution: {integrity: sha512-4rdfj/Q4cNBp5gSX9muW8umUCPMkZZPsITOOx0BdPtgQOiJdNwJVSjY3pMuEhPZ3eag10xtpcVfZKWuB2RKucA==, tarball: https://packages.aliyun.com/676d377c721f4dc7be6ca65a/npm/npm-registry/@vakao-ui/scripts-utils/-/@vakao-ui/scripts-utils-0.0.2.tgz}
+    engines: {node: '>=18'}
 
   '@vitejs/plugin-vue-jsx@5.1.6':
     resolution: {integrity: sha512-YXvi4as2clxt6DFw5+a0tTA97ntiQXm/raR8ofNj3aNwwdlVGTiG2gp7EvfZW17P50acL/9bP0ccF4XnqNmlgA==}
@@ -7321,6 +7328,8 @@ snapshots:
   '@vakao-ui/axios@0.0.2(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))':
     dependencies:
       axios: 1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)
+
+  '@vakao-ui/scripts-utils@0.0.2': {}
 
   '@vitejs/plugin-vue-jsx@5.1.6(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.5)(@volar/typescript@2.4.28(typescript@7.0.2))(@vue/language-core@3.3.13)(jiti@2.7.0)(sass-embedded@1.105.1)(sass@1.105.1)(terser@5.51.2)(typescript@7.0.2)(vue-tsc@3.3.13(typescript@7.0.2))(yaml@2.9.1))(supports-color@10.2.2)(vue@3.5.43(typescript@7.0.2))':
     dependencies:

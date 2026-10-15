@@ -8,8 +8,7 @@
  * 故采用本脚本基于 jiti 的轻量实现（覆盖 string/number/boolean/enum/array/$ref/nullable）。
  */
 import { writeFileSync } from 'node:fs'
-import process from 'node:process'
-import { consola } from 'consola'
+import { handleError, log, separator, showBanner, showSuccess } from '@vakao-ui/scripts-utils'
 
 const API_DOCS_URL = 'http://127.0.0.1:8898/static/api-docs.json'
 const OUTPUT_PATH = 'src/typings/openapi.d.ts'
@@ -93,19 +92,21 @@ function toTypeExpression(schema: SchemaObject, indent: string): string {
 }
 
 async function main() {
-  consola.start(`拉取 OpenAPI 文档：${API_DOCS_URL}`)
+  showBanner('OpenAPI 类型生成')
+  log(`拉取 OpenAPI 文档：${API_DOCS_URL}`, 'info')
 
   const res = await fetch(API_DOCS_URL)
   if (!res.ok) {
-    consola.error(`拉取失败：HTTP ${res.status}，请确认后端服务已启动（默认 127.0.0.1:8898）`)
-    process.exit(1)
+    handleError(
+      '拉取 OpenAPI 文档失败',
+      `HTTP ${res.status}，请确认后端服务已启动（默认 127.0.0.1:8898）`,
+    )
   }
   const doc = (await res.json()) as OpenAPIDocument
   const schemas = doc.components?.schemas ?? {}
 
   if (Object.keys(schemas).length === 0) {
-    consola.error('文档中未找到 components.schemas，无法生成类型')
-    process.exit(1)
+    handleError('文档中未找到 components.schemas', '无法生成类型')
   }
 
   const blocks = Object.entries(schemas).map(([name, schema]) => {
@@ -124,10 +125,9 @@ async function main() {
   const content = `${header}\n\ndeclare namespace OpenAPI {\n${blocks.join('\n\n')}\n}\n`
 
   writeFileSync(OUTPUT_PATH, content)
-  consola.success(`已生成 ${OUTPUT_PATH}（${blocks.length} 个 Schema）`)
+  separator()
+  log(`已生成 ${OUTPUT_PATH}（${blocks.length} 个 Schema）`, 'success')
+  showSuccess('类型生成完成')
 }
 
-main().catch((error) => {
-  consola.error('类型生成失败：', error)
-  process.exit(1)
-})
+main().catch((error) => handleError('类型生成失败', error))
