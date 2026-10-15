@@ -169,9 +169,6 @@ importers:
       '@vakao-ui/axios':
         specifier: ^0.0.2
         version: 0.0.2(axios@1.20.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2))
-      '@vakao-ui/scripts-utils':
-        specifier: ^0.0.2
-        version: 0.0.2
       '@vueuse/core':
         specifier: ^15.0.0
         version: 15.0.0(vue@3.5.43(typescript@7.0.2))
@@ -245,6 +242,9 @@ importers:
       '@types/nprogress':
         specifier: ^0.2.3
         version: 0.2.3
+      '@vakao-ui/scripts-utils':
+        specifier: ^0.0.2
+        version: 0.0.2
       '@vitejs/plugin-vue':
         specifier: ^6.0.10
         version: 6.0.10(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.5)(@volar/typescript@2.4.28(typescript@7.0.2))(@vue/language-core@3.3.13)(jiti@2.7.0)(sass-embedded@1.105.1)(sass@1.105.1)(terser@5.51.2)(typescript@7.0.2)(vue-tsc@3.3.13(typescript@7.0.2))(yaml@2.9.1))(vue@3.5.43(typescript@7.0.2))
