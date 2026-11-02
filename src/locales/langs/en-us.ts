@@ -154,6 +154,9 @@ const local: App.I18n.Schema = {
     croppingTitle: 'Crop Avatar',
   },
   page: {
+    iframe: {
+      invalid: 'Only absolute http/https URLs are supported',
+    },
     home: {
       heroBadge: 'Latest release',
       heroDescription:

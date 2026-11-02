@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 import { useAppStore } from '@/stores/modules/app'
 import { $t } from '@/locales'
-import pkg from '~/package.json'
 
 const appStore = useAppStore()
 
@@ -20,21 +19,11 @@ interface PkgVersionInfo {
   version: string
 }
 
-const { name, version, dependencies, devDependencies } = pkg
-
-function transformVersionData(tuple: [string, string]): PkgVersionInfo {
-  const [$name, $version] = tuple
-  return {
-    name: $name,
-    version: $version,
-  }
-}
-
 const pkgJson: PkgJson = {
-  name,
-  version,
-  dependencies: Object.entries(dependencies).map((item) => transformVersionData(item)),
-  devDependencies: Object.entries(devDependencies).map((item) => transformVersionData(item)),
+  name: __APP_NAME__,
+  version: __APP_VERSION__,
+  dependencies: __APP_DEPS__,
+  devDependencies: __APP_DEV_DEPS__,
 }
 
 const latestBuildTime = BUILD_TIME
@@ -67,7 +56,7 @@ const latestBuildTime = BUILD_TIME
         <NDescriptionsItem :label="$t('page.about.projectInfo.githubLink')">
           <a
             class="flex items-center gap-6px text-primary hover:underline"
-            :href="pkg.homepage"
+            :href="__APP_HOMEPAGE__"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -78,7 +67,7 @@ const latestBuildTime = BUILD_TIME
         <NDescriptionsItem :label="$t('page.about.projectInfo.previewLink')">
           <a
             class="flex items-center gap-6px text-primary hover:underline"
-            :href="pkg.website"
+            :href="__APP_WEBSITE__"
             target="_blank"
             rel="noopener noreferrer"
           >

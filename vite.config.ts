@@ -1,7 +1,25 @@
 import { setupVitePlugins } from './build/plugins/index.ts'
 import { createViteProxy, getBuildTime, validateEnv } from './build/config/index.ts'
+import { readFileSync } from 'node:fs'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv } from 'vite-plus'
+
+/** 构建期读取 package.json，只把 About/Home 需要的字段注入运行时 */
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')) as {
+  name: string
+  version: string
+  homepage?: string
+  website?: string
+  license?: string
+  dependencies?: Record<string, string>
+  devDependencies?: Record<string, string>
+}
+
+const toVersionList = (deps: Record<string, string> = {}) =>
+  Object.entries(deps).map(([name, version]) => ({ name, version }))
+
+const dependencies = toVersionList(pkg.dependencies)
+const devDependencies = toVersionList(pkg.devDependencies)
 
 // https://vite.dev/config/
 export default defineConfig((configEnv) => {
@@ -33,6 +51,14 @@ export default defineConfig((configEnv) => {
     plugins: setupVitePlugins(viteEnv, buildTime),
     define: {
       BUILD_TIME: JSON.stringify(buildTime),
+      __APP_NAME__: JSON.stringify(pkg.name),
+      __APP_VERSION__: JSON.stringify(pkg.version),
+      __APP_HOMEPAGE__: JSON.stringify(pkg.homepage ?? ''),
+      __APP_WEBSITE__: JSON.stringify(pkg.website ?? ''),
+      __APP_LICENSE__: JSON.stringify(pkg.license ?? ''),
+      __APP_DEP_COUNT__: JSON.stringify(dependencies.length),
+      __APP_DEPS__: JSON.stringify(dependencies),
+      __APP_DEV_DEPS__: JSON.stringify(devDependencies),
     },
     server: {
       host: '0.0.0.0',
@@ -56,6 +82,21 @@ export default defineConfig((configEnv) => {
       // 静态资产分类与打包
       rollupOptions: {
         output: {
+          // 拆出稳定的第三方 chunk，业务代码变更时命中缓存
+          manualChunks(id: string) {
+            if (!id.includes('node_modules')) return undefined
+            if (id.includes('naive-ui')) return 'vendor-naive'
+            if (id.includes('@iconify')) return 'vendor-iconify'
+            if (
+              id.includes('/vue/') ||
+              id.includes('/@vue/') ||
+              id.includes('vue-router') ||
+              id.includes('pinia')
+            ) {
+              return 'vendor-vue'
+            }
+            return undefined
+          },
           chunkFileNames: 'assets/js/[name]-[hash].js',
           entryFileNames: 'assets/js/[name]-[hash].js',
           assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',

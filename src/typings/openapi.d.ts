@@ -1,6 +1,6 @@
 /* eslint-disable */
 /**
- * 由 pnpm gen:api 自动生成，来源：http://127.0.0.1:8898/static/api-docs.json
+ * 由 pnpm gen:api 自动生成，来源：http://127.0.0.1:8849/static/api-docs.json
  * Schema 版本：V1 — 请勿手改，重新生成会覆盖
  */
 
@@ -8,28 +8,36 @@ declare namespace OpenAPI {
 export interface HelloResponseDto {
  /** 欢迎消息 */
         message: string
-  }
-
-export interface VersionResponseDto {
+ /** 服务端当前时间（ISO 8601） */
+        timestamp: string
  /** 版本号 */
         version: string
- /** 应用名称 */
-        name: string
- /** 应用描述 */
-        description?: string
   }
 
 export interface AppInfoResponseDto {
- /** 版本号 */
-        version: string
  /** 应用名称 */
         name: string
+ /** 版本号 */
+        version: string
  /** 应用描述 */
         description?: string
  /** 作者 */
         author?: string
  /** 许可证 */
         license?: string
+ /** 进程运行时长（秒） */
+        uptime: number
+  }
+
+export interface HealthResponseDto {
+ /** 服务状态 */
+        status: string
+ /** 数据库状态 */
+        database: string
+ /** 进程运行时长（秒） */
+        uptime: number
+ /** 检查时间（ISO 8601） */
+        timestamp: string
   }
 
 export interface CaptchaResponseDto {
@@ -107,6 +115,12 @@ export interface RefreshTokenDto {
   }
 
 export interface User {
+ /** 账号状态（来自关联认证记录） */
+        status?: 0 | 1
+ /** 登录名（来自关联认证记录） */
+        username?: string
+ /** 角色（来自关联认证记录） */
+        role?: 'admin' | 'user'
     id: string
     nickname: string | null
     avatar: string | null
@@ -117,22 +131,6 @@ export interface User {
     birthday: string | null
     city: string | null
     profession: string | null
-    auth: Auth
-    createdAt: string
-    updatedAt: string
-  }
-
-export interface Auth {
-    id: string
-    username: string
-    password: string
-    status: 0 | 1
-    lastLoginAt: string | null
-    lastLoginIp: string | null
-    loginAttempts: number
-    lockedAt: string | null
-    passwordChangedAt: string | null
-    user: User
     createdAt: string
     updatedAt: string
   }

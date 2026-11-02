@@ -25,20 +25,12 @@ const emit = defineEmits<{
 const authStore = useAuthStore()
 
 const statusText = computed(() => {
-  return authStore.userInfo.auth.status === 1 ? $t('userCenter.normal') : $t('userCenter.disabled')
+  return authStore.userInfo.status === 1 ? $t('userCenter.normal') : $t('userCenter.disabled')
 })
 
 const statusType = computed(() => {
-  return authStore.userInfo.auth.status === 1 ? 'success' : 'error'
+  return authStore.userInfo.status === 1 ? 'success' : 'error'
 })
-
-// 格式化日期
-function formatDate(dateStr?: string | Date | null) {
-  if (!dateStr) return '-'
-  const d = new Date(dateStr)
-  if (Number.isNaN(d.getTime())) return '-'
-  return d.toLocaleString('zh-CN')
-}
 
 // 上传成功：由父组件持久化到 authStore
 function handleUploaded(url: string) {
@@ -61,9 +53,7 @@ function handleUploaded(url: string) {
         />
         <div class="space-y-4px">
           <h3 class="text-20px font-bold text-base-text">{{ nickname }}</h3>
-          <p class="text-14px text-slate-500 font-medium">
-            @{{ authStore.userInfo.auth.username }}
-          </p>
+          <p class="text-14px text-slate-500 font-medium">@{{ authStore.userInfo.username }}</p>
           <NTag :type="statusType" size="small" round class="mt-4px font-bold px-12px">{{
             statusText
           }}</NTag>
@@ -80,37 +70,6 @@ function handleUploaded(url: string) {
         >
           {{ authStore.userInfo.id }}
         </span>
-      </div>
-    </div>
-  </NCard>
-
-  <!-- 登录统计 -->
-  <NCard :bordered="false" class="card-wrapper" :title="$t('userCenter.accountActivity')">
-    <template #header-extra>
-      <SvgIcon icon="ph:chart-line-up-duotone" class="text-18px text-primary" />
-    </template>
-    <div class="space-y-16px">
-      <div class="flex items-center gap-12px">
-        <div class="size-32px flex-center bg-blue-500/10 text-blue-500 rd-8px">
-          <SvgIcon icon="ph:clock-duotone" />
-        </div>
-        <div class="flex-1 min-w-0">
-          <p class="text-12px text-slate-400">{{ $t('userCenter.lastLoginTime') }}</p>
-          <p class="text-13px font-medium text-slate-700 dark:text-slate-300 truncate">
-            {{ formatDate(authStore.userInfo.auth.lastLoginAt) }}
-          </p>
-        </div>
-      </div>
-      <div class="flex items-center gap-12px">
-        <div class="size-32px flex-center bg-amber-500/10 text-amber-500 rd-8px">
-          <SvgIcon icon="ph:map-pin-duotone" />
-        </div>
-        <div class="flex-1 min-w-0">
-          <p class="text-12px text-slate-400">{{ $t('userCenter.lastLoginIp') }}</p>
-          <p class="text-13px font-medium text-slate-700 dark:text-slate-300 font-mono">
-            {{ authStore.userInfo.auth.lastLoginIp || $t('userCenter.unknown') }}
-          </p>
-        </div>
       </div>
     </div>
   </NCard>

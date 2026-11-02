@@ -298,6 +298,7 @@ export const routes: AutoRouterRoute[] = [
       order: 3,
       hideInMenu: true,
       isKeepAlive: true,
+      isAuth: true,
     },
   },
   {

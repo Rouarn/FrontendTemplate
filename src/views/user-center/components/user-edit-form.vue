@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import chinaCitys from '@/assets/json/china-citys.json'
+import { computed, ref, watch } from 'vue'
 import { updateUserInfo } from '@/service/api'
 import { useAuthStore } from '@/stores/modules/auth'
 import { createUserForm, type UserForm } from '../shared'
@@ -31,20 +30,46 @@ const genderOptions = computed(() => [
   { label: $t('userCenter.genderUnknown'), value: 2 },
 ])
 
-// 城市选项：懒构造 + 缓存，避免 setup 顶层一次性构造上千级联项拖慢首屏
-const cityOptions = computed(() =>
-  chinaCitys.map((p) => ({
-    label: p.province,
-    value: p.province,
-    children: p.citys.map((c) => ({
-      label: c.city,
-      value: `${p.province}/${c.city}`,
-      children: c.areas.map((a) => ({
-        label: a.area,
-        value: `${p.province}/${c.city}/${a.area}`,
+/** 城市级联选项（首次进入编辑态时才加载省市区 JSON） */
+interface CityOption {
+  label: string
+  value: string
+  children?: CityOption[]
+}
+
+const cityOptions = ref<CityOption[]>([])
+let cityOptionsLoaded = false
+
+async function loadCityOptions() {
+  if (cityOptionsLoaded) return
+  cityOptionsLoaded = true
+
+  try {
+    const { default: chinaCitys } = await import('@/assets/json/china-citys.json')
+    cityOptions.value = chinaCitys.map((province) => ({
+      label: province.province,
+      value: province.province,
+      children: province.citys.map((city) => ({
+        label: city.city,
+        value: `${province.province}/${city.city}`,
+        children: city.areas.map((area) => ({
+          label: area.area,
+          value: `${province.province}/${city.city}/${area.area}`,
+        })),
       })),
-    })),
-  })),
+    }))
+  } catch {
+    // 加载失败时保持空列表，用户仍可提交其余字段后再重试
+    cityOptionsLoaded = false
+  }
+}
+
+watch(
+  editable,
+  (isEditing) => {
+    if (isEditing) void loadCityOptions()
+  },
+  { immediate: true },
 )
 
 // 表单验证规则

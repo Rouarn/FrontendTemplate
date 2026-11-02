@@ -66,13 +66,21 @@ export function useRouterPush(inSetup = true) {
   }
 
   async function redirectFromLogin(needRedirect = true) {
-    const redirect = route.value.query?.redirect as string
+    const redirect = route.value.query?.redirect as string | undefined
 
-    if (needRedirect && redirect) {
+    // 只接受站内单斜杠路径：拒绝 //evil.com 之类的协议相对地址与 /login 自循环
+    const isSafeRedirect =
+      typeof redirect === 'string' &&
+      redirect.startsWith('/') &&
+      !redirect.startsWith('//') &&
+      !redirect.startsWith('/login')
+
+    if (needRedirect && isSafeRedirect) {
       await routerPush(redirect)
-    } else {
-      await toHome()
+      return
     }
+
+    await toHome()
   }
 
   return {

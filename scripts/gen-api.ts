@@ -10,7 +10,7 @@
 import { writeFileSync } from 'node:fs'
 import { handleError, log, separator, showBanner, showSuccess } from '@vakao-ui/scripts-utils'
 
-const API_DOCS_URL = 'http://127.0.0.1:8898/static/api-docs.json'
+const API_DOCS_URL = process.env.API_DOCS_URL ?? 'http://127.0.0.1:8848/static/api-docs.json'
 const OUTPUT_PATH = 'src/typings/openapi.d.ts'
 
 type SchemaObject = {

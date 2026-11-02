@@ -236,6 +236,9 @@ declare namespace App {
           philosophy3Title: string
           philosophy3Desc: string
         }
+        iframe: {
+          invalid: string
+        }
         about: {
           title: string
           introduction: string
@@ -351,8 +354,8 @@ declare namespace App {
       K extends keyof T = keyof T,
     > = K extends string
       ? T[K] extends Record<string, unknown>
-      ? `${K}.${GetI18nKey<T[K]>}`
-      : K
+        ? `${K}.${GetI18nKey<T[K]>}`
+        : K
       : never
 
     type I18nKey = GetI18nKey<Schema>
@@ -374,6 +377,9 @@ declare namespace App {
 
   /** 全局命名空间 */
   namespace Global {
+    /** 用户角色（与后端 Role 枚举一致） */
+    type UserRole = 'admin' | 'user'
+
     /** 路由键（由 elegant-router 生成，随页面文件自动更新） */
     type RouteKey = import('@elegant-router/types').RouteKey
     /** 路由路径（由 elegant-router 生成，随页面文件自动更新） */

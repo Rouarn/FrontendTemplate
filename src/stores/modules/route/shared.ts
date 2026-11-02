@@ -11,14 +11,20 @@ function isSingleViewRoute(route: AutoRouterRoute): route is AutoRouterSingleVie
  * 判断路由是否可显示为菜单
  * - 排除重定向路由与 hideInMenu 路由
  * - 显式声明 isAuth 的路由按权限码过滤
+ * - 显式声明 roles 的路由按当前用户角色过滤
  */
 function isVisibleMenuRoute(
   route: AutoRouterRoute,
   permissions: App.Global.RouteKey[],
+  role: App.Global.UserRole | undefined,
 ): route is AutoRouterSingleView {
   if (!isSingleViewRoute(route)) return false
   if (route.meta?.hideInMenu) return false
   if (route.meta?.isAuth === true && !permissions.includes(route.name)) return false
+
+  const allowedRoles = route.meta?.roles
+  if (allowedRoles?.length && (!role || !allowedRoles.includes(role))) return false
+
   return true
 }
 
@@ -51,6 +57,7 @@ type MenuTrieNode = {
 export function getGlobalMenus(
   routes: AutoRouterRoute[],
   permissions: App.Global.RouteKey[],
+  role?: App.Global.UserRole,
 ): App.Global.Menu[] {
   const { SvgIconVNode } = useSvgIcon()
 
@@ -81,7 +88,7 @@ export function getGlobalMenus(
 
   // 将可显示的路由按路径段插入前缀树
   routes
-    .filter((route) => isVisibleMenuRoute(route, permissions))
+    .filter((route) => isVisibleMenuRoute(route, permissions, role))
     .forEach((route) => {
       let node = root
 

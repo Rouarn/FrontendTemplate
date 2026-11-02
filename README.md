@@ -2,7 +2,7 @@
 
 基于 Vue 3 + Vite+ + TypeScript 构建的前端开发模板，内置路由自动生成、权限管理、国际化、主题切换等工程化能力。
 
-> **内部项目说明**：本模板依赖团队私有包 `@vakao-ui/axios`，需配置团队 npm 源访问权限后方可安装。仅限团队内部使用，未对外发布许可。
+> **内部项目说明**：本模板依赖团队私有包 `@vakao-ui/axios`（运行时）与 `@vakao-ui/scripts-utils`（脚本），需配置团队 npm 源访问权限后方可安装；CI 需提供具备只读权限的 `NPM_TOKEN`。仅限团队内部使用，未对外发布许可。
 
 ## 技术栈
 
@@ -26,10 +26,16 @@ cd frontend-template
 
 # 前提：已配置团队 npm 源（私有依赖 @vakao-ui/axios 需要）
 pnpm install
+
+# 环境文件不入库，首次需从示例复制（按需修改）
+cp .env.example .env
+cp .env.development.example .env.development
+cp .env.production.example .env.production
+
 pnpm dev
 ```
 
-启动后访问 `http://localhost:8848`。
+启动后访问 `http://localhost:5173`，接口默认代理到本地后端 `http://127.0.0.1:8848`。
 
 ### 常用命令
 
@@ -40,7 +46,7 @@ pnpm dev
 | `pnpm build`     | 构建生产版本                                 |
 | `pnpm build:dev` | 构建开发模式版本                             |
 | `pnpm preview`   | 预览构建结果                                 |
-| `pnpm check`     | Oxlint 检查 + 类型检查（lint/类型卡口）      |
+| `pnpm check`     | Oxfmt + Oxlint + 类型检查（lint/类型卡口）   |
 | `pnpm lint`      | Oxlint 检查                                  |
 | `pnpm fmt`       | Oxfmt 格式化                                 |
 | `pnpm new:page`  | 页面脚手架（创建页面 + 语言包键 + 生成路由） |
@@ -112,13 +118,30 @@ src/
 
 ### 权限模型
 
-采用**前端全量静态路由 + 后端权限码过滤**模式：
+前端全量静态路由 + 权限码过滤：
 
 - 路由全部在构建期注册，不依赖后端下发
-- 登录后调用 `fetchGetUserPermissions()` 获取当前用户可访问的路由名列表
+- 登录后调用 `fetchGetUserPermissions()` 获取可访问的路由名列表（返回数组，不要包 `{ data, error }`）
 - 守卫对 `meta.isAuth === true` 的路由校验权限码，未命中则重定向到 `/403`
 - 菜单按权限码过滤后显示
-- 当前为本地 mock（返回全部路由名），对接后端时改写 [service/api/route.ts](src/service/api/route.ts)
+- 当前仍是本地 mock（返回全部路由名），对接后端时改写 [service/api/route.ts](src/service/api/route.ts)
+- 后端 `User` 响应已带回 `role`（`admin` / `user`），前端存于 `userInfo.role`
+
+### 角色控制
+
+在路由 meta 上声明 `roles` 即可按角色限制菜单与访问：
+
+```ts
+// src/router/_generated/routes.ts（生成后手改）
+meta: {
+  isAuth: true,
+  roles: ['admin'],
+}
+```
+
+- 未声明 `roles`：不限制角色
+- 菜单按角色过滤；直接访问不匹配的路由会被守卫重定向到 `/403`
+- 仅影响前端展示与路由，接口权限仍由后端 `@Roles()` 强制校验
 
 ### 鉴权策略
 
@@ -193,19 +216,27 @@ Pinia setup store，Store ID 统一维护在 [constants/store.ts](src/constants/
 | ----- | ----------------------------------------------- |
 | app   | 副标题、主题、语言、设备类型                    |
 | auth  | 登录/登出编排（Facade 模式，委托 token + user） |
-| token | 令牌存储（sessionStorage + 混淆 + 内存优先）    |
+| token | 令牌存储（sessionStorage，关闭标签页即失效）    |
 | user  | 用户信息                                        |
 | route | 权限码、菜单派生、缓存名单                      |
 | theme | 主题方案、配色                                  |
+
+### 令牌传输方式
+
+固定使用 `Authorization: Bearer` + `sessionStorage`，**不采用 HttpOnly Cookie 方案**：
+Cookie 需要 CSRF 防护、严格同站/跨域配置，会明显增加与其他项目、移动端联调的成本。
+代价是令牌可被 XSS 读取，因此请配合 CSP、少用 `v-html`、及时升级依赖来降低 XSS 面。
 
 ## 配置说明
 
 ### 环境变量
 
+真实 `.env*` 已被 git 忽略，仓库只保留 `*.example`；后端接口地址等环境相关项见示例文件。
+
 | 变量                    | 说明                       | 默认值              |
 | ----------------------- | -------------------------- | ------------------- |
 | `VITE_APP_TITLE`        | 应用标题                   | `Frontend Template` |
-| `VITE_PORT`             | 开发端口                   | `8848`              |
+| `VITE_PORT`             | 开发端口（避开后端 8848）  | `5173`              |
 | `VITE_ROUTER_MODE`      | 路由模式（hash / history） | `hash`              |
 | `VITE_SERVICE_BASE_URL` | 后端接口地址               | 环境相关            |
 | `VITE_HTTP_PROXY`       | 是否开启代理               | `Y`                 |

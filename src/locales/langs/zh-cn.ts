@@ -153,6 +153,9 @@ const local: App.I18n.Schema = {
     croppingTitle: '裁剪头像',
   },
   page: {
+    iframe: {
+      invalid: '仅支持 http/https 的绝对地址',
+    },
     home: {
       heroBadge: '全新版本',
       heroDescription: '基于 Vue3、Vite8、TypeScript、NaiveUI 和 UnoCSS 的清新优雅前台模版。',

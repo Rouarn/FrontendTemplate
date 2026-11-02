@@ -1,10 +1,5 @@
 import { request } from '../request'
 
-/** 创建用户 */
-export function createUser(body: Api.Auth.UserInfo) {
-  return request.post<Api.Auth.UserInfo>('/api/users', body)
-}
-
 /** 获取用户列表（分页） */
 export function fetchUserList(
   params?: Api.Common.PageParams & {
@@ -31,9 +26,11 @@ export function deleteUser(userId: string) {
   return request.delete(`/api/users/${userId}`)
 }
 
-/** 批量删除用户 */
+/** 批量删除用户（后端返回实际删除与不存在的 ID） */
 export function batchDeleteUsers(userIds: string[]) {
-  return request.post<{ deletedCount: number }>('/api/users/batch-delete', { ids: userIds })
+  return request.post<{ deleted: string[]; missing: string[] }>('/api/users/batch-delete', {
+    ids: userIds,
+  })
 }
 
 /** 切换用户状态 */

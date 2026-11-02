@@ -16,7 +16,7 @@ import { consola } from 'consola'
 // 创建一个自定义的logger实例
 export const logger = consola.create({
   // 开发环境输出 debug 及以上全部日志；生产环境仅输出 warn/error/fatal
-  level: process.env.NODE_ENV === 'development' ? 4 : 1,
+  level: import.meta.env.DEV ? 4 : 1,
 })
 
 // 创建带有标签的日志记录器

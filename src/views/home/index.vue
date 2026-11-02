@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { $t } from '@/locales'
-import pkg from '~/package.json'
 import type { Directive } from 'vue'
 
 const router = useRouter()
@@ -115,19 +114,19 @@ interface StatItem {
 const stats = computed<StatItem[]>(() => [
   {
     icon: 'ph:git-branch-duotone',
-    value: pkg.version,
+    value: __APP_VERSION__,
     label: $t('page.home.currentVersion'),
     tone: 'primary',
   },
   {
     icon: 'ph:stack-duotone',
-    value: String(Object.keys(pkg.dependencies).length),
+    value: String(__APP_DEP_COUNT__),
     label: $t('page.home.coreDependencies'),
     tone: '#3b82f6',
   },
   {
     icon: 'ph:seal-check-duotone',
-    value: pkg.license,
+    value: __APP_LICENSE__,
     label: $t('page.home.openSourceLicense'),
     tone: '#f59e0b',
   },
@@ -160,15 +159,15 @@ const handleGetStarted = () => {
 }
 
 const handleViewSource = () => {
-  window.open(pkg.homepage || 'https://github.com', '_blank')
+  window.open(__APP_HOMEPAGE__ || 'https://github.com', '_blank', 'noopener')
 }
 
 const handleDownload = () => {
-  window.open(`${pkg.homepage}/releases`, '_blank')
+  window.open(`${__APP_HOMEPAGE__}/releases`, '_blank', 'noopener')
 }
 
 const handleViewDocs = () => {
-  window.open(pkg.website || 'https://github.com', '_blank')
+  window.open(__APP_WEBSITE__ || 'https://github.com', '_blank', 'noopener')
 }
 
 // 滚动渐显指令：binding.value 为渐入延迟（毫秒）
@@ -227,7 +226,7 @@ const vReveal: Directive<HTMLElement, number | undefined> = {
               <span class="relative inline-flex size-7px rd-full bg-primary" />
             </span>
             <span class="text-12px font-medium text-base-text">
-              {{ $t('page.home.heroBadge') }} · v{{ pkg.version }}
+              {{ $t('page.home.heroBadge') }} · v{{ __APP_VERSION__ }}
             </span>
           </div>
 

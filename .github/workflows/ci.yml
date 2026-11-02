@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      # 依赖 @vakao-ui/axios 等团队私有包（云效制品仓库 Packages）
+      # 需在仓库 Settings → Secrets and variables → Actions 配置 NPM_TOKEN（只读访问令牌）
+      - name: 注入云效 Packages 凭据
+        run: |
+          echo "//packages.aliyun.com/676d377c721f4dc7be6ca65a/npm/npm-registry/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: 安装依赖
+        run: pnpm install --frozen-lockfile
+
+      - name: 代码检查（格式 + lint + 类型）
+        run: pnpm check
+
+      - name: 构建
+        run: pnpm build

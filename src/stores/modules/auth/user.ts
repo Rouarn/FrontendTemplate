@@ -7,6 +7,9 @@ import { defineStore } from 'pinia'
 /** 用户资料初始值（退出登录/异常恢复时回退） */
 export const initialUserInfo: Api.Auth.UserInfo = {
   id: '',
+  username: '',
+  role: 'user',
+  status: 1,
   nickname: null,
   avatar: null,
   gender: null,
@@ -16,16 +19,6 @@ export const initialUserInfo: Api.Auth.UserInfo = {
   birthday: null,
   city: null,
   profession: null,
-  auth: {
-    id: '',
-    username: '',
-    status: 1,
-    lastLoginAt: null,
-    lastLoginIp: null,
-    loginAttempts: 0,
-    lockedAt: null,
-    passwordChangedAt: null,
-  },
 }
 
 /**

@@ -2,6 +2,7 @@ import { routes as elegantRoutes } from '@/router/_generated/routes'
 import router from '@/router'
 import { fetchGetUserPermissions } from '@/service/api'
 import { routeLogger } from '@/utils/logger'
+import { useUserStore } from '../auth/user'
 import { getCacheRouteNames, getGlobalMenus, transformMenuToSearchMenus } from './shared'
 import { SETUP_STORE_ID } from '@/constants/store'
 import useBoolean from '@/hooks/state/use-boolean'
@@ -20,8 +21,12 @@ export const useRouteStore = defineStore(SETUP_STORE_ID.Route, () => {
   /** 当前用户的路由权限码（route name 列表） */
   const permissions = ref<App.Global.RouteKey[]>([])
 
-  /** 全局菜单（保留分组层级；label 由 $t 求值，语言切换随 computed 自动更新） */
-  const menus = computed<App.Global.Menu[]>(() => getGlobalMenus(elegantRoutes, permissions.value))
+  const userStore = useUserStore()
+
+  /** 全局菜单（按权限码与角色过滤；label 由 $t 求值，语言切换随 computed 自动更新） */
+  const menus = computed<App.Global.Menu[]>(() =>
+    getGlobalMenus(elegantRoutes, permissions.value, userStore.userInfo.role),
+  )
   const searchMenus = computed(() => transformMenuToSearchMenus(menus.value))
 
   /** 需要缓存的路由名（meta.isKeepAlive） */
@@ -35,9 +40,7 @@ export const useRouteStore = defineStore(SETUP_STORE_ID.Route, () => {
     if (isInitPermissions.value) return
 
     try {
-      const { data, error } = await fetchGetUserPermissions()
-      if (error) throw error
-      permissions.value = data
+      permissions.value = await fetchGetUserPermissions()
     } catch (error) {
       routeLogger.error('获取路由权限码失败，按无权限处理:', error)
       permissions.value = []

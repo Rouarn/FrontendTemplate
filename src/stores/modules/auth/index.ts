@@ -3,7 +3,6 @@ import router from '@/router'
 import { fetchLogin, fetchLogout, fetchUserInfo } from '@/service/api'
 import { routeLogger } from '@/utils/logger'
 import { useRouteStore } from '../route'
-import { useThemeStore } from '../theme'
 import { useTokenStore } from './token'
 import { useUserStore } from './user'
 import { SETUP_STORE_ID } from '@/constants/store'
@@ -21,7 +20,6 @@ import { defineStore } from 'pinia'
 export const useAuthStore = defineStore(SETUP_STORE_ID.Auth, () => {
   const tokenStore = useTokenStore()
   const userStore = useUserStore()
-  const themeStore = useThemeStore()
   const routeStore = useRouteStore()
   const { toLogin, redirectFromLogin } = useRouterPush(false)
 
@@ -40,11 +38,14 @@ export const useAuthStore = defineStore(SETUP_STORE_ID.Auth, () => {
 
   const isLogin = computed<boolean>(() => Boolean(tokenStore.token))
 
-  /** 重置认证态：调用各子域自己的 resetStore，编排层不再越界重置 */
+  /**
+   * 重置认证态：只清凭证、用户资料与路由权限
+   *
+   * 主题与语言属于设备级偏好，不随登出重置。
+   */
   function resetAuthStore() {
     tokenStore.resetTokenStore()
     userStore.resetUserStore()
-    themeStore.resetStore()
     routeStore.resetStore()
   }
 
@@ -97,9 +98,10 @@ export const useAuthStore = defineStore(SETUP_STORE_ID.Auth, () => {
     redirect = true,
   ) {
     try {
+      // 只 trim 用户名：密码允许首尾空格，避免两端同时「修正」用户输入
       const data = await fetchLogin({
         username: username.trim(),
-        password: password.trim(),
+        password,
         captchaCode,
         captchaToken,
       })
@@ -110,6 +112,10 @@ export const useAuthStore = defineStore(SETUP_STORE_ID.Auth, () => {
       // 登录失败提示由全局 onError 处理
       return
     }
+
+    // 先拉取用户资料：欢迎语依赖昵称/手机号/邮箱，且失败时不应继续跳转
+    const userInfoLoaded = await getUserInfo()
+    if (!userInfoLoaded) return
 
     await redirectFromLogin(redirect)
 

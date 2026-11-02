@@ -34,7 +34,10 @@ export function setupPWAPlugin(): PluginOption {
       ],
     },
     workbox: {
-      globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+      globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+      globIgnores: ['**/*.map'],
+      // 超过该体积的资源不进入预缓存，避免首访把整站 chunk 全拉一遍
+      maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
       cleanupOutdatedCaches: true,
       clientsClaim: true,
     },

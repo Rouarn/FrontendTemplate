@@ -35,6 +35,15 @@ export function createRouteGuard(router: Router) {
       ) {
         return { name: '403', replace: true }
       }
+
+      // 角色限制：声明了 meta.roles 的路由只允许对应角色访问
+      const allowedRoles = to.meta.roles
+      if (allowedRoles?.length) {
+        const currentRole = authStore.userInfo.role
+        if (!currentRole || !allowedRoles.includes(currentRole)) {
+          return { name: '403', replace: true }
+        }
+      }
     }
 
     // 访问登录页：已登录则留在原页，未登录允许访问
@@ -47,13 +56,14 @@ export function createRouteGuard(router: Router) {
     return true
   })
 
+  // 开发态输出导航轨迹；生产环境保持控制台干净，异常统一走 reportError
   router.afterEach((to) => {
-    // 可在此添加埋点或统计
+    if (!import.meta.env.DEV) return
     console.info('[router.afterEach]: ', to)
   })
 
   router.onError((error) => {
-    // 统一路由错误处理入口（可结合上报系统）
+    if (!import.meta.env.DEV) return
     console.info('[router.onError]: ', error)
   })
 }

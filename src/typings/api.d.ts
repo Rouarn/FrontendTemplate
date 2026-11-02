@@ -64,15 +64,13 @@ declare namespace Api {
     type Captcha = OpenAPI.CaptchaResponseDto
 
     /**
-     * 认证信息 — 基于 gen:api 生成的 OpenAPI.Auth 裁剪：
-     * password 运行时不下发（select: false + @Exclude）；user 为反向关联；时间戳字段前端未使用
+     * 用户信息
+     *
+     * 后端只下发资料字段 + 认证表上的两枚只读投影（username / status）：
+     * 关联对象 auth 已通过 @Exclude + @ApiHideProperty 从响应与文档中移除，
+     * 密码、最后登录 IP 等认证内部状态不再下发；createdAt / updatedAt 前端未使用。
      */
-    type AuthInfo = Omit<OpenAPI.Auth, 'password' | 'user' | 'createdAt' | 'updatedAt'>
-
-    /** 用户信息 — 引用 gen:api 生成的 OpenAPI.User，auth 与未使用的时间戳字段按上述裁剪 */
-    type UserInfo = Omit<OpenAPI.User, 'auth' | 'createdAt' | 'updatedAt'> & {
-      auth: AuthInfo
-    }
+    type UserInfo = Omit<OpenAPI.User, 'createdAt' | 'updatedAt'>
 
     /** 注册用户 — 认证三要素 + 可选基础资料 */
     type RegisterUser = {
