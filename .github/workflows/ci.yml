@@ -32,6 +32,11 @@ jobs:
           echo "secret  NPM_TOKEN       长度: ${#FROM_SECRET}"
           echo "variable NPM_TOKEN      长度: ${#FROM_VARIABLE}"
           echo "secret  ALIYUN_NPM_TOKEN 长度: ${#FROM_ALT_SECRET}"
+          if [ -n "${NODE_AUTH_TOKEN}" ]; then
+            # 只输出长度与哈希前缀，便于和本机可用令牌比对，不泄露令牌本身
+            TOKEN=$(printf '%s' "${NODE_AUTH_TOKEN}" | tr -d '[:space:]')
+            echo "::notice::NPM_TOKEN 长度 ${#TOKEN}，sha256 前 8 位 $(printf '%s' "${TOKEN}" | sha256sum | cut -c1-8)"
+          fi
           if [ -z "${NODE_AUTH_TOKEN}" ]; then
             echo "::error::三处都没有取到凭据：请在 Settings → Secrets and variables → Actions 的 Repository secrets 中新增 NPM_TOKEN"
             exit 1
