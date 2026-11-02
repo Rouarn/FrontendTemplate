@@ -74,6 +74,12 @@ jobs:
             exit "$status"
           fi
 
+      - name: 准备构建期环境变量
+        run: |
+          cp .env.example .env
+          cp .env.development.example .env.development
+          cp .env.production.example .env.production
+
       - name: 代码检查（格式 + lint + 类型）
         run: pnpm check
 

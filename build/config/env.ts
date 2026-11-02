@@ -17,7 +17,8 @@ export function validateEnv(viteEnv: EnvRecord, envName: string) {
 
   if (missing.length > 0) {
     throw new Error(
-      `[env] 模式 ${envName} 缺少必填环境变量：${missing.join('、')}，请检查 .env / .env.${envName}`,
+      `[env] 模式 ${envName} 缺少必填环境变量：${missing.join('、')}\n` +
+        `修复：cp .env.example .env && cp .env.development.example .env.development（生产构建再加 .env.production）`,
     )
   }
 }
