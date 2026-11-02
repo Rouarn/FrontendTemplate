@@ -37,9 +37,18 @@ jobs:
             exit 1
           fi
 
+      - name: 规范化凭据
+        run: |
+          # secret 从网页复制时可能夹带空格/换行，先清理再写入，避免 npmrc 被截断
+          TOKEN=$(printf '%s' "${NODE_AUTH_TOKEN}" | tr -d '[:space:]')
+          echo "NODE_AUTH_TOKEN=${TOKEN}" >> "$GITHUB_ENV"
+
       - name: 注入云效 Packages 凭据
         run: |
-          echo "//packages.aliyun.com/676d377c721f4dc7be6ca65a/npm/npm-registry/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
+          {
+            echo "//packages.aliyun.com/676d377c721f4dc7be6ca65a/npm/npm-registry/:always-auth=true"
+            echo "//packages.aliyun.com/676d377c721f4dc7be6ca65a/npm/npm-registry/:_authToken=${NODE_AUTH_TOKEN}"
+          } >> .npmrc
 
       - name: 探测 Packages（仅记录，不阻断）
         run: |
