@@ -41,23 +41,24 @@ jobs:
         run: |
           echo "//packages.aliyun.com/676d377c721f4dc7be6ca65a/npm/npm-registry/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
 
-      - name: 校验 Packages 凭据
+      - name: 探测 Packages（仅记录，不阻断）
         run: |
           code=$(curl -s -o /dev/null -w '%{http_code}' \
             -H "Authorization: Bearer ${NODE_AUTH_TOKEN}" \
             'https://packages.aliyun.com/676d377c721f4dc7be6ca65a/npm/npm-registry/@vakao-ui%2Faxios')
-          echo "registry 探测状态码: ${code}"
-          case "$code" in
-            200) ;;
-            401|403)
-              echo "::error::令牌被拒绝（${code}）：请确认是 packages.aliyun.com 生成的访问令牌，且对该仓库有读权限"
-              exit 1
-              ;;
-            *) echo "::warning::registry 返回 ${code}，继续尝试安装" ;;
-          esac
+          echo "registry 探测状态码: ${code}（以 pnpm 实际安装结果为准）"
 
       - name: 安装依赖
-        run: pnpm install --frozen-lockfile --reporter=append-only
+        run: |
+          pnpm install --frozen-lockfile --reporter=append-only 2>&1 | tee /tmp/install.log
+          status=${PIPESTATUS[0]}
+          if [ "$status" -ne 0 ]; then
+            echo "::error::pnpm install 失败（exit ${status}）"
+            grep -aE "ERR_|error|403|401|404|EAI_AGAIN|ECONN" /tmp/install.log | tail -10 | while IFS= read -r line; do
+              echo "::error::${line}"
+            done
+            exit "$status"
+          fi
 
       - name: 代码检查（格式 + lint + 类型）
         run: pnpm check
