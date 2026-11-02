@@ -27,8 +27,30 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: 校验 Packages 凭据
+        run: |
+          if [ -z "${NODE_AUTH_TOKEN}" ]; then
+            echo "::error::NPM_TOKEN 为空：请确认已添加为 Repository secret（Environment secret 需要 job 声明 environment）"
+            exit 1
+          fi
+          echo "NPM_TOKEN 长度: ${#NODE_AUTH_TOKEN}"
+          code=$(curl -s -o /dev/null -w '%{http_code}' \
+            -H "Authorization: Bearer ${NODE_AUTH_TOKEN}" \
+            'https://packages.aliyun.com/676d377c721f4dc7be6ca65a/npm/npm-registry/@vakao-ui%2Faxios')
+          echo "registry 探测状态码: ${code}"
+          case "$code" in
+            200) ;;
+            401|403)
+              echo "::error::令牌被拒绝（${code}）：请确认是 packages.aliyun.com 生成的访问令牌，且对该仓库有读权限"
+              exit 1
+              ;;
+            *) echo "::warning::registry 返回 ${code}，继续尝试安装" ;;
+          esac
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: 安装依赖
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --reporter=append-only
 
       - name: 代码检查（格式 + lint + 类型）
         run: pnpm check
