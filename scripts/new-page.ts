@@ -25,7 +25,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import { createInterface } from 'node:readline/promises'
-import { handleError, log, separator, showBanner, showSuccess } from '@vakao-ui/scripts-utils'
+import { handleError, log, separator, showBanner, showSuccess } from '@vakao/scripts-utils'
 
 const VIEWS_DIR = path.resolve('src/views')
 const LANGS_DIR = path.resolve('src/locales/langs')

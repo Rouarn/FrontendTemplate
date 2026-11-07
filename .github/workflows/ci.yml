@@ -59,7 +59,7 @@ jobs:
         run: |
           code=$(curl -s -o /dev/null -w '%{http_code}' \
             -H "Authorization: Bearer ${NODE_AUTH_TOKEN}" \
-            'https://packages.aliyun.com/676d377c721f4dc7be6ca65a/npm/npm-registry/@vakao-ui%2Faxios')
+            'https://packages.aliyun.com/676d377c721f4dc7be6ca65a/npm/npm-registry/@vakao%2Faxios')
           echo "registry 探测状态码: ${code}（以 pnpm 实际安装结果为准）"
 
       - name: 安装依赖

@@ -1,4 +1,4 @@
-import type { RequestError } from '@vakao-ui/axios'
+import type { RequestError } from '@vakao/axios'
 
 interface ValidationErrorItem {
   field?: unknown

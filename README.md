@@ -2,7 +2,7 @@
 
 基于 Vue 3 + Vite+ + TypeScript 构建的前端开发模板，内置路由自动生成、权限管理、国际化、主题切换等工程化能力。
 
-> **内部项目说明**：本模板依赖团队私有包 `@vakao-ui/axios`（运行时）与 `@vakao-ui/scripts-utils`（脚本），需配置团队 npm 源访问权限后方可安装；CI 需提供具备只读权限的 `NPM_TOKEN`。仅限团队内部使用，未对外发布许可。
+> **内部项目说明**：本模板依赖团队私有包 `@vakao/axios`（运行时）与 `@vakao/scripts-utils`（脚本），需配置团队 npm 源访问权限后方可安装；CI 需提供具备只读权限的 `NPM_TOKEN`。仅限团队内部使用，未对外发布许可。
 
 ## 技术栈
 
@@ -13,7 +13,7 @@
 | UI   | Naive UI 2 + UnoCSS           | 组件库 + 原子化 CSS           |
 | 路由 | Elegant Router + Vue Router 5 | 文件系统路由自动生成          |
 | 状态 | Pinia 4                       | 轻量级状态管理                |
-| HTTP | @vakao-ui/axios（团队私有）   | 团队封装的 Axios 客户端       |
+| HTTP | @vakao/axios（团队私有）      | 团队封装的 Axios 客户端       |
 | i18n | Vue I18n 11                   | 多语言支持                    |
 | 工具 | VueUse、Day.js、Iconify       | 常用工具库                    |
 | 规范 | vp（Oxlint + Oxfmt + hooks）  | lint / 格式化 / 提交检查一体  |
@@ -24,7 +24,7 @@
 git clone https://github.com/Rouarn/frontend-template.git
 cd frontend-template
 
-# 前提：已配置团队 npm 源（私有依赖 @vakao-ui/axios 需要）
+# 前提：已配置团队 npm 源（私有依赖 @vakao/axios 需要）
 pnpm install
 
 # 环境文件不入库，首次需从示例复制（按需修改）

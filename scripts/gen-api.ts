@@ -8,7 +8,7 @@
  * 故采用本脚本基于 jiti 的轻量实现（覆盖 string/number/boolean/enum/array/$ref/nullable）。
  */
 import { writeFileSync } from 'node:fs'
-import { handleError, log, separator, showBanner, showSuccess } from '@vakao-ui/scripts-utils'
+import { handleError, log, separator, showBanner, showSuccess } from '@vakao/scripts-utils'
 
 const API_DOCS_URL = process.env.API_DOCS_URL ?? 'http://127.0.0.1:8848/static/api-docs.json'
 const OUTPUT_PATH = 'src/typings/openapi.d.ts'

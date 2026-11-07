@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@iconify/vue": "^5.0.3",
-    "@vakao-ui/axios": "^0.0.2",
+    "@vakao/axios": "^0.0.2",
     "@vueuse/core": "^15.0.0",
     "axios": "^1.20.0",
     "clipboard": "^2.0.11",
@@ -55,7 +55,7 @@
     "@iconify/utils": "^3.1.7",
     "@types/node": "^26.6.5",
     "@types/nprogress": "^0.2.3",
-    "@vakao-ui/scripts-utils": "^0.0.3",
+    "@vakao/scripts-utils": "^0.0.3",
     "@vitejs/plugin-vue": "^6.0.10",
     "@vitejs/plugin-vue-jsx": "^5.1.6",
     "commitizen": "^4.3.2",

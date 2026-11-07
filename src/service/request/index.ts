@@ -2,12 +2,12 @@ import router from '@/router'
 import { useAuthStore } from '@/stores/modules/auth'
 import { logger } from '@/utils/logger'
 import { resolveErrorMessage } from './error-message'
-import { createClient } from '@vakao-ui/axios'
+import { createClient } from '@vakao/axios'
 
 /**
  * 全局请求实例
  *
- * 由 @vakao-ui/axios 提供内置能力：
+ * 由 @vakao/axios 提供内置能力：
  * 后端信封解包、token 注入、401 单例刷新并重放原请求、重复请求取消、全局 loading 计数、统一错误出口
  * 库不处理错误文案，接口报错时完整错误信息在 onError 的 error 上，由 resolveErrorMessage 自行解析
  */
